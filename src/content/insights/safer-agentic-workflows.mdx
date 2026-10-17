@@ -1,0 +1,66 @@
+An AI agent that only drafts text can be wrong without doing much harm. An agent that can update records, send messages or trigger payments is a different matter. Once a language model can call tools that change the world, its mistakes become your incidents.
+
+The good news is that the engineering techniques needed to make agentic systems safer are familiar ones: least privilege, explicit state, approval workflows and audit logs. This guide shows how they apply.
+
+## Begin with a workflow, not an open-ended agent
+
+The most reliable agentic systems we design are usually workflows with AI steps, rather than a single agent given a goal and a toolbox. A workflow has explicit states, such as received, classified, context gathered, action proposed, approved and completed, and the model is used only for the steps that benefit from judgement.
+
+This structure makes behaviour predictable, gives you natural checkpoints for validation and approval, and makes it much easier to explain what happened afterwards. Open-ended autonomy can come later, for narrow tasks where evaluation shows it is reliable.
+
+## Scope every tool narrowly
+
+Each tool an agent can call is a capability you are granting. Design tools the way you would design a public API for an untrusted client.
+
+- **Make tools specific.** `get_invoice(invoice_id)` is safer than `run_sql(query)`.
+- **Give each tool its own credentials,** scoped to exactly what it needs, rather than sharing a powerful service account.
+- **Validate inputs on the server side** of the tool, regardless of what the model sends.
+- **Return only the data needed** for the task, which limits both exposure and context size.
+
+The Model Context Protocol (MCP) is a useful way to package tools for AI clients. An MCP server is a natural place to enforce authentication, scoping, rate limits and logging, independently of the model or client calling it.
+
+## Classify actions by impact
+
+Not every action needs the same controls. A simple classification goes a long way:
+
+| Impact | Examples | Control |
+| --- | --- | --- |
+| Read | Look up an order, search documentation | Allowed, logged |
+| Reversible write | Add an internal note, set a draft status | Allowed with validation, logged |
+| Consequential write | Send an external email, change a price, issue a refund | Proposal only, requires human approval |
+| Prohibited | Delete records, change permissions | Not exposed as a tool at all |
+
+Enforce the classification in the tool layer. A consequential tool should be physically unable to execute without a valid approval record, regardless of what the model asks for.
+
+## Make approvals meaningful
+
+A human approval step only helps if the approver can make an informed decision quickly. Show the proposed action in plain language, the information the agent used, the reasoning it gave and any policy checks that passed or failed. Make it as easy to reject or edit as to approve, and record who decided and when.
+
+If approvers find themselves rubber-stamping, that is a signal: either the agent is good enough for that action to move to a lower-risk tier, or the approval screen is not giving them what they need.
+
+## Treat external content as hostile
+
+Agents routinely read content you do not control: customer emails, uploaded documents, web pages, tickets. Any of it may contain text designed to look like instructions, a technique known as prompt injection.
+
+There is no complete defence at the model level, so design the system to limit the damage:
+
+- keep untrusted content clearly separated and labelled in the prompt;
+- never let content decide which tools are available or which approvals are skipped;
+- restrict data that can leave the system through tools such as email or webhooks;
+- include injection attempts in your evaluation suite.
+
+## Fail visibly and hand over
+
+When a step fails validation, a tool errors or the model's confidence is low, the workflow should stop, record why and route the case to a person. Silent retries that eventually succeed in doing the wrong thing are worse than an honest hand-off.
+
+## Keep a usable audit trail
+
+For every run, record the inputs, model outputs, tool calls with arguments and results, approvals and final outcome, with timestamps and versions of prompts and models. Store it append-only. This record is what lets you answer "why did the system do that?", investigate incidents and build new evaluation cases from real failures.
+
+## Evaluate agent behaviour, not just answers
+
+Agent evaluation should cover whether the right tools were called with the right arguments, whether consequential actions were correctly routed for approval, and how the system behaves with adversarial inputs. Before go-live, a shadow period, where the agent proposes actions that are compared with what humans actually did, provides valuable evidence without risk.
+
+## The underlying principle
+
+Autonomous agents are not inherently safe or fully reliable. The goal is not to make the model perfect, which is not possible today, but to build a system around it that limits what it can do, verifies what it did and keeps people in control of decisions that matter.

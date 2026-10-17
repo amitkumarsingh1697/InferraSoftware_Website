@@ -1,0 +1,79 @@
+BigQuery makes it remarkably easy to store and query large volumes of data. It is just as easy to build pipelines that are fragile, expensive and quietly wrong. The difference is rarely the tooling; it is a handful of design decisions made early.
+
+These are the patterns we rely on when building data pipelines that a small team can operate with confidence.
+
+## Land raw data unchanged
+
+Keep an untouched copy of what each source system sent, in a raw layer partitioned by load date. Transform it in later layers.
+
+This feels wasteful until the first time a transformation bug corrupts a report, or a source system changes its format without warning. With raw data preserved, you fix the logic and rebuild. Without it, you may not be able to recover at all. Storage in BigQuery is inexpensive compared with the cost of lost history, and partition expiration policies can limit how long raw data is retained.
+
+## Make every load idempotent
+
+A pipeline should produce the same result whether it runs once or five times for the same period. This single property turns backfills, retries and incident recovery from risky manual operations into routine ones.
+
+Common techniques include:
+
+- **Partition overwrite.** Rebuild a whole date partition rather than appending rows, so reruns replace rather than duplicate.
+- **MERGE with stable keys.** For incremental updates, merge on a natural or generated key that uniquely identifies each record.
+- **Deterministic transformations.** Avoid logic that depends on the current time or on the order in which rows arrive.
+
+## Design tables for the queries you will run
+
+BigQuery charges, in on-demand pricing, by the data scanned, and performance follows the same principle. Two features do most of the work:
+
+- **Partitioning** by a date or timestamp column lets queries skip irrelevant periods entirely. Require a partition filter on large tables so accidental full scans are impossible.
+- **Clustering** on the columns most often used in filters and joins further reduces the data read within each partition.
+
+Pair these with guardrails: per-user or per-project query quotas, budget alerts and periodic reviews of the most expensive scheduled queries.
+
+## Transform in version-controlled, tested stages
+
+Treat transformation logic like application code. Tools such as dbt let you define models in SQL, store them in Git, review changes in pull requests and test them automatically.
+
+A layered structure keeps things understandable:
+
+1. **Staging** models clean and rename source fields, one model per source table.
+2. **Intermediate** models join and reshape data around business concepts.
+3. **Reporting** models expose curated tables and metrics for dashboards and analysis.
+
+Document each model and its columns as you go. The documentation becomes the shared vocabulary between engineers and the people reading reports.
+
+## Test the data, not just the code
+
+Code can be correct while the data is wrong. Automated data tests catch problems that would otherwise reach a dashboard:
+
+- **Freshness:** has new data arrived when expected?
+- **Volume:** is today's row count within a reasonable range of recent days?
+- **Uniqueness and not-null:** are keys unique and required fields populated?
+- **Relationships:** does every order reference a customer that exists?
+- **Business rules:** are amounts positive, dates plausible and statuses valid?
+
+When a critical test fails, stop downstream models from building on bad data and alert the owner. A report that is late and correct is better than one that is on time and wrong.
+
+## Define metrics once
+
+Many reporting disputes are not technical. Two teams calculate "active customers" or "revenue" differently, and both are right by their own definitions. Agree definitions with the business, implement each metric in exactly one place, and have every report use that implementation.
+
+## Monitor the pipeline as a product
+
+Observability for data pipelines covers more than whether a job succeeded. Track freshness, volume, quality test results and cost alongside job status, and route alerts to a named owner for each dataset. An alert that goes to a shared inbox nobody reads is not monitoring.
+
+## Protect sensitive data
+
+Use BigQuery's access controls to restrict sensitive data: dataset-level permissions, authorised views, and policy tags for column-level security. Pseudonymise personal data where analysis does not need identity, and keep retention aligned with your obligations.
+
+## Checklist
+
+- [ ] Raw layer preserves source data unchanged
+- [ ] Loads are idempotent and safe to rerun
+- [ ] Large tables partitioned, clustered and require partition filters
+- [ ] Transformations in version control with code review
+- [ ] Data tests for freshness, volume, keys, relationships and rules
+- [ ] Failing critical tests block downstream builds
+- [ ] Metrics defined once and documented
+- [ ] Alerts routed to named dataset owners
+- [ ] Cost quotas, budgets and regular query reviews
+- [ ] Access controls and pseudonymisation for sensitive data
+
+Pipelines built on these foundations are not only more reliable; they also make it far easier to build analytics and AI capabilities on top, because the data underneath can be trusted.

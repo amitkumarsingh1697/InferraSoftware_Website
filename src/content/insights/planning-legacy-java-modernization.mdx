@@ -1,0 +1,79 @@
+Most legacy Java applications are not failures. They are successes that kept running long enough to become hard to change. They encode years of business rules, they process real money or real orders, and the people who wrote them have often moved on.
+
+That is exactly why a big-bang rewrite is so risky. The new system has to reproduce behaviour nobody has fully documented, while the old one keeps changing underneath it. This guide describes a more incremental path: understand what you have, protect its behaviour with tests, then move the foundations one reversible step at a time.
+
+## Start with an honest baseline
+
+Before changing a line of code, establish where you are. A useful baseline answers four questions.
+
+1. **Can we build it reproducibly?** If the build only works on one developer's machine or a long-lived server, fix that first. Everything else depends on it.
+2. **What does it depend on?** Produce an inventory of the Java version, application server, frameworks and libraries, with their support status and known vulnerabilities.
+3. **How does it perform today?** Record response times for key operations, batch job durations, memory use and error rates. Without numbers, you cannot tell whether a change helped or hurt.
+4. **What does it talk to?** List every integration: databases, queues, file drops, inbound and outbound APIs, and the data formats each one expects.
+
+This baseline often reveals that the riskiest part of the system is not the code at all, but an undocumented integration or a scheduled job nobody remembers configuring.
+
+## Protect current behaviour with characterisation tests
+
+Legacy code is frequently described as "code without tests". The first engineering investment is therefore a safety net.
+
+Characterisation tests capture what the system **does**, not what it should do. You feed known inputs through critical flows and record the outputs, including the odd edge cases that real users depend on. If a later change alters those outputs, the test fails and someone must decide whether the change was intended.
+
+Focus first on:
+
+- the flows that carry revenue or regulatory weight;
+- calculations, pricing and rules engines;
+- integration boundaries, where other systems rely on exact formats;
+- batch processes, where side-by-side output comparison is often practical.
+
+Tools such as JUnit with Testcontainers let these tests run against real databases and message brokers in throwaway containers, which catches problems mocks would hide.
+
+## Upgrade in stages, not all at once
+
+With a baseline and a safety net in place, change the foundations in a deliberate order. A typical sequence looks like this:
+
+| Stage | Change | Why this order |
+| --- | --- | --- |
+| 1 | Build tooling and dependency management | Makes every later change repeatable |
+| 2 | Java runtime to a current LTS release | Unlocks supported frameworks and security fixes |
+| 3 | Frameworks and libraries | Often the largest change, now on a stable runtime |
+| 4 | Packaging and deployment (for example containers) | Simplifies operations once the code is stable |
+| 5 | Observability | Structured logs, metrics and traces for the new stack |
+
+Each stage should be deployable on its own, validated against the characterisation tests and the performance baseline, and reversible if something unexpected appears in production.
+
+### Watch for the usual traps
+
+Java upgrades tend to surface the same categories of issue:
+
+- removed or restricted internal JDK APIs used by old libraries;
+- the move from `javax.*` to `jakarta.*` namespaces in newer enterprise frameworks;
+- reflection and serialisation behaviour that changed between versions;
+- libraries that are abandoned and need replacement rather than upgrading.
+
+None of these are exotic, but each is much easier to handle in isolation than tangled together in one enormous change.
+
+## Decide what to extract, and what to leave alone
+
+Once the application runs on a supported stack, you are in a far better position to decide on structural change. Some modules may justify extraction into separate services, typically those that need to scale independently, change frequently or be owned by a different team. The strangler-fig pattern lets you route specific functionality to new components while the rest of the application stays in place.
+
+Equally, some parts are best left alone. A stable module that rarely changes and has good test coverage may not be worth moving at all. Modernization is a business investment, and each step should earn its place.
+
+## Be candid about constraints
+
+Not every legacy application can be modernized cheaply. Dependencies on unsupported vendor products, undocumented protocols or data that needs significant cleansing can all change the economics. Sometimes the right decision is to stabilise and contain a system, isolating it behind an API, while new capabilities are built elsewhere.
+
+A good modernization assessment states these constraints clearly and compares options on cost, risk and benefit, rather than assuming that rewriting or migrating is always the answer.
+
+## A short checklist
+
+- [ ] Reproducible build from a clean checkout
+- [ ] Dependency and vulnerability inventory
+- [ ] Performance and error-rate baseline
+- [ ] Integration map with data formats
+- [ ] Characterisation tests for critical flows
+- [ ] Staged upgrade plan with rollback for each stage
+- [ ] Observability in place on the new stack
+- [ ] Documented decisions about what to extract and what to keep
+
+If you are planning a modernization and would like an independent view of the options, we are happy to talk it through.

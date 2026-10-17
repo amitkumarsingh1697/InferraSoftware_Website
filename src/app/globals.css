@@ -1,0 +1,394 @@
+@import "tailwindcss";
+
+/*
+ * Inferra Software design tokens.
+ * Midnight violet is the primary experience. Every text/background pairing
+ * used below has been checked against WCAG 2.2 AA (see docs/BRAND.md).
+ */
+@theme {
+  --color-ink: #0a0718; /* primary background */
+  --color-ink-2: #100b24; /* secondary background */
+  --color-surface: #17102f; /* elevated surface */
+  --color-surface-2: #1f1640; /* raised / hover surface */
+  --color-surface-3: #2a1f55;
+
+  --color-accent: #8b5cf6; /* primary accent (decorative, large type) */
+  --color-accent-strong: #7c3aed; /* button fill, 5.7:1 with white */
+  --color-accent-deep: #6d28d9;
+  --color-violet-bright: #a78bfa; /* accent text on dark, 7.1:1 */
+  --color-cyan: #67e8f9; /* electric highlight, 13:1 */
+  --color-cyan-deep: #0e7490;
+
+  --color-fg: #f5f3ff; /* main text, 18:1 */
+  --color-fg-muted: #b7b0cc; /* secondary text, 9.6:1 */
+  --color-fg-subtle: #918aab; /* tertiary text, 6.1:1 */
+
+  --color-line: rgb(167 139 250 / 0.16);
+  --color-line-strong: rgb(167 139 250 / 0.32);
+
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --radius-panel: 1.25rem;
+
+  --animate-core-pulse: core-pulse 6s ease-in-out infinite;
+  --animate-stream: stream 9s linear infinite;
+  --animate-drift: drift 18s ease-in-out infinite;
+  --animate-twinkle: twinkle 5s ease-in-out infinite;
+
+  @keyframes core-pulse {
+    0%,
+    100% {
+      opacity: 0.75;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+  }
+  @keyframes stream {
+    to {
+      stroke-dashoffset: -400;
+    }
+  }
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -10px, 0);
+    }
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.25;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    background: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgb(139 92 246 / 0.45);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+}
+
+@layer components {
+  /* Thin engineering grid used behind sections */
+  .bg-blueprint {
+    background-image:
+      linear-gradient(to right, rgb(167 139 250 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(167 139 250 / 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .text-gradient {
+    background: linear-gradient(100deg, #f5f3ff 10%, #c4b5fd 45%, #67e8f9 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Panel with luminous hairline border */
+  .panel {
+    position: relative;
+    border-radius: var(--radius-panel);
+    background: linear-gradient(180deg, rgb(31 22 64 / 0.75), rgb(16 11 36 / 0.85));
+    border: 1px solid var(--color-line);
+    box-shadow: 0 1px 0 0 rgb(255 255 255 / 0.04) inset;
+  }
+
+  /* Corner brackets referencing the logo's chevrons */
+  .brackets {
+    position: relative;
+  }
+  .brackets::before,
+  .brackets::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: var(--color-violet-bright);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  .brackets::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-top-left-radius: 6px;
+  }
+  .brackets::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    border-bottom-right-radius: 6px;
+  }
+
+  /* Long-form content (MDX articles, legal pages) */
+  .prose-inferra {
+    color: var(--color-fg-muted);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+  .prose-inferra > * + * {
+    margin-top: 1.25em;
+  }
+  .prose-inferra h2 {
+    color: var(--color-fg);
+    font-size: 1.6rem;
+    line-height: 1.25;
+    margin-top: 2.4em;
+    font-weight: 600;
+  }
+  .prose-inferra h3 {
+    color: var(--color-fg);
+    font-size: 1.2rem;
+    line-height: 1.35;
+    margin-top: 2em;
+    font-weight: 600;
+  }
+  .prose-inferra strong {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+  .prose-inferra a {
+    color: var(--color-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgb(103 232 249 / 0.4);
+  }
+  .prose-inferra a:hover {
+    text-decoration-color: currentColor;
+  }
+  .prose-inferra ul,
+  .prose-inferra ol {
+    padding-left: 1.4em;
+  }
+  .prose-inferra ul {
+    list-style: none;
+  }
+  .prose-inferra ul > li {
+    position: relative;
+  }
+  .prose-inferra ul > li::before {
+    content: "";
+    position: absolute;
+    left: -1.1em;
+    top: 0.75em;
+    width: 0.45em;
+    height: 0.45em;
+    transform: rotate(45deg);
+    border: 1px solid var(--color-violet-bright);
+  }
+  .prose-inferra ol {
+    list-style: decimal;
+  }
+  .prose-inferra ol > li::marker {
+    color: var(--color-violet-bright);
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+  .prose-inferra li + li {
+    margin-top: 0.5em;
+  }
+  .prose-inferra code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    color: #ddd6fe;
+    background: rgb(139 92 246 / 0.14);
+    border: 1px solid var(--color-line);
+    border-radius: 6px;
+    padding: 0.1em 0.4em;
+  }
+  .prose-inferra pre {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    background: var(--color-ink-2);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    overflow-x: auto;
+  }
+  .prose-inferra pre code {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: #e9e5ff;
+  }
+  .prose-inferra blockquote {
+    border-left: 2px solid var(--color-accent);
+    padding: 0.25em 0 0.25em 1.25em;
+    color: var(--color-fg);
+    font-style: normal;
+  }
+  .prose-inferra table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    display: block;
+    overflow-x: auto;
+  }
+  .prose-inferra th,
+  .prose-inferra td {
+    text-align: left;
+    padding: 0.6em 0.9em;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+  }
+  .prose-inferra th {
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+  .prose-inferra hr {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+    margin: 2.5em 0;
+  }
+}
+
+/*
+ * Scroll-reveal using CSS scroll-driven animations: no JavaScript, content is
+ * fully visible in browsers without support, and it is disabled entirely when
+ * the visitor prefers reduced motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+
+  ::view-transition-old(root) {
+    animation: 180ms ease-out both vt-fade-out;
+  }
+  ::view-transition-new(root) {
+    animation: 260ms ease-out both vt-fade-in;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+@keyframes scrollcue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(260%);
+  }
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.contains-task-list {
+  padding-left: 0 !important;
+}
+.contains-task-list > li::before {
+  display: none;
+}
+.contains-task-list input[type="checkbox"] {
+  accent-color: var(--color-accent);
+  margin-right: 0.6em;
+  transform: translateY(1px);
+}

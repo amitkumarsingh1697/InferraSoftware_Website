@@ -1,0 +1,77 @@
+Adding a large language model to a prototype is quick. Adding one to a product that customers already rely on is a different exercise. The feature has to fit the existing architecture, respect existing permissions, behave predictably under load and fail gracefully when the model provider has a bad day.
+
+This checklist collects the decisions we find most important, grouped by when they need to be made.
+
+## Before you build
+
+### Is an LLM the right tool?
+
+Start by writing down the task in plain language and asking whether conventional software could do it. Deterministic rules, a good search index or a better form are often cheaper, faster and easier to verify. LLMs earn their place when the input is unstructured language, the output needs judgement or synthesis, and occasional imperfection is acceptable or can be caught by review.
+
+### What does good look like?
+
+Collect twenty to fifty realistic examples of inputs with the outputs you would accept. Include awkward cases: ambiguous requests, missing information, inputs in other languages and attempts to misuse the feature. This becomes your first evaluation set, and it is far more useful than any generic benchmark.
+
+### What data will the model see?
+
+Map the data that will flow into prompts. Decide what can be sent to which provider, whether anything must be redacted, how long providers may retain it and which processing regions are acceptable. Settle this with whoever owns data protection in your organisation before writing code.
+
+## While you build
+
+### Put the model behind a service boundary
+
+Call the model from a dedicated service or module rather than from scattered parts of the codebase. This gives you one place to manage prompts, model versions, timeouts, retries, caching, logging and cost controls. If switching providers is a realistic future need, this is also where a thin abstraction belongs.
+
+### Ground answers in your data
+
+If the feature answers questions about your domain, use retrieval-augmented generation: fetch relevant content from your own sources and supply it to the model with instructions to answer from that content. Three details matter more than the choice of vector database:
+
+- **Permissions.** Filter retrieval by what the requesting user is allowed to see. Never rely on the prompt to keep restricted content secret.
+- **Chunking and metadata.** Split documents along meaningful boundaries and keep titles, dates and sources attached, so answers can cite them.
+- **Citations.** Show users where an answer came from. It builds trust and makes errors easier to spot.
+
+### Constrain the output
+
+Free-form text is hard for software to consume. When the output feeds other logic, ask for structured output that matches a schema and validate it, for example with Zod or Pydantic. Decide in advance what happens on failure: retry, fall back to a simpler path, or route to a person.
+
+### Design for failure
+
+Model APIs time out, rate-limit and occasionally return nonsense. Set timeouts appropriate to the user experience, retry with backoff where it is safe, and give users a clear message rather than a spinner that never ends. For background tasks, make processing idempotent so retries do not create duplicates.
+
+### Treat user content as untrusted
+
+Any text that comes from users, documents, emails or web pages can contain instructions aimed at the model. Keep such content clearly separated from your own instructions, limit what the model can do with tools, and never let untrusted content decide which actions are taken.
+
+## Before and after you ship
+
+### Evaluate every change
+
+Run your evaluation set whenever prompts, retrieval settings or model versions change. Automate the checks that can be automated, such as format validity, citation presence and exact-match fields, and review a sample of outputs by hand for qualities that need judgement. Track results over time so regressions are visible.
+
+### Observe production behaviour
+
+Log, with appropriate privacy safeguards, the prompt version, retrieved sources, latency, token usage and outcome for each request. Give users a simple way to flag poor answers, and turn flagged cases into new evaluation examples.
+
+### Control cost
+
+Estimate cost per request early and monitor it in production. Caching repeated queries, trimming unnecessary context and choosing an appropriately sized model for each task usually matter more than negotiating unit prices.
+
+### Pin versions and plan upgrades
+
+Pin model versions where providers allow it. When a new model arrives, treat the switch like any other dependency upgrade: run the evaluation set, compare quality, latency and cost, and roll out gradually.
+
+## Summary checklist
+
+- [ ] Confirmed an LLM is the right approach for the task
+- [ ] Evaluation set of realistic and adversarial examples
+- [ ] Data flows reviewed with your data protection owner
+- [ ] Model access centralised behind a service boundary
+- [ ] Permission-aware retrieval with citations
+- [ ] Schema-validated outputs with defined failure handling
+- [ ] Timeouts, retries and user-facing error states
+- [ ] Untrusted content separated from instructions
+- [ ] Automated evaluation in CI
+- [ ] Production tracing, feedback capture and cost monitoring
+- [ ] Pinned model versions and an upgrade process
+
+An LLM feature built this way is not just more reliable; it is easier to improve, because every change can be measured.

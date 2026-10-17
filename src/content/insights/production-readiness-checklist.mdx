@@ -1,0 +1,72 @@
+Launch day should be uneventful. When it is not, the cause is rarely a single dramatic bug. More often it is an accumulation of small gaps: no alert on a failing job, a backup nobody has tried to restore, a deployment that cannot be rolled back quickly.
+
+This checklist is the set of questions we work through before an application goes live. Not every item applies to every system; a small internal tool needs less than a payment platform. The point is to answer each question deliberately rather than discover the answer during an incident.
+
+## Ownership
+
+- Who is responsible for the application in production, and how are they reached out of hours if that is required?
+- Is there a short document describing what the system does, its dependencies and who to contact for each?
+- Do runbooks exist for the most likely failures, such as a dependency outage, a full disk or a failed deployment?
+
+## Observability
+
+You cannot fix what you cannot see.
+
+- **Logs** are structured, include request identifiers and avoid sensitive data such as passwords, tokens and unnecessary personal information.
+- **Metrics** cover the basics for every service: request rate, error rate and latency, plus saturation of key resources.
+- **Traces** follow requests across services where the architecture is distributed.
+- **Alerts** fire on symptoms users would notice, are routed to a named owner and have a linked runbook. Every alert should be actionable; noisy alerts get ignored.
+- **Dashboards** give an at-a-glance view of health that the whole team understands.
+
+## Reliability
+
+- Timeouts are set on every outbound call, with retries and backoff where operations are safe to repeat.
+- The application degrades gracefully when non-critical dependencies fail.
+- Health checks distinguish between "the process is running" and "the service can do useful work".
+- Capacity has been estimated and, for systems expecting meaningful load, verified with load tests.
+- Background jobs are idempotent and can be safely rerun.
+
+## Data
+
+- Backups run automatically, are stored separately from the primary system, and **a restore has actually been tested**.
+- Recovery point and recovery time objectives are agreed, even if informally.
+- Database migrations are reversible or have a documented recovery plan.
+- Data retention and deletion follow the obligations that apply to the system.
+
+## Security
+
+- Secrets live in a secrets manager or the hosting platform's environment configuration, never in source control.
+- Dependencies are scanned for known vulnerabilities, with a process for updating them.
+- Authentication and authorisation have been reviewed, including what happens when sessions expire or permissions change.
+- Inputs are validated on the server, outputs are encoded appropriately and security headers are set.
+- Access to production is limited to the people who need it, and that access is logged.
+- Public endpoints that accept input are protected against abuse with rate limiting and appropriate spam controls.
+
+## Deployment
+
+- Deployments are automated and repeatable from a known version in source control.
+- A rollback can be performed quickly, and the team knows how.
+- Configuration differs between environments only through environment variables or managed configuration, not code changes.
+- Preview and staging environments cannot be mistaken for production, by users or by search engines.
+- There is a short post-deployment smoke test covering the most important user journeys.
+
+## User-facing quality
+
+- Core journeys work on the browsers and devices your users actually use.
+- Accessibility has been checked, including keyboard navigation, focus states, labels and colour contrast.
+- Error pages are helpful and do not reveal implementation details.
+- Performance has been measured on realistic devices and network conditions.
+
+## Legal and communication
+
+- Privacy information accurately describes what data is collected and why.
+- Terms, cookie notices and consent mechanisms are in place where required, and have been reviewed by someone qualified to do so.
+- Stakeholders know the launch plan, and support channels are ready for questions.
+
+## After launch
+
+Production readiness does not end at go-live. Schedule a review a few weeks after launch to look at real usage, alerts that fired, incidents and performance. Feed what you learn back into the system and into this checklist.
+
+## Using this checklist
+
+Treat the list as a conversation starter rather than a compliance form. For each item, the honest answers are "yes", "no, and here is why that is acceptable for now" or "no, and we need to fix it before launch". Recording those answers is itself valuable: it turns unspoken risks into explicit decisions.
