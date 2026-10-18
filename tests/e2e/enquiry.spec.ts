@@ -5,6 +5,7 @@ async function fillStepOne(page: Page) {
   await page.locator("#f-email").fill("test@example.com");
   await page.locator("#f-company").fill("Example Ltd");
   await page.locator("#f-region").selectOption("United Kingdom");
+  await page.locator("#f-message").fill("We need a reliable ingestion pipeline for partner data feeds and reporting.");
   await page.getByRole("button", { name: "Continue" }).click();
 }
 
@@ -13,7 +14,6 @@ async function fillStepTwo(page: Page) {
   await page.locator("#f-projectType").selectOption("data-cloud");
   await page.locator("#f-engagementModel").selectOption("project");
   await page.locator("#f-referral").selectOption("search");
-  await page.locator("#f-message").fill("We need a reliable ingestion pipeline for partner data feeds and reporting.");
   await page.getByRole("checkbox").check();
 }
 
@@ -23,6 +23,7 @@ test("step one shows an error summary and inline errors", async ({ page }) => {
   const summary = page.locator("form").getByRole("alert");
   await expect(summary).toBeFocused();
   await expect(summary).toContainText("Full name");
+  await expect(summary).toContainText("Message");
   await expect(page.locator("#f-email")).toHaveAttribute("aria-invalid", "true");
   // Step two fields are not validated yet.
   await expect(summary).not.toContainText("Service of interest");
@@ -68,6 +69,8 @@ test("delivery failure keeps the message and offers alternatives", async ({ page
   const alert = page.locator("form").getByRole("alert");
   await expect(alert).toContainText("couldn't send your enquiry");
   await expect(alert.locator('a[href="tel:+919891855259"]')).toBeVisible();
+  // The message lives in step one; going back shows it is still there.
+  await page.getByRole("button", { name: "Back" }).click();
   await expect(page.locator("#f-message")).toHaveValue(/ingestion pipeline/);
 });
 
@@ -87,6 +90,7 @@ test("careers enquiries hide project-only fields", async ({ page }) => {
   await page.locator("#f-fullName").fill("Test Person");
   await page.locator("#f-email").fill("test@example.com");
   await page.locator("#f-region").selectOption("India");
+  await page.locator("#f-message").fill("Backend engineer with five years of Java and Spring experience.");
   await page.getByRole("button", { name: "Continue" }).click();
   await expect(page.locator("#f-service")).toHaveCount(0);
   await expect(page.locator("#f-portfolioUrl")).toBeVisible();

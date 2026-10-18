@@ -13,12 +13,14 @@ export function FilterableGrid({
   allLabel = "All",
   emptyMessage,
   label,
+  layout = "grid",
 }: {
   filters: string[];
   items: { key: string; tags: string[]; node: React.ReactNode }[];
   allLabel?: string;
   emptyMessage: string;
   label: string;
+  layout?: "grid" | "list";
 }) {
   const [active, setActive] = useState<string | null>(null);
   const visible = useMemo(() => items.filter((i) => !active || i.tags.includes(active)), [items, active]);
@@ -47,7 +49,7 @@ export function FilterableGrid({
       {visible.length === 0 ? (
         <p className="mt-10 rounded-[var(--radius-panel)] border border-dashed border-line-strong p-10 text-center text-fg-muted">{emptyMessage}</p>
       ) : (
-        <ul className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <ul className={layout === "list" ? "mt-10 divide-y divide-line border-y border-line" : "mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3"}>
           {visible.map((i) => (
             <li key={i.key}>{i.node}</li>
           ))}

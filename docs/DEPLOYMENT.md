@@ -76,6 +76,32 @@ Optional: set `ENQUIRY_WEBHOOK_URL` to also send each enquiry to a CRM or an
 automation tool. The JSON body contains `id`, `receivedAt`, `text` and the
 validated `enquiry` object.
 
+### Test the contact form before you have a domain
+
+Resend has a shared test sender, `onboarding@resend.dev`, that needs no domain
+but only delivers to the email address that owns the Resend account. The site
+uses it automatically when `ENQUIRY_FROM_EMAIL` is empty.
+
+1. Sign up at https://resend.com (the free plan is enough) with the email
+   address that should receive test enquiries.
+2. In Resend, open **API Keys → Create API key**, choose "Sending access" and
+   copy the key (it starts with `re_`).
+3. In the project folder, create a file named `.env.local` containing:
+
+   ```bash
+   RESEND_API_KEY=re_your_key_here
+   ENQUIRY_TO_EMAIL=the-email-you-signed-up-with@example.com
+   ```
+
+   `.env.local` is ignored by git, so the key never reaches GitHub.
+4. Restart `npm run dev`, submit the form at http://localhost:3000/contact and
+   check the inbox (and the spam folder). If sending fails, the terminal
+   prints the reason from Resend.
+
+Before launch, verify your domain as described above and set
+`ENQUIRY_FROM_EMAIL`, so enquiries can go to any inbox and come from your own
+domain.
+
 ## 5. Analytics (optional)
 
 Create a site in Plausible for your domain, then set

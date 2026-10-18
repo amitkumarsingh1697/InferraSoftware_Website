@@ -134,7 +134,7 @@ All integrations are configured with environment variables (see
 - **Indexing**: `SITE_INDEXING=enabled`. Off by default; preview deployments on
   Vercel are never indexed, even when it is set (`X-Robots-Tag`, robots meta and
   `robots.txt` all follow this switch).
-- **Enquiry email**: `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL`.
+- **Enquiry email**: `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, and `ENQUIRY_FROM_EMAIL` once you have a verified domain (see [Test the contact form with your own email](docs/DEPLOYMENT.md#test-the-contact-form-before-you-have-a-domain)).
 - **Enquiry webhook**: `ENQUIRY_WEBHOOK_URL` (+ optional `ENQUIRY_WEBHOOK_SECRET`)
   posts each enquiry as JSON, for a CRM or automation tool. Email and webhook
   can run together; delivery succeeds if either accepts it.
@@ -167,7 +167,7 @@ UTM parameters and the referrer are captured on the first page view
 ```bash
 npm run lint          # ESLint
 npm run typecheck     # TypeScript
-npm test              # 38 unit tests (Vitest)
+npm test              # 42 unit tests (Vitest)
 npm run test:e2e      # 47 browser tests (Playwright): builds and serves the site first
 ```
 
@@ -192,7 +192,8 @@ DNS, Resend setup, smoke test, rollback) is in
 | Problem | Fix |
 | --- | --- |
 | `npm install` fails or Next.js refuses to start | Check `node -v` is 20.9 or newer. |
-| Form says "Online enquiries are not available yet" | Expected until `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL` and `ENQUIRY_FROM_EMAIL` (or `ENQUIRY_WEBHOOK_URL`) are set. |
+| Form says "Online enquiries are not available yet" | Expected until `RESEND_API_KEY` and `ENQUIRY_TO_EMAIL` (or `ENQUIRY_WEBHOOK_URL`) are set. Restart `npm run dev` after editing `.env.local`. |
+| Form says it couldn't send, and the terminal shows `Resend responded 403` | Without a verified domain, Resend only delivers to the email address that owns the Resend account. Set `ENQUIRY_TO_EMAIL` to that address, or verify a domain and set `ENQUIRY_FROM_EMAIL`. |
 | Dashed "dev notes" appear on pages | They show only in `npm run dev` and mark missing details such as the business email. They never render in production. |
 | Playwright says no browser is installed | Run `npx playwright install chromium`, or set `PLAYWRIGHT_CHROMIUM_PATH` to an existing Chromium binary. |
 | Port 3000 is busy | `npm run dev -- -p 3001` |

@@ -12,7 +12,7 @@ Everything below was actually run; results are as observed.
 | --- | --- | --- |
 | Lint | `npm run lint` | Pass, 0 errors, 0 warnings |
 | Type check | `npm run typecheck` | Pass |
-| Unit tests | `npm test` | **38 / 38 passed** (6 files) |
+| Unit tests | `npm test` | **42 / 42 passed** (7 files) |
 | Production build | `npm run build` | Pass, 69 static pages generated |
 | Browser tests | `npm run test:e2e` | **47 passed, 0 failed** (+1 mobile-only test skipped on the desktop project, and run on the mobile project) |
 | Lighthouse | Lighthouse 12.8 on 4 pages | Accessibility 100, Best practices 100, Performance 91–92 mobile / 100 desktop (details below) |
@@ -36,6 +36,9 @@ Everything below was actually run; results are as observed.
 - **Security headers** (6): noindex by default, indexing only on production,
   never on Vercel previews, CSP directives, analytics origin added only when
   configured, standard hardening headers.
+- **Delivery configuration** (4): off when unset, Resend test sender used
+  when no from address is set, explicit from address preferred, an API key
+  without a recipient stays off with a warning.
 - **Content integrity** (8): ten services, unique slugs everywhere,
   disclosures on non-client work, no invented bios, founder metrics not
   presented as company results, table of contents matches heading ids, reading

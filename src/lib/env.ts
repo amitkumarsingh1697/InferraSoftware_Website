@@ -26,6 +26,13 @@ export interface ServerEnv {
   issues: string[];
 }
 
+/**
+ * Resend's shared test sender. It works without a verified domain, but Resend
+ * only delivers its mail to the address that owns the Resend account, so it is
+ * for testing; set ENQUIRY_FROM_EMAIL on a verified domain for production.
+ */
+export const RESEND_TEST_SENDER = "Inferra Website <onboarding@resend.dev>";
+
 let cached: ServerEnv | null = null;
 
 export function getServerEnv(): ServerEnv {
@@ -41,9 +48,9 @@ export function getServerEnv(): ServerEnv {
   }
   const d = data as z.infer<typeof schema>;
   const resend =
-    d.RESEND_API_KEY && d.ENQUIRY_TO_EMAIL && d.ENQUIRY_FROM_EMAIL ? { apiKey: d.RESEND_API_KEY, to: d.ENQUIRY_TO_EMAIL, from: d.ENQUIRY_FROM_EMAIL } : null;
+    d.RESEND_API_KEY && d.ENQUIRY_TO_EMAIL ? { apiKey: d.RESEND_API_KEY, to: d.ENQUIRY_TO_EMAIL, from: d.ENQUIRY_FROM_EMAIL ?? RESEND_TEST_SENDER } : null;
   if (!resend && (d.RESEND_API_KEY || d.ENQUIRY_TO_EMAIL || d.ENQUIRY_FROM_EMAIL)) {
-    issues.push("Email delivery needs RESEND_API_KEY, ENQUIRY_TO_EMAIL and ENQUIRY_FROM_EMAIL together.");
+    issues.push("Email delivery needs RESEND_API_KEY and ENQUIRY_TO_EMAIL together.");
   }
   const webhook = d.ENQUIRY_WEBHOOK_URL ? { url: d.ENQUIRY_WEBHOOK_URL, secret: d.ENQUIRY_WEBHOOK_SECRET } : null;
   if (issues.length) console.warn(`[env] Enquiry delivery configuration issues: ${issues.join("; ")}`);

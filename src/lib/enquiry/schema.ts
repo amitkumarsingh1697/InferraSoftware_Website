@@ -21,7 +21,7 @@ const multiLine = (min: number, max: number) =>
     .pipe(
       z
         .string()
-        .min(min, `Please share at least ${min} characters so we can understand the request.`)
+        .min(min, `Please share at least ${min} characters so we know how to help.`)
         .max(max, `Please keep this under ${max} characters.`),
     );
 
@@ -48,7 +48,7 @@ export const enquirySchema = z
     region: z.enum(regions, { message: "Please choose your country or region." }),
     service: z.enum(values(serviceOptions), { message: "Please choose the service you're interested in." }),
     projectType: z.enum(values(projectTypes), { message: "Please choose a project type." }),
-    message: multiLine(20, 5000),
+    message: multiLine(10, 5000),
     budget: z.enum(values(budgetRanges)).optional().default(""),
     timeline: z.enum(values(timelines)).optional().default(""),
     engagementModel: z.enum(values(engagementModels), { message: "Please choose an engagement model." }),
@@ -80,7 +80,7 @@ export type EnquiryInput = z.input<typeof enquirySchema>;
 export type Enquiry = z.output<typeof enquirySchema>;
 
 /** Fields shown in step one of the form; used for per-step validation. */
-export const stepOneFields = ["enquiryType", "fullName", "email", "company", "jobTitle", "region"] as const;
+export const stepOneFields = ["enquiryType", "fullName", "email", "company", "jobTitle", "region", "message"] as const;
 
 export function fieldErrors(error: z.ZodError): Record<string, string> {
   const out: Record<string, string> = {};

@@ -73,7 +73,7 @@ const LABELS: Record<string, string> = {
   region: "Country or region",
   service: "Service of interest",
   projectType: "Project type",
-  message: "Your challenge",
+  message: "Message",
   engagementModel: "Preferred engagement model",
   referral: "How you heard about us",
   portfolioUrl: "CV or portfolio link",
@@ -323,6 +323,23 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
             </Field>
           </div>
 
+          <Field
+            id="message"
+            label={isCareers ? "Tell us about yourself" : "Message"}
+            required
+            hint={
+              isCareers
+                ? "Your experience, the kind of work you're looking for and your availability."
+                : "A short note on why you're getting in touch: a question, what you need help with, or when you'd like us to call you back. Please don't include passwords or confidential data."
+            }
+            error={errors.message}
+          >
+            <textarea id="f-message" rows={4} value={form.message} onChange={(e) => set("message", e.target.value)} {...aria("message", errors, true)} className={cn(inputCls(errors.message), "min-h-28 resize-y")} />
+            <p className="mt-1 text-right font-mono text-[0.7rem] text-fg-subtle" aria-live="off">
+              {form.message.length} / 5000
+            </p>
+          </Field>
+
           <div className="flex justify-end pt-2">
             <button type="submit" className={buttonClasses("primary", "px-6")}>
               Continue <ArrowRight aria-hidden className="h-4 w-4" />
@@ -382,19 +399,6 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
               </Field>
             </div>
           )}
-
-          <Field
-            id="message"
-            label={isCareers ? "Tell us about yourself" : "Briefly describe your challenge"}
-            required
-            hint={isCareers ? "Your experience, the kind of work you're looking for and your availability." : "What are you building, modernizing or trying to solve? Please don't include passwords or confidential data."}
-            error={errors.message}
-          >
-            <textarea id="f-message" rows={6} value={form.message} onChange={(e) => set("message", e.target.value)} {...aria("message", errors, true)} className={cn(inputCls(errors.message), "min-h-36 resize-y")} />
-            <p className="mt-1 text-right font-mono text-[0.7rem] text-fg-subtle" aria-live="off">
-              {form.message.length} / 5000
-            </p>
-          </Field>
 
           {isCareers && (
             <div className="grid gap-5 sm:grid-cols-2">

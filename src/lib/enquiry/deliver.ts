@@ -22,7 +22,11 @@ async function sendWithResend(e: Enquiry, id: string, cfg: { apiKey: string; to:
     }),
     signal: AbortSignal.timeout(10_000),
   });
-  if (!res.ok) throw new Error(`Resend responded ${res.status}`);
+  if (!res.ok) {
+    // Resend error bodies describe the problem (e.g. an unverified sender) and never echo the enquiry.
+    const detail = (await res.text().catch(() => "")).replace(/\s+/g, " ").slice(0, 200);
+    throw new Error(`Resend responded ${res.status}${detail ? `: ${detail}` : ""}`);
+  }
 }
 
 async function sendToWebhook(e: Enquiry, id: string, url: string, secret?: string) {
