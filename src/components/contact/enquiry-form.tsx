@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { AlertTriangle, ArrowLeft, ArrowRight, CheckCircle2, Copy, LoaderCircle, Phone } from "lucide-react";
+import { AlertTriangle, ArrowLeft, ArrowRight, Check, CheckCircle2, Copy, LoaderCircle, Phone, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonClasses } from "@/components/ui/button";
 import { track } from "@/lib/analytics";
@@ -108,6 +108,7 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [showMore, setShowMore] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [idCopied, setIdCopied] = useState(false);
   const startedAt = useRef<number>(0);
   const summaryRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -117,6 +118,42 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
   useEffect(() => {
     startedAt.current = Date.now();
   }, []);
+
+  // Clear everything for a fresh enquiry (used after a successful submission).
+  const resetForm = () => {
+    setForm(prefill(initial, params.get("type"), params.get("service")));
+    setStep(1);
+    setErrors({});
+    setStatus({ kind: "idle" });
+    setShowMore(false);
+    setCopied(false);
+    setIdCopied(false);
+    startedAt.current = Date.now();
+  };
+  const resetRef = useRef(resetForm);
+  useEffect(() => {
+    resetRef.current = resetForm;
+  });
+
+  // After a successful submission, show a fresh form when the visitor comes
+  // back. Next.js keeps the page's state when navigating away and back, so
+  // reset when the page is hidden, and also when a link to the contact page is
+  // clicked while already on it (e.g. "Discuss a Project" in the header).
+  const succeeded = status.kind === "success";
+  useEffect(() => {
+    if (!succeeded) return;
+    const onClick = (e: MouseEvent) => {
+      const link = (e.target as Element | null)?.closest?.("a[href]");
+      if (!link) return;
+      const url = new URL((link as HTMLAnchorElement).href, window.location.href);
+      if (url.origin === window.location.origin && url.pathname === window.location.pathname) resetRef.current();
+    };
+    document.addEventListener("click", onClick, true);
+    return () => {
+      document.removeEventListener("click", onClick, true);
+      resetRef.current();
+    };
+  }, [succeeded]);
 
   const isCareers = form.enquiryType === "careers";
 
@@ -218,10 +255,40 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
           </a>
           .
         </p>
-        {status.id && status.id !== "received" && <p className="mt-4 font-mono text-xs text-fg-subtle">Reference: {status.id}</p>}
-        <Link href="/insights" className={buttonClasses("secondary", "mt-8")}>
-          Read our engineering guides
-        </Link>
+        {status.id && status.id !== "received" && (
+          <div className="mx-auto mt-7 max-w-sm rounded-xl border border-cyan/40 bg-surface-2 px-5 py-4">
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-fg-subtle">Your enquiry ID</p>
+            <div className="mt-2 flex items-center justify-center gap-3">
+              <p className="font-mono text-xl font-semibold tracking-wide text-fg" data-testid="enquiry-id">
+                {status.id}
+              </p>
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(status.id);
+                    setIdCopied(true);
+                  } catch {
+                    setIdCopied(false);
+                  }
+                }}
+                className={buttonClasses("ghost", "min-h-9 px-2.5 py-1.5 text-xs")}
+                aria-label={idCopied ? "Enquiry ID copied" : "Copy enquiry ID"}
+              >
+                {idCopied ? <Check aria-hidden className="h-4 w-4 text-success" /> : <Copy aria-hidden className="h-4 w-4" />}
+              </button>
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-fg-muted">Please quote this ID if you contact us about this enquiry.</p>
+          </div>
+        )}
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <button type="button" onClick={resetForm} className={buttonClasses("primary")}>
+            <RotateCcw aria-hidden className="h-4 w-4" /> Send another enquiry
+          </button>
+          <Link href="/insights" className={buttonClasses("secondary")}>
+            Read our engineering guides
+          </Link>
+        </div>
       </div>
     );
   }

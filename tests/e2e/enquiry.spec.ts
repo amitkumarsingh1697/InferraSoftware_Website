@@ -164,3 +164,48 @@ test.describe("enquiry API", () => {
     expect(statuses.at(-1)).toBe(429);
   });
 });
+
+test("after sending, the enquiry ID is shown and the form resets for a new enquiry", async ({ page, isMobile }) => {
+  await page.route("/api/enquiry", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, id: "INF-RESET123" }) }),
+  );
+  const send = async () => {
+    await fillStepOne(page);
+    await fillStepTwo(page);
+    await page.getByRole("button", { name: "Send enquiry" }).click();
+    await expect(page.getByTestId("enquiry-id")).toHaveText("INF-RESET123");
+  };
+  const freshForm = async () => {
+    await expect(page.locator("#f-fullName")).toHaveValue("");
+    await expect(page.getByTestId("enquiry-id")).toHaveCount(0);
+  };
+
+  await page.goto("/contact");
+  await send();
+  // "Send another enquiry" starts over.
+  await page.getByRole("button", { name: "Send another enquiry" }).click();
+  await freshForm();
+
+  // Leaving the page and coming back shows a new form.
+  await send();
+  await page.goto("/about");
+  await page.goBack();
+  await freshForm();
+
+  // Clicking a link to the contact page while on it shows a new form.
+  if (!isMobile) {
+    await send();
+    await page.getByRole("banner").getByRole("link", { name: "Discuss a Project" }).click();
+    await freshForm();
+    // Let the same-page navigation finish before typing again.
+    await page.waitForLoadState("networkidle");
+
+    // Client-side navigation away and back also resets.
+    await send();
+    await page.getByRole("banner").getByRole("link", { name: "About", exact: true }).click();
+    await expect(page).toHaveURL(/\/about$/);
+    await page.getByRole("banner").getByRole("link", { name: "Discuss a Project" }).click();
+    await expect(page).toHaveURL(/\/contact$/);
+    await freshForm();
+  }
+});

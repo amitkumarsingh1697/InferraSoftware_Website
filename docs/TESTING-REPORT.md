@@ -14,7 +14,7 @@ Everything below was actually run; results are as observed.
 | Type check | `npm run typecheck` | Pass |
 | Unit tests | `npm test` | **42 / 42 passed** (7 files) |
 | Production build | `npm run build` | Pass, 69 static pages generated |
-| Browser tests | `npm run test:e2e` | **47 passed, 0 failed** (+1 mobile-only test skipped on the desktop project, and run on the mobile project) |
+| Browser tests | `npm run test:e2e` | **48 passed, 0 failed** (+1 mobile-only test skipped on the desktop project, and run on the mobile project) |
 | Lighthouse | Lighthouse 12.8 on 4 pages | Accessibility 100, Best practices 100, Performance 91–92 mobile / 100 desktop (details below) |
 | Visual review | Screenshots at 390 px and 1440 px | Reviewed; issues found were fixed (below) |
 | Dependency audit | `npm audit` | 5 high-severity advisories, all in dev-only lint tooling (see below) |
@@ -78,6 +78,9 @@ Run against a production build at 1440×900 (desktop) and Pixel 7 emulation
 - Step one shows a focused error summary and inline `aria-invalid` errors, and
   does not validate step-two fields early.
 - Step two validates required fields and consent.
+- After sending, the enquiry ID is shown prominently, and a fresh form appears
+  after "Send another enquiry", after leaving the page and coming back, and
+  after clicking "Discuss a Project" while on the contact page.
 - Successful submission (mocked API) shows the confirmation and reference ID;
   the request carries consent, an empty honeypot, the start time and UTM
   attribution captured from the landing URL.
