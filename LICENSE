@@ -1,0 +1,27 @@
+Copyright (c) 2026 Inferra Software. All rights reserved.
+
+This repository contains the source code, written content, brand assets
+(including the Inferra name, logo and visual identity) and artwork for the
+Inferra Software website.
+
+The repository is publicly visible for transparency and review only. No
+licence is granted to copy, modify, distribute, sublicense, publish or use
+any part of it, in source or compiled form, for any purpose, except:
+
+  1. viewing the code on GitHub, and
+  2. forking it on GitHub as permitted by the GitHub Terms of Service,
+
+without the prior written permission of Inferra Software.
+
+Third-party components keep their own licences. In particular, the fonts in
+src/app/fonts and src/assets/og are licensed under the SIL Open Font License
+1.1 (see licenses/fonts/), and npm dependencies are licensed by their
+respective authors. See THIRD_PARTY_NOTICES.md.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE.
+
+For permissions, contact Inferra Software at +91 98918 55259.

@@ -6,9 +6,46 @@ engineering demonstrators.
 
 > *Complex ideas. Engineered into reality.*
 
-Built with Next.js 16 (App Router, Turbopack, Cache Components), React 19,
-TypeScript, Tailwind CSS v4 and MDX. Every page is statically prerendered;
-the only server code is the enquiry API.
+![Inferra Software home page on desktop](docs/screenshots/home-desktop.png)
+
+<p>
+  <img src="docs/screenshots/home-mobile.png" alt="Home page on a phone" width="240">
+  <img src="docs/screenshots/services-menu.jpg" alt="Services mega menu" width="380">
+  <img src="docs/screenshots/enquiry-form.jpg" alt="Two-step enquiry form" width="380">
+</p>
+
+Every page is statically prerendered; the only server code is the enquiry API.
+
+## Contents
+
+- [Features](#features) · [Tech stack](#tech-stack) · [Quick start](#quick-start) · [Routes](#routes)
+- [Project structure](#project-structure) · [Editing content](#editing-content) · [Integrations](#integrations)
+- [Enquiry form](#enquiry-form) · [Testing](#testing) · [Deployment](#deployment) · [Troubleshooting](#troubleshooting)
+- [Decisions worth knowing](#decisions-worth-knowing) · [Documentation](#documentation) · [License](#license)
+
+## Features
+
+- **36 pages**: home, about, 10 service pages, 5 industry pages, technology, 5 engineering demonstrators, 5 MDX articles, careers, contact, privacy, terms, custom 404 and error pages.
+- **Original brand system**: SVG logo in 13 variants, colour tokens checked for WCAG AA contrast, self-hosted fonts.
+- **Cinematic artwork as code**: layered parallax hero, per-pillar illustrations, generated cover art. No stock images.
+- **Two-step enquiry form** with shared client/server validation, spam protection, rate limiting, Resend email and webhook delivery, and an honest fallback when delivery is not configured.
+- **SEO**: per-page metadata, Open Graph images, sitemap, robots, JSON-LD, one setting for the canonical domain, previews never indexed.
+- **Accessibility**: WCAG 2.2 AA tested with axe, keyboard-friendly menus, skip link, visible focus, reduced-motion support.
+- **Security**: Content Security Policy, HSTS, frame and MIME protections, no secrets in source.
+- **Content-first**: all copy lives in typed config and MDX files, so non-developers can edit it safely.
+
+## Tech stack
+
+| Area | Choice |
+| --- | --- |
+| Framework | Next.js 16 (App Router, Turbopack, Cache Components, partial prefetching) |
+| UI | React 19, TypeScript 5, Tailwind CSS v4, lucide-react icons |
+| Content | MDX (`@next/mdx`, remark-gfm, rehype-slug), typed TypeScript content files |
+| Validation | zod (shared by form and API) |
+| Email | Resend REST API (no SDK), optional webhook |
+| Analytics | Plausible (optional, cookieless) |
+| Testing | Vitest, Playwright, axe-core |
+| Hosting | Any Node.js host; Vercel recommended |
 
 ## Quick start
 
@@ -125,6 +162,43 @@ plus a "copy message" button. Nothing is ever silently lost.
 UTM parameters and the referrer are captured on the first page view
 (sessionStorage) and attached to the enquiry.
 
+## Testing
+
+```bash
+npm run lint          # ESLint
+npm run typecheck     # TypeScript
+npm test              # 38 unit tests (Vitest)
+npm run test:e2e      # 47 browser tests (Playwright): builds and serves the site first
+```
+
+The browser suite checks every route, real 404s, menus, a full internal link
+crawl, phone links, the enquiry form and API, axe accessibility scans on 14
+pages, console errors, CSP violations and horizontal overflow from 360 to
+1920 px. To run it against a deployed site:
+`PLAYWRIGHT_BASE_URL=https://your-domain npx playwright test`.
+
+Latest results: [docs/TESTING-REPORT.md](docs/TESTING-REPORT.md).
+
+## Deployment
+
+Short version for Vercel: import the repository, set the environment variables
+from `.env.example` for Production, deploy, add your domain, then turn on
+`SITE_INDEXING=enabled` when you are ready to be found. The full guide (domain,
+DNS, Resend setup, smoke test, rollback) is in
+[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+## Troubleshooting
+
+| Problem | Fix |
+| --- | --- |
+| `npm install` fails or Next.js refuses to start | Check `node -v` is 20.9 or newer. |
+| Form says "Online enquiries are not available yet" | Expected until `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL` and `ENQUIRY_FROM_EMAIL` (or `ENQUIRY_WEBHOOK_URL`) are set. |
+| Dashed "dev notes" appear on pages | They show only in `npm run dev` and mark missing details such as the business email. They never render in production. |
+| Playwright says no browser is installed | Run `npx playwright install chromium`, or set `PLAYWRIGHT_CHROMIUM_PATH` to an existing Chromium binary. |
+| Port 3000 is busy | `npm run dev -- -p 3001` |
+| Search engines can't see the site | Indexing is off by default. Set `SITE_INDEXING=enabled` on the production deployment. |
+| Changes to environment variables don't apply | Restart `npm run dev`, or redeploy on Vercel. |
+
 ## Decisions worth knowing
 
 - **Static CSP with `'unsafe-inline'` scripts.** Pages are prerendered, so
@@ -152,3 +226,11 @@ UTM parameters and the referrer are captured on the first page view
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md): domain, Vercel, DNS, email, launch smoke test, rollback
 - [docs/TESTING-REPORT.md](docs/TESTING-REPORT.md): what was tested and the results
 - [docs/LAUNCH-CHECKLIST.md](docs/LAUNCH-CHECKLIST.md): information the founder must provide before launch
+
+## License
+
+Copyright (c) 2026 Inferra Software. All rights reserved. The repository is
+public for transparency, but the code, content and brand assets are not open
+source; see [LICENSE](LICENSE). Bundled fonts are under the SIL Open Font
+License and dependencies under their own licences; see
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
