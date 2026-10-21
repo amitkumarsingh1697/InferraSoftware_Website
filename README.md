@@ -167,7 +167,7 @@ UTM parameters and the referrer are captured on the first page view
 ```bash
 npm run lint          # ESLint
 npm run typecheck     # TypeScript
-npm test              # 42 unit tests (Vitest)
+npm test              # 47 unit tests (Vitest)
 npm run test:e2e      # 47 browser tests (Playwright): builds and serves the site first
 ```
 

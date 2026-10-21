@@ -12,15 +12,19 @@ Everything below was actually run; results are as observed.
 | --- | --- | --- |
 | Lint | `npm run lint` | Pass, 0 errors, 0 warnings |
 | Type check | `npm run typecheck` | Pass |
-| Unit tests | `npm test` | **42 / 42 passed** (7 files) |
+| Unit tests | `npm test` | **47 / 47 passed** (7 files) |
 | Production build | `npm run build` | Pass, 69 static pages generated |
-| Browser tests | `npm run test:e2e` | **48 passed, 0 failed** (+1 mobile-only test skipped on the desktop project, and run on the mobile project) |
+| Browser tests | `npm run test:e2e` | **49 passed, 0 failed** (+1 mobile-only test skipped on the desktop project, and run on the mobile project) |
 | Lighthouse | Lighthouse 12.8 on 4 pages | Accessibility 100, Best practices 100, Performance 91–92 mobile / 100 desktop (details below) |
 | Visual review | Screenshots at 390 px and 1440 px | Reviewed; issues found were fixed (below) |
 | Dependency audit | `npm audit` | 5 high-severity advisories, all in dev-only lint tooling (see below) |
 
 ## Unit tests (Vitest)
 
+- **Field rules** (5): names in any language accepted, digits and symbols
+  rejected; invalid email addresses explained; company and job title
+  characters; messages must contain words; a missing company is reported with
+  the other errors.
 - **Enquiry schema** (7): valid enquiry and normalisation, consent required,
   invalid email / short message / unknown options rejected, company required
   except for careers, https-only portfolio links, message length cap, step-one
@@ -78,6 +82,9 @@ Run against a production build at 1440×900 (desktop) and Pixel 7 emulation
 - Step one shows a focused error summary and inline `aria-invalid` errors, and
   does not validate step-two fields early.
 - Step two validates required fields and consent.
+- Fields are checked when the visitor leaves them, with inline messages (no
+  error for an empty field just tabbed past), and the message clears as soon
+  as the value is fixed.
 - After sending, the enquiry ID is shown prominently, and a fresh form appears
   after "Send another enquiry", after leaving the page and coming back, and
   after clicking "Discuss a Project" while on the contact page.

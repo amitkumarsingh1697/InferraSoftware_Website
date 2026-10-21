@@ -65,3 +65,47 @@ describe("enquirySchema", () => {
     for (const f of stepOneFields) expect(keys).toContain(f);
   });
 });
+
+describe("field rules", () => {
+  const errorFor = (patch: Record<string, unknown>, key: string) => {
+    const r = enquirySchema.safeParse({ ...valid, ...patch });
+    return r.success ? undefined : fieldErrors(r.error)[key];
+  };
+
+  it("accepts real-world names in any language and rejects digits or symbols", () => {
+    for (const name of ["Amit Kumar Singh", "Mary-Jane O'Neil", "Dr. A. Rao", "José Müller", "अमित सिंह"]) {
+      expect(errorFor({ fullName: name }, "fullName")).toBeUndefined();
+    }
+    expect(errorFor({ fullName: "J0hn" }, "fullName")).toMatch(/letters only/);
+    expect(errorFor({ fullName: "<script>" }, "fullName")).toMatch(/letters only/);
+    expect(errorFor({ fullName: "A" }, "fullName")).toMatch(/at least 2/);
+    expect(errorFor({ fullName: "   " }, "fullName")).toMatch(/enter your full name/);
+  });
+
+  it("explains invalid email addresses", () => {
+    for (const email of ["amit", "amit@", "amit@gmail", "amit @gmail.com"]) {
+      expect(errorFor({ email }, "email")).toMatch(/valid email address/);
+    }
+    expect(errorFor({ email: "" }, "email")).toMatch(/enter your email/);
+  });
+
+  it("checks company and job title characters", () => {
+    expect(errorFor({ company: "Acme & Sons (India) Pvt. Ltd." }, "company")).toBeUndefined();
+    expect(errorFor({ company: "3M" }, "company")).toBeUndefined();
+    expect(errorFor({ company: "!!!" }, "company")).toMatch(/letters, numbers/);
+    expect(errorFor({ company: "" }, "company")).toMatch(/company name/);
+    expect(errorFor({ jobTitle: "VP, Engineering" }, "jobTitle")).toBeUndefined();
+    expect(errorFor({ jobTitle: "123" }, "jobTitle")).toMatch(/letters, numbers/);
+  });
+
+  it("requires a message made of words", () => {
+    expect(errorFor({ message: "1234567890123" }, "message")).toMatch(/using words/);
+    expect(errorFor({ message: "Call me back please." }, "message")).toBeUndefined();
+  });
+
+  it("reports a missing company together with other errors", () => {
+    const r = enquirySchema.safeParse({ ...valid, company: "", fullName: "" });
+    expect(r.success).toBe(false);
+    if (!r.success) expect(Object.keys(fieldErrors(r.error))).toEqual(expect.arrayContaining(["company", "fullName"]));
+  });
+});

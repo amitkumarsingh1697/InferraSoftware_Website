@@ -71,14 +71,17 @@ const LABELS: Record<string, string> = {
   company: "Company name",
   jobTitle: "Job title",
   region: "Country or region",
+  message: "Message",
   service: "Service of interest",
   projectType: "Project type",
-  message: "Message",
   engagementModel: "Preferred engagement model",
   referral: "How you heard about us",
   portfolioUrl: "CV or portfolio link",
   consent: "Privacy consent",
 };
+
+const FIELD_ORDER = Object.keys(LABELS);
+const fieldOrder = (key: string) => (FIELD_ORDER.includes(key) ? FIELD_ORDER.indexOf(key) : FIELD_ORDER.length);
 
 export interface EnquiryFormProps {
   phone: { display: string; e164: string };
@@ -109,6 +112,8 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
   const [showMore, setShowMore] = useState(false);
   const [copied, setCopied] = useState(false);
   const [idCopied, setIdCopied] = useState(false);
+  // The error summary appears only after Continue or Send; on-blur checks show inline.
+  const [summaryShown, setSummaryShown] = useState(false);
   const startedAt = useRef<number>(0);
   const summaryRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -128,6 +133,7 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
     setShowMore(false);
     setCopied(false);
     setIdCopied(false);
+    setSummaryShown(false);
     startedAt.current = Date.now();
   };
   const resetRef = useRef(resetForm);
@@ -146,7 +152,14 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
       const link = (e.target as Element | null)?.closest?.("a[href]");
       if (!link) return;
       const url = new URL((link as HTMLAnchorElement).href, window.location.href);
-      if (url.origin === window.location.origin && url.pathname === window.location.pathname) resetRef.current();
+      if (url.origin !== window.location.origin || url.pathname !== window.location.pathname) return;
+      // Already on this page: reset in place instead of re-navigating, which
+      // would remount the form a moment later and clear anything typed.
+      if (url.search === window.location.search) {
+        e.preventDefault();
+        window.scrollTo({ top: 0 });
+      }
+      resetRef.current();
     };
     document.addEventListener("click", onClick, true);
     return () => {
@@ -157,20 +170,40 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
 
   const isCareers = form.enquiryType === "careers";
 
-  const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
-    setForm((f) => ({ ...f, [key]: value }));
-    if (errors[key]) setErrors((e) => ({ ...e, [key]: "" }));
-  };
-
   // Only called from event handlers, so reading the ref here is safe.
-  const buildPayload = () => {
-    const base = { ...form, attribution: undefined as unknown, startedAt: startedAt.current || undefined };
-    if (form.enquiryType === "careers") {
+  const buildPayload = (f: FormState = form) => {
+    const base = { ...f, attribution: undefined as unknown, startedAt: startedAt.current || undefined };
+    if (f.enquiryType === "careers") {
       base.service = base.service || "not-sure";
       base.projectType = "other";
       base.engagementModel = "not-sure";
     }
     return base;
+  };
+
+  /** Error for one field, given the form values to check (empty string when valid). */
+  const fieldError = (key: string, f: FormState = form) => {
+    const result = enquirySchema.safeParse(buildPayload(f));
+    return result.success ? "" : (fieldErrors(result.error)[key] ?? "");
+  };
+
+  const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
+    const next = { ...form, [key]: value };
+    setForm(next);
+    // Once a field shows an error, re-check it as the visitor types so the
+    // message updates or disappears as soon as the value is valid.
+    if (errors[key]) setErrors((e) => ({ ...e, [key]: fieldError(key, next) }));
+  };
+
+  // Check a field when the visitor leaves it. Empty fields are left alone
+  // (so tabbing through doesn't shout); required ones are caught on Continue.
+  const onFieldBlur = (e: React.FocusEvent<HTMLFormElement>) => {
+    // React's onBlur bubbles, so e.target is the field that lost focus.
+    const key = (e.target as unknown as { name?: string }).name as keyof FormState;
+    if (!key || !(key in form) || key === "website" || key === "consent") return;
+    const value = form[key];
+    if (typeof value === "string" && value.trim() === "" && !errors[key]) return;
+    setErrors((prev) => ({ ...prev, [key]: fieldError(key) }));
   };
 
   const validate = (only?: readonly string[]) => {
@@ -181,7 +214,10 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
     return Object.fromEntries(Object.entries(errs).filter(([k]) => only.includes(k)));
   };
 
-  const focusSummary = () => window.requestAnimationFrame(() => summaryRef.current?.focus());
+  const focusSummary = () => {
+    setSummaryShown(true);
+    window.requestAnimationFrame(() => summaryRef.current?.focus());
+  };
 
   const next = () => {
     const errs = validate(stepOneFields);
@@ -293,11 +329,14 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
     );
   }
 
-  const errorList = Object.entries(errors).filter(([, v]) => v);
+  // List errors in the order the fields appear on the page.
+  const errorList = Object.entries(errors)
+    .filter(([, v]) => v)
+    .sort(([a], [b]) => fieldOrder(a) - fieldOrder(b));
   const submitting = status.kind === "submitting";
 
   return (
-    <form onSubmit={submit} noValidate className="panel p-6 sm:p-9" aria-describedby="form-intro">
+    <form onSubmit={submit} onBlur={onFieldBlur} noValidate className="panel p-6 sm:p-9" aria-describedby="form-intro">
       <div className="flex items-center justify-between gap-4">
         <p id="form-intro" className="text-sm text-fg-muted">
           Fields marked <span aria-hidden className="text-cyan">*</span>
@@ -312,7 +351,7 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
         <span className={cn("h-1 flex-1 rounded-full", step === 2 ? "bg-gradient-to-r from-accent to-cyan" : "bg-line-strong")} />
       </div>
 
-      {errorList.length > 0 && (
+      {summaryShown && errorList.length > 0 && (
         <div ref={summaryRef} tabIndex={-1} role="alert" className="mt-6 rounded-xl border border-danger/50 bg-danger/10 p-4 outline-none">
           <p className="font-semibold text-fg">Please check the following:</p>
           <ul className="mt-2 space-y-1 text-sm">
@@ -367,16 +406,16 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
 
           <div className="grid gap-5 sm:grid-cols-2">
             <Field id="fullName" label="Full name" required error={errors.fullName}>
-              <input id="f-fullName" autoComplete="name" value={form.fullName} onChange={(e) => set("fullName", e.target.value)} {...aria("fullName", errors)} className={inputCls(errors.fullName)} />
+              <input id="f-fullName" maxLength={120} autoComplete="name" value={form.fullName} onChange={(e) => set("fullName", e.target.value)} {...aria("fullName", errors)} className={inputCls(errors.fullName)} />
             </Field>
             <Field id="email" label="Business email" required error={errors.email}>
-              <input id="f-email" type="email" autoComplete="email" inputMode="email" value={form.email} onChange={(e) => set("email", e.target.value)} {...aria("email", errors)} className={inputCls(errors.email)} />
+              <input id="f-email" maxLength={200} type="email" autoComplete="email" inputMode="email" value={form.email} onChange={(e) => set("email", e.target.value)} {...aria("email", errors)} className={inputCls(errors.email)} />
             </Field>
             <Field id="company" label="Company name" required={!isCareers} hint={isCareers ? "Optional for career enquiries" : undefined} error={errors.company}>
-              <input id="f-company" autoComplete="organization" value={form.company} onChange={(e) => set("company", e.target.value)} {...aria("company", errors, isCareers)} className={inputCls(errors.company)} />
+              <input id="f-company" maxLength={160} autoComplete="organization" value={form.company} onChange={(e) => set("company", e.target.value)} {...aria("company", errors, isCareers)} className={inputCls(errors.company)} />
             </Field>
             <Field id="jobTitle" label="Job title" hint="Optional" error={errors.jobTitle}>
-              <input id="f-jobTitle" autoComplete="organization-title" value={form.jobTitle} onChange={(e) => set("jobTitle", e.target.value)} {...aria("jobTitle", errors, true)} className={inputCls(errors.jobTitle)} />
+              <input id="f-jobTitle" maxLength={120} autoComplete="organization-title" value={form.jobTitle} onChange={(e) => set("jobTitle", e.target.value)} {...aria("jobTitle", errors, true)} className={inputCls(errors.jobTitle)} />
             </Field>
             <Field id="region" label="Country or region" required error={errors.region}>
               <select id="f-region" value={form.region} onChange={(e) => set("region", e.target.value)} {...aria("region", errors)} className={inputCls(errors.region)}>
@@ -401,7 +440,7 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
             }
             error={errors.message}
           >
-            <textarea id="f-message" rows={4} value={form.message} onChange={(e) => set("message", e.target.value)} {...aria("message", errors, true)} className={cn(inputCls(errors.message), "min-h-28 resize-y")} />
+            <textarea id="f-message" maxLength={5000} rows={4} value={form.message} onChange={(e) => set("message", e.target.value)} {...aria("message", errors, true)} className={cn(inputCls(errors.message), "min-h-28 resize-y")} />
             <p className="mt-1 text-right font-mono text-[0.7rem] text-fg-subtle" aria-live="off">
               {form.message.length} / 5000
             </p>
@@ -470,7 +509,7 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
           {isCareers && (
             <div className="grid gap-5 sm:grid-cols-2">
               <Field id="portfolioUrl" label="CV, portfolio or LinkedIn link" hint="Optional. A https:// link to a document or profile you control." error={errors.portfolioUrl}>
-                <input id="f-portfolioUrl" type="url" inputMode="url" placeholder="https://" value={form.portfolioUrl} onChange={(e) => set("portfolioUrl", e.target.value)} {...aria("portfolioUrl", errors, true)} className={inputCls(errors.portfolioUrl)} />
+                <input id="f-portfolioUrl" maxLength={300} type="url" inputMode="url" placeholder="https://" value={form.portfolioUrl} onChange={(e) => set("portfolioUrl", e.target.value)} {...aria("portfolioUrl", errors, true)} className={inputCls(errors.portfolioUrl)} />
               </Field>
               <Field id="referral" label="How did you hear about us?" required error={errors.referral}>
                 <select id="f-referral" value={form.referral} onChange={(e) => set("referral", e.target.value)} {...aria("referral", errors)} className={inputCls(errors.referral)}>

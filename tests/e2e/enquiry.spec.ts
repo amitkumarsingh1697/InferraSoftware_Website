@@ -197,8 +197,6 @@ test("after sending, the enquiry ID is shown and the form resets for a new enqui
     await send();
     await page.getByRole("banner").getByRole("link", { name: "Discuss a Project" }).click();
     await freshForm();
-    // Let the same-page navigation finish before typing again.
-    await page.waitForLoadState("networkidle");
 
     // Client-side navigation away and back also resets.
     await send();
@@ -208,4 +206,34 @@ test("after sending, the enquiry ID is shown and the form resets for a new enqui
     await expect(page).toHaveURL(/\/contact$/);
     await freshForm();
   }
+});
+
+test("fields are checked as the visitor leaves them, with clear messages", async ({ page }) => {
+  await page.goto("/contact");
+  const name = page.locator("#f-fullName");
+  const email = page.locator("#f-email");
+
+  // Tabbing through an empty field doesn't show an error.
+  await name.focus();
+  await page.keyboard.press("Tab");
+  await expect(page.locator("#f-fullName-error")).toHaveCount(0);
+
+  await name.fill("J0hn");
+  await email.focus();
+  await expect(page.locator("#f-fullName-error")).toContainText("letters only");
+  await expect(name).toHaveAttribute("aria-invalid", "true");
+  // Inline only: the summary appears after Continue, not on blur.
+  await expect(page.locator("form").getByRole("alert")).toHaveCount(0);
+
+  // The message clears as soon as the value is fixed.
+  await name.fill("John");
+  await expect(page.locator("#f-fullName-error")).toHaveCount(0);
+
+  await email.fill("john@gmail");
+  await page.locator("#f-company").focus();
+  await expect(page.locator("#f-email-error")).toContainText("valid email address");
+
+  await page.locator("#f-message").fill("1234567890123");
+  await email.focus();
+  await expect(page.locator("#f-message-error")).toContainText("using words");
 });

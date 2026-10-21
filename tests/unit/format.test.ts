@@ -19,7 +19,8 @@ describe("headerSafe", () => {
 
 describe("enquiry email formatting", () => {
   const enquiry = enquirySchema.parse({
-    fullName: "<b>Mallory</b>",
+    // Names can no longer contain markup (the schema rejects it), but other fields can.
+    fullName: "Mallory O'Neil",
     email: "m@example.com",
     company: "Evil\nCorp",
     region: "India",
@@ -34,8 +35,8 @@ describe("enquiry email formatting", () => {
   it("escapes user content in the HTML body", () => {
     const html = enquiryHtml(enquiry, "INF-TEST");
     expect(html).not.toContain("<img src=x");
-    expect(html).not.toContain("<b>Mallory</b>");
-    expect(html).toContain("&lt;b&gt;Mallory&lt;/b&gt;");
+    expect(html).toContain("&lt;img src=x");
+    expect(html).toContain("Mallory O&#39;Neil");
   });
 
   it("produces a single-line subject with the reference id", () => {
