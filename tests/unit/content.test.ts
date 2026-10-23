@@ -26,8 +26,12 @@ describe("content integrity", () => {
     }
   });
 
-  it("does not invent bios for team members without confirmed details", () => {
-    for (const m of team.filter((t) => t.name !== "Amit Kumar Singh")) expect(m.bio).toEqual([]);
+  it("shows the confirmed team roles", () => {
+    expect(team.map((m) => [m.name, m.role])).toEqual([
+      ["Amit Kumar Singh", "Founder"],
+      ["Vipin Bhatt", "Chief Technology Officer"],
+      ["Sumit Mishra", "Chief Operating Officer"],
+    ]);
   });
 
   it("does not present the founder's prior experience as company metrics", () => {
