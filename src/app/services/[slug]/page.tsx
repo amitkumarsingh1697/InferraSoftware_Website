@@ -81,7 +81,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             <ul className="mt-6 space-y-4">
               {service.challenges.map((c) => (
                 <li key={c} className="flex gap-3 leading-relaxed text-fg-muted">
-                  <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-cyan" />
+                  <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-highlight" />
                   {c}
                 </li>
               ))}
@@ -91,13 +91,13 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       </Container>
 
       {/* Capabilities */}
-      <section id="capabilities" aria-labelledby="cap-title" className="border-y border-line bg-ink-2/60 py-20 sm:py-24">
+      <section id="capabilities" aria-labelledby="cap-title" className="border-y border-line bg-canvas-2/60 py-20 sm:py-24">
         <Container>
           <SectionHeading id="cap-title" eyebrow="Capabilities & scope" title="What we can take on" />
           <ul className="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-panel)] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {service.capabilities.map((c, i) => (
-              <li key={c.title} className="bg-ink-2 p-7">
-                <span className="font-mono text-xs text-cyan">{String(i + 1).padStart(2, "0")}</span>
+              <li key={c.title} className="bg-canvas-2 p-7">
+                <span className="font-mono text-xs text-highlight">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="mt-3 font-display text-lg font-semibold">{c.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-fg-muted">{c.description}</p>
               </li>
@@ -128,7 +128,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           <ol className="space-y-5">
             {service.approaches.map((a) => (
               <li key={a.title} className="panel flex gap-5 p-6">
-                <Check aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-cyan" />
+                <Check aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-highlight" />
                 <div>
                   <h3 className="font-display text-lg font-semibold">{a.title}</h3>
                   <p className="mt-1.5 leading-relaxed text-fg-muted">{a.description}</p>
@@ -140,7 +140,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       </Container>
 
       {/* Use cases */}
-      <section aria-labelledby="use-title" className="border-y border-line bg-ink-2/60 py-20 sm:py-24">
+      <section aria-labelledby="use-title" className="border-y border-line bg-canvas-2/60 py-20 sm:py-24">
         <Container>
           <SectionHeading
             id="use-title"
@@ -187,9 +187,9 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </div>
 
         {service.candidNote && (
-          <aside aria-labelledby="candid-title" className="mt-16 rounded-[var(--radius-panel)] border border-cyan/30 bg-cyan/[0.04] p-7 sm:p-9">
+          <aside aria-labelledby="candid-title" className="mt-16 rounded-[var(--radius-panel)] border border-highlight/30 bg-highlight/[0.04] p-7 sm:p-9">
             <div className="flex items-start gap-4">
-              <Info aria-hidden className="mt-1 h-5 w-5 shrink-0 text-cyan" />
+              <Info aria-hidden className="mt-1 h-5 w-5 shrink-0 text-highlight" />
               <div>
                 <h2 id="candid-title" className="font-display text-xl font-semibold">
                   {service.candidNote.title}
@@ -215,10 +215,10 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             {related.map((r) => (
               <li key={r.slug}>
                 <Link href={`/services/${r.slug}`} className="group panel flex h-full flex-col p-6 transition-colors hover:border-line-strong">
-                  <Icon name={r.icon} className="h-5 w-5 text-violet-bright" />
-                  <span className="mt-4 flex items-start justify-between gap-3 font-display text-lg font-semibold group-hover:text-cyan">
+                  <Icon name={r.icon} className="h-5 w-5 text-accent-text" />
+                  <span className="mt-4 flex items-start justify-between gap-3 font-display text-lg font-semibold group-hover:text-highlight">
                     {r.shortTitle}
-                    <ArrowUpRight aria-hidden className="mt-1 h-4 w-4 shrink-0 text-fg-subtle group-hover:text-cyan" />
+                    <ArrowUpRight aria-hidden className="mt-1 h-4 w-4 shrink-0 text-fg-subtle group-hover:text-highlight" />
                   </span>
                   <span className="mt-2 text-sm leading-relaxed text-fg-muted">{r.summary}</span>
                 </Link>

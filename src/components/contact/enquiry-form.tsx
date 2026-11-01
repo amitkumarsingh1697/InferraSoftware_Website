@@ -286,13 +286,13 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
         <h2 className="mt-5 font-display text-2xl font-semibold">Thank you. Your enquiry has been sent.</h2>
         <p className="mx-auto mt-3 max-w-md leading-relaxed text-fg-muted">
           We read every message personally and will reply to <strong className="text-fg">{form.email}</strong>. If it is urgent, call us on{" "}
-          <a href={`tel:${phone.e164}`} className="text-cyan underline underline-offset-2">
+          <a href={`tel:${phone.e164}`} className="text-highlight underline underline-offset-2">
             {phone.display}
           </a>
           .
         </p>
         {status.id && status.id !== "received" && (
-          <div className="mx-auto mt-7 max-w-sm rounded-xl border border-cyan/40 bg-surface-2 px-5 py-4">
+          <div className="mx-auto mt-7 max-w-sm rounded-xl border border-highlight/40 bg-surface-2 px-5 py-4">
             <p className="text-xs font-medium uppercase tracking-[0.14em] text-fg-subtle">Your enquiry ID</p>
             <div className="mt-2 flex items-center justify-center gap-3">
               <p className="font-mono text-xl font-semibold tracking-wide text-fg" data-testid="enquiry-id">
@@ -339,7 +339,7 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
     <form onSubmit={submit} onBlur={onFieldBlur} noValidate className="panel p-6 sm:p-9" aria-describedby="form-intro">
       <div className="flex items-center justify-between gap-4">
         <p id="form-intro" className="text-sm text-fg-muted">
-          Fields marked <span aria-hidden className="text-cyan">*</span>
+          Fields marked <span aria-hidden className="text-highlight">*</span>
           <span className="sr-only">with an asterisk</span> are required.
         </p>
         <p className="font-mono text-xs text-fg-subtle" aria-live="polite">
@@ -347,8 +347,8 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
         </p>
       </div>
       <div className="mt-3 flex gap-1.5" aria-hidden>
-        <span className="h-1 flex-1 rounded-full bg-gradient-to-r from-accent to-cyan" />
-        <span className={cn("h-1 flex-1 rounded-full", step === 2 ? "bg-gradient-to-r from-accent to-cyan" : "bg-line-strong")} />
+        <span className="h-1 flex-1 rounded-full bg-gradient-to-r from-accent to-highlight" />
+        <span className={cn("h-1 flex-1 rounded-full", step === 2 ? "bg-gradient-to-r from-accent to-highlight" : "bg-line-strong")} />
       </div>
 
       {summaryShown && errorList.length > 0 && (
@@ -379,15 +379,15 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
 
           <div>
             <p id="f-enquiryType-label" className="text-sm font-medium text-fg">
-              What would you like to discuss? <span className="text-cyan">*</span>
+              What would you like to discuss? <span className="text-highlight">*</span>
             </p>
             <div role="radiogroup" aria-labelledby="f-enquiryType-label" id="f-enquiryType" className="mt-3 grid gap-2 sm:grid-cols-3">
               {enquiryTypes.map((o) => (
                 <label
                   key={o.value}
                   className={cn(
-                    "flex cursor-pointer items-start gap-2.5 rounded-xl border p-3.5 text-sm transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-cyan",
-                    form.enquiryType === o.value ? "border-cyan/60 bg-surface-2 text-fg" : "border-line text-fg-muted hover:border-line-strong",
+                    "flex cursor-pointer items-start gap-2.5 rounded-xl border p-3.5 text-sm transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-highlight",
+                    form.enquiryType === o.value ? "border-highlight/60 bg-surface-2 text-fg" : "border-line text-fg-muted hover:border-line-strong",
                   )}
                 >
                   <input
@@ -534,7 +534,7 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
                 className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-fg-muted hover:text-fg"
               >
                 Add budget and timeline (optional)
-                <span aria-hidden className="font-mono text-cyan">{showMore ? "−" : "+"}</span>
+                <span aria-hidden className="font-mono text-highlight">{showMore ? "−" : "+"}</span>
               </button>
               <div id="optional-details" hidden={!showMore} className="grid gap-5 border-t border-line p-4 sm:grid-cols-2">
                 <Field id="budget" label="Estimated budget range" hint="Optional">
@@ -571,10 +571,10 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
               />
               <span>
                 I have read the{" "}
-                <Link href="/privacy" className="text-cyan underline underline-offset-2" target="_blank">
+                <Link href="/privacy" className="text-highlight underline underline-offset-2" target="_blank">
                   privacy policy
                 </Link>{" "}
-                and agree that Inferra Software may use these details to respond to my enquiry. <span className="text-cyan">*</span>
+                and agree that Inferra Software may use these details to respond to my enquiry. <span className="text-highlight">*</span>
               </span>
             </label>
             {errors.consent && (
@@ -663,8 +663,8 @@ function aria(key: string, errors: Record<string, string>, hasHint = false) {
 
 function inputCls(error?: string) {
   return cn(
-    "mt-1.5 block w-full rounded-xl border bg-ink/70 px-3.5 py-2.5 text-[0.95rem] text-fg placeholder:text-fg-subtle transition-colors focus:border-cyan focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-cyan",
-    error ? "border-danger" : "border-line-strong hover:border-violet-bright/50",
+    "mt-1.5 block w-full rounded-xl border bg-canvas/70 px-3.5 py-2.5 text-[0.95rem] text-fg placeholder:text-fg-subtle transition-colors focus:border-highlight focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-highlight",
+    error ? "border-danger" : "border-line-strong hover:border-accent-text/50",
   );
 }
 
@@ -672,7 +672,7 @@ function Field({ id, label, required, hint, error, children }: { id: string; lab
   return (
     <div>
       <label htmlFor={`f-${id}`} className="text-sm font-medium text-fg">
-        {label} {required && <span className="text-cyan">*</span>}
+        {label} {required && <span className="text-highlight">*</span>}
         {required && <span className="sr-only">(required)</span>}
       </label>
       {children}

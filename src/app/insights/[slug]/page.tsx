@@ -68,7 +68,7 @@ export default async function ArticlePage({ params }: PageProps<"/insights/[slug
         <div aria-hidden className="absolute inset-0 -z-10 opacity-50">
           <CoverArt seed={slug} hue={article.hue} />
         </div>
-        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/60 via-ink/85 to-ink" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-canvas/60 via-canvas/85 to-canvas" />
         <Container className="pb-14">
           <Breadcrumbs
             items={[
@@ -77,8 +77,8 @@ export default async function ArticlePage({ params }: PageProps<"/insights/[slug
             ]}
           />
           <div className="mt-8 flex flex-wrap items-center gap-3 font-mono text-xs">
-            <span className="rounded-full border border-line-strong bg-ink/70 px-2.5 py-1 uppercase tracking-[0.14em] text-fg-muted">{article.kind}</span>
-            <span className="text-cyan">{article.topic}</span>
+            <span className="rounded-full border border-line-strong bg-canvas/70 px-2.5 py-1 uppercase tracking-[0.14em] text-fg-muted">{article.kind}</span>
+            <span className="text-highlight">{article.topic}</span>
           </div>
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-5xl">{article.title}</h1>
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-fg-muted sm:text-xl">{article.description}</p>
@@ -98,7 +98,7 @@ export default async function ArticlePage({ params }: PageProps<"/insights/[slug
       <Container className="py-14 sm:py-16">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-16">
           <div className="min-w-0">
-            <p className="mb-8 rounded-xl border border-line bg-ink-2/60 p-4 text-sm leading-relaxed text-fg-subtle">
+            <p className="mb-8 rounded-xl border border-line bg-canvas-2/60 p-4 text-sm leading-relaxed text-fg-subtle">
               Educational guide. It describes general engineering practice, not a specific client engagement, and is not a
               substitute for advice on your particular systems.
             </p>
@@ -112,7 +112,7 @@ export default async function ArticlePage({ params }: PageProps<"/insights/[slug
                 </li>
               ))}
             </ul>
-            <Link href="/insights" className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-violet-bright hover:text-fg">
+            <Link href="/insights" className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-accent-text hover:text-fg">
               <ArrowLeft aria-hidden className="h-4 w-4" /> All insights
             </Link>
           </div>

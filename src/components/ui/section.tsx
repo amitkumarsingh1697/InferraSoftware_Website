@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
 export function Container({ className, children }: { className?: string; children: React.ReactNode }) {
@@ -6,8 +7,8 @@ export function Container({ className, children }: { className?: string; childre
 
 export function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={cn("inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.22em] text-cyan", className)}>
-      <span aria-hidden className="h-px w-6 bg-gradient-to-r from-transparent to-cyan" />
+    <p className={cn("inline-flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-highlight", className)}>
+      <span aria-hidden className="h-px w-8 bg-gradient-to-r from-transparent to-highlight" />
       {children}
     </p>
   );
@@ -31,13 +32,13 @@ export function SectionHeading({
   id?: string;
 }) {
   return (
-    <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
+    <Reveal className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
       {eyebrow && <Eyebrow className={align === "center" ? "justify-center" : undefined}>{eyebrow}</Eyebrow>}
-      <Tag id={id} className="mt-4 text-3xl font-semibold leading-tight text-fg sm:text-4xl lg:text-[2.75rem]">
+      <Tag id={id} className="mt-5 text-[2.1rem] font-medium leading-[1.08] text-fg sm:text-5xl lg:text-[3.4rem]">
         {title}
       </Tag>
       {intro && <div className="mt-5 text-lg leading-relaxed text-fg-muted">{intro}</div>}
-    </div>
+    </Reveal>
   );
 }
 
@@ -53,7 +54,7 @@ export function Section({
   labelledBy?: string;
 }) {
   return (
-    <section id={id} aria-labelledby={labelledBy} className={cn("relative py-20 sm:py-28", className)}>
+    <section id={id} aria-labelledby={labelledBy} className={cn("relative py-section", className)}>
       {children}
     </section>
   );

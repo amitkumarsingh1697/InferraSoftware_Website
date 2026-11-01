@@ -11,15 +11,15 @@ export function LogoMark({ className, title, mono = false }: { className?: strin
       {!mono && (
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="#A78BFA" />
-            <stop offset="1" stopColor="#7C3AED" />
+            <stop offset="0" stopColor="#A87B4F" />
+            <stop offset="1" stopColor="#5C3B26" />
           </linearGradient>
         </defs>
       )}
       <path fill={mono ? "currentColor" : `url(#${gradientId})`} d="M17 5h5L10 24l12 19h-5L5 24z" />
       <path fill={mono ? "currentColor" : `url(#${gradientId})`} d="M31 5h-5l12 19-12 19h5l12-19z" />
-      <path fill={mono ? "currentColor" : "#F5F3FF"} d="M21.5 20.5h5V38l-2.5 3-2.5-3z" />
-      <circle fill={mono ? "currentColor" : "#67E8F9"} cx="24" cy="12.5" r="3.6" />
+      <path fill={mono ? "currentColor" : "#2A1C13"} d="M21.5 20.5h5V38l-2.5 3-2.5-3z" />
+      <circle fill={mono ? "currentColor" : "#8F4427"} cx="24" cy="12.5" r="3.6" />
     </svg>
   );
 }

@@ -61,12 +61,12 @@ export function CapabilitiesExplorer({ pillars }: { pillars: ExplorerPillar[] })
       className={cn(
         "group rounded-xl border px-3.5 py-2.5 text-left transition-[border-color,background-color,box-shadow] duration-200",
         active === i
-          ? "border-cyan/60 bg-surface-2 shadow-[0_0_0_1px_rgb(103_232_249/0.25),0_0_28px_-6px_rgb(103_232_249/0.45)]"
-          : "border-line bg-ink-2/90 hover:border-line-strong",
+          ? "border-highlight/60 bg-surface-2 shadow-[0_0_0_1px_rgb(143_68_39/0.18),0_18px_40px_-20px_rgb(92_59_38/0.45)]"
+          : "border-line bg-canvas-2/90 hover:border-line-strong",
         extra,
       )}
     >
-      <span className="block font-mono text-[0.62rem] tracking-[0.2em] text-cyan">{p.code}</span>
+      <span className="block font-mono text-[0.62rem] tracking-[0.2em] text-highlight">{p.code}</span>
       <span className="block font-display text-sm font-semibold text-fg sm:text-base">{p.label}</span>
     </button>
   );
@@ -84,18 +84,18 @@ export function CapabilitiesExplorer({ pillars }: { pillars: ExplorerPillar[] })
             <defs>
               <radialGradient id="cx-core" cx="0.5" cy="0.5" r="0.5">
                 <stop offset="0" stopColor="#fff" />
-                <stop offset="0.35" stopColor="#67E8F9" stopOpacity="0.8" />
-                <stop offset="1" stopColor="#8B5CF6" stopOpacity="0" />
+                <stop offset="0.35" stopColor="#E6C79C" stopOpacity="0.8" />
+                <stop offset="1" stopColor="#A9774A" stopOpacity="0" />
               </radialGradient>
             </defs>
-            <circle cx="200" cy="200" r="150" fill="none" stroke="#A78BFA" strokeOpacity="0.12" />
-            <circle cx="200" cy="200" r="104" fill="none" stroke="#A78BFA" strokeOpacity="0.1" strokeDasharray="2 8" />
-            <polygon points={POSITIONS.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke="#A78BFA" strokeOpacity="0.14" />
+            <circle cx="200" cy="200" r="150" fill="none" stroke="#C9A27A" strokeOpacity="0.12" />
+            <circle cx="200" cy="200" r="104" fill="none" stroke="#C9A27A" strokeOpacity="0.1" strokeDasharray="2 8" />
+            <polygon points={POSITIONS.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke="#C9A27A" strokeOpacity="0.14" />
             {POSITIONS.map((p, i) => (
               <path
                 key={i}
                 d={`M200 200 L${p.x} ${p.y}`}
-                stroke={i === active ? "#67E8F9" : "#A78BFA"}
+                stroke={i === active ? "#E6C79C" : "#C9A27A"}
                 strokeOpacity={i === active ? 0.9 : 0.18}
                 strokeWidth={i === active ? 2 : 1}
                 strokeDasharray={i === active ? "5 7" : undefined}
@@ -105,7 +105,7 @@ export function CapabilitiesExplorer({ pillars }: { pillars: ExplorerPillar[] })
             ))}
             <circle cx="200" cy="200" r="56" fill="url(#cx-core)" opacity="0.55" />
             <circle cx="200" cy="200" r="8" fill="#fff" />
-            <ellipse cx="200" cy="200" rx="40" ry="12" fill="none" stroke="#C4B5FD" strokeOpacity="0.6" transform="rotate(-18 200 200)" />
+            <ellipse cx="200" cy="200" rx="40" ry="12" fill="none" stroke="#E9D8BE" strokeOpacity="0.6" transform="rotate(-18 200 200)" />
           </svg>
           <div role="tablist" aria-label="Capability areas" aria-orientation="horizontal">
             {pillars.map((p, i) => (
@@ -129,7 +129,7 @@ export function CapabilitiesExplorer({ pillars }: { pillars: ExplorerPillar[] })
         className="panel brackets p-6 sm:p-8"
       >
         <div key={current.id} className="animate-[fadein_400ms_ease-out]">
-          <p className="font-mono text-xs tracking-[0.2em] text-cyan">
+          <p className="font-mono text-xs tracking-[0.2em] text-highlight">
             {current.code} · {current.label.toUpperCase()}
           </p>
           <h3 className="mt-3 text-2xl font-semibold leading-snug text-fg sm:text-3xl">{current.tagline}</h3>
@@ -139,10 +139,10 @@ export function CapabilitiesExplorer({ pillars }: { pillars: ExplorerPillar[] })
               <li key={s.href}>
                 <Link href={s.href} className="group flex items-start justify-between gap-4 py-4">
                   <span>
-                    <span className="block font-medium text-fg group-hover:text-cyan">{s.title}</span>
+                    <span className="block font-medium text-fg group-hover:text-highlight">{s.title}</span>
                     <span className="mt-1 block text-sm leading-relaxed text-fg-muted">{s.summary}</span>
                   </span>
-                  <ArrowUpRight aria-hidden className="mt-1 h-4 w-4 shrink-0 text-fg-subtle transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan" />
+                  <ArrowUpRight aria-hidden className="mt-1 h-4 w-4 shrink-0 text-fg-subtle transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-highlight" />
                 </Link>
               </li>
             ))}

@@ -18,7 +18,7 @@ export function TeamCard({ member, compact = false }: { member: TeamMember; comp
       </div>
       <div className="flex flex-1 flex-col p-5">
         <h3 className="font-display text-lg font-semibold">{member.name}</h3>
-        <p className="mt-0.5 font-mono text-xs uppercase tracking-[0.16em] text-cyan">{member.role}</p>
+        <p className="mt-0.5 font-mono text-xs uppercase tracking-[0.16em] text-highlight">{member.role}</p>
         {!compact && member.bio.length > 0 && (
           <div className="mt-4 space-y-3 text-sm leading-relaxed text-fg-muted">
             {member.bio.map((p, i) => (
@@ -39,7 +39,7 @@ export function TeamCard({ member, compact = false }: { member: TeamMember; comp
           <ul className="mt-4 flex gap-3 text-sm">
             {links.map((l) => (
               <li key={l.href}>
-                <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-violet-bright hover:text-fg">
+                <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-accent-text hover:text-fg">
                   {l.label}
                 </a>
               </li>

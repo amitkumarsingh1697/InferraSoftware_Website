@@ -36,7 +36,7 @@ const principles = [
 
 export function Credibility() {
   return (
-    <section aria-labelledby="cred-title" className="relative border-y border-line bg-ink-2/60 py-20 sm:py-24">
+    <section aria-labelledby="cred-title" data-scene="credibility" className="relative border-y border-line bg-canvas-2/45 py-section">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <div className="reveal">
@@ -47,7 +47,7 @@ export function Credibility() {
             <ul className="mt-10 space-y-6">
               {principles.map((p, i) => (
                 <li key={p.title} className="flex gap-4">
-                  <span aria-hidden className="mt-1 font-mono text-xs text-cyan">
+                  <span aria-hidden className="mt-1 font-mono text-xs text-highlight">
                     0{i + 1}
                   </span>
                   <div>
@@ -61,7 +61,7 @@ export function Credibility() {
           <div className="reveal">
             <dl className="grid gap-px overflow-hidden rounded-[var(--radius-panel)] border border-line bg-line sm:grid-cols-3 lg:grid-cols-1">
               {facts.map((f) => (
-                <div key={f.label} className="bg-ink-2 p-6 lg:flex lg:items-center lg:gap-8 lg:p-7">
+                <div key={f.label} className="bg-canvas-2 p-6 lg:flex lg:items-center lg:gap-8 lg:p-7">
                   <dt className="lg:w-48 lg:shrink-0">
                     <span className="font-display text-4xl font-semibold text-gradient">{f.value}</span>
                     <span className="mt-1 block font-mono text-xs uppercase tracking-[0.18em] text-fg-subtle">{f.label}</span>

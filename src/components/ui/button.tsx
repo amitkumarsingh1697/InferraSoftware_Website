@@ -5,12 +5,12 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "secondary" | "ghost";
 
 const base =
-  "group inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-[background-color,border-color,box-shadow,color] duration-200 focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-60";
+  "group inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-[background-color,border-color,box-shadow,color,transform] duration-[var(--duration-hover)] ease-editorial focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-accent-strong text-white shadow-[0_0_0_1px_rgb(167_139_250/0.4),0_8px_30px_-8px_rgb(124_58_237/0.8)] hover:bg-accent-deep hover:shadow-[0_0_0_1px_rgb(103_232_249/0.5),0_8px_36px_-6px_rgb(124_58_237/0.9)]",
-  secondary: "border border-line-strong bg-white/[0.03] text-fg hover:border-violet-bright hover:bg-white/[0.07]",
+    "bg-accent-strong text-white shadow-[0_10px_30px_-12px_rgb(67_42_26/0.7)] hover:bg-accent-deep hover:shadow-[0_14px_36px_-12px_rgb(67_42_26/0.8)] hover:-translate-y-px",
+  secondary: "border border-line-strong bg-surface/60 text-fg backdrop-blur-sm hover:border-accent-text hover:bg-surface",
   ghost: "text-fg-muted hover:text-fg",
 };
 

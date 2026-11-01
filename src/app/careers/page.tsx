@@ -49,7 +49,7 @@ export default function CareersPage() {
         </ul>
       </Container>
 
-      <section aria-labelledby="roles-title" className="border-y border-line bg-ink-2/60 py-20 sm:py-24">
+      <section aria-labelledby="roles-title" className="border-y border-line bg-canvas-2/60 py-20 sm:py-24">
         <Container>
           <SectionHeading id="roles-title" eyebrow="Open positions" title={roles.length ? "Current openings" : "No open roles right now"} />
           {roles.length > 0 ? (
@@ -89,7 +89,7 @@ export default function CareersPage() {
           ) : (
             <div className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
               <div className="panel brackets p-7 sm:p-9">
-                <Briefcase aria-hidden className="h-6 w-6 text-cyan" />
+                <Briefcase aria-hidden className="h-6 w-6 text-highlight" />
                 <h3 className="mt-4 font-display text-2xl font-semibold">Join our talent network</h3>
                 <p className="mt-3 leading-relaxed text-fg-muted">
                   We have no advertised vacancies at the moment, but we regularly need experienced engineers for client
@@ -101,12 +101,12 @@ export default function CareersPage() {
                 </ButtonLink>
               </div>
               <div className="panel p-7">
-                <ShieldCheck aria-hidden className="h-6 w-6 text-violet-bright" />
+                <ShieldCheck aria-hidden className="h-6 w-6 text-accent-text" />
                 <h3 className="mt-4 font-display text-lg font-semibold">Your information</h3>
                 <p className="mt-2 text-sm leading-relaxed text-fg-muted">
                   We ask for links rather than file uploads, so your documents stay where you control them. We use what you
                   send only to consider you for opportunities and delete it on request. See our{" "}
-                  <Link href="/privacy" className="text-cyan underline underline-offset-2">
+                  <Link href="/privacy" className="text-highlight underline underline-offset-2">
                     privacy policy
                   </Link>
                   .
@@ -134,7 +134,7 @@ export default function CareersPage() {
             </ul>
           </div>
           <div className="panel p-7 sm:p-9">
-            <Handshake aria-hidden className="h-6 w-6 text-cyan" />
+            <Handshake aria-hidden className="h-6 w-6 text-highlight" />
             <h3 className="mt-4 font-display text-xl font-semibold">Start a partnership conversation</h3>
             <p className="mt-2 text-sm leading-relaxed text-fg-muted">Tell us about your clients, the skills you need and how you prefer to work.</p>
             <ButtonLink href="/contact?type=partnership" className="mt-6" arrow track="partnership_enquiry">

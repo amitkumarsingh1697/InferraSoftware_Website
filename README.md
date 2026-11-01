@@ -40,6 +40,7 @@ Every page is statically prerendered; the only server code is the enquiry API.
 | --- | --- |
 | Framework | Next.js 16 (App Router, Turbopack, Cache Components, partial prefetching) |
 | UI | React 19, TypeScript 5, Tailwind CSS v4, lucide-react icons |
+| 3D and motion | Three.js with React Three Fiber, Motion, Lenis smooth scrolling |
 | Content | MDX (`@next/mdx`, remark-gfm, rehype-slug), typed TypeScript content files |
 | Validation | zod (shared by form and API) |
 | Email | Resend REST API (no SDK), optional webhook |
@@ -101,7 +102,8 @@ Open Graph images (`/opengraph-image` and per service, work and article page),
 ```
 src/
   app/                 Routes, metadata files, API route
-  components/          UI, layout, artwork, page sections, form
+  components/          UI, layout, artwork, page sections, form, scene (3D), motion
+  design/              tokens.css (colours, type, spacing, motion) and motion helpers
   config/              site.ts (contact, links, SEO), messaging.ts (slogan and copy), navigation.ts
   content/             Typed content: services, industries, work, team, careers, technology, insights (MDX), legal (MDX)
   lib/                 SEO, security headers, structured data, analytics, enquiry validation and delivery
@@ -111,6 +113,13 @@ tests/unit/            Vitest
 tests/e2e/             Playwright
 docs/                  Brand, content, deployment, testing and launch documents
 ```
+
+## Design system and 3D
+
+Colours, fonts, spacing and motion timing live in `src/design/tokens.css`, and
+the scroll choreography of the 3D sculpture in `src/components/scene/poses.ts`.
+See **[docs/DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md)** for how it works and which
+placeholders still need final assets.
 
 ## Editing content
 

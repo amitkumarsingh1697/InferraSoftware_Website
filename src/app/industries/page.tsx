@@ -34,12 +34,12 @@ export default function IndustriesPage() {
             <li key={ind.slug} className={i === 0 ? "md:col-span-2" : undefined}>
               <Link href={`/industries/${ind.slug}`} className="group panel reveal flex h-full flex-col p-7 transition-colors hover:border-line-strong sm:p-9">
                 <div className="flex items-start justify-between gap-4">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-line-strong bg-ink/60">
-                    <Icon name={ind.icon} className="h-5 w-5 text-violet-bright" />
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-line-strong bg-canvas/60">
+                    <Icon name={ind.icon} className="h-5 w-5 text-accent-text" />
                   </span>
-                  <ArrowUpRight aria-hidden className="h-5 w-5 text-fg-subtle group-hover:text-cyan" />
+                  <ArrowUpRight aria-hidden className="h-5 w-5 text-fg-subtle group-hover:text-highlight" />
                 </div>
-                <h2 className="mt-6 font-display text-2xl font-semibold group-hover:text-cyan">{ind.name}</h2>
+                <h2 className="mt-6 font-display text-2xl font-semibold group-hover:text-highlight">{ind.name}</h2>
                 <p className="mt-3 flex-1 leading-relaxed text-fg-muted">{ind.summary}</p>
                 <p className="mt-6 text-xs text-fg-subtle">
                   Relevant services:{" "}

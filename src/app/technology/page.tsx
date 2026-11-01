@@ -27,10 +27,10 @@ function StackDiagram() {
         {rows.map((r, i) => (
           <li
             key={r.label}
-            className="flex items-center gap-4 rounded-lg border border-line bg-ink/50 px-4 py-3"
+            className="flex items-center gap-4 rounded-lg border border-line bg-canvas/50 px-4 py-3"
             style={{ marginLeft: `${i * 6}px`, marginRight: `${(rows.length - 1 - i) * 6}px` }}
           >
-            <span className="w-24 shrink-0 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-cyan">{r.label}</span>
+            <span className="w-24 shrink-0 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-highlight">{r.label}</span>
             <span className="text-sm text-fg-muted">{r.items}</span>
           </li>
         ))}
@@ -60,7 +60,7 @@ export default function TechnologyPage() {
       <Container className="py-20 sm:py-24">
         <p className="mb-10 flex flex-wrap items-center gap-5 text-sm text-fg-subtle">
           <span className="inline-flex items-center gap-2">
-            <span aria-hidden className="h-3 w-3 rounded-sm border border-violet-bright/40 bg-accent/25" /> Established strength
+            <span aria-hidden className="h-3 w-3 rounded-sm border border-accent-text/40 bg-accent/25" /> Established strength
           </span>
           <span className="inline-flex items-center gap-2">
             <span aria-hidden className="h-3 w-3 rounded-sm border border-line" /> Project-dependent
@@ -71,8 +71,8 @@ export default function TechnologyPage() {
             <section key={g.id} aria-labelledby={`tg-${g.id}`} className="panel reveal grid gap-6 p-7 sm:p-8 lg:grid-cols-[1fr_1.4fr_1fr] lg:gap-10">
               <div>
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-line-strong bg-ink/60">
-                    <Icon name={g.icon} className="h-5 w-5 text-violet-bright" />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-line-strong bg-canvas/60">
+                    <Icon name={g.icon} className="h-5 w-5 text-accent-text" />
                   </span>
                   <h2 id={`tg-${g.id}`} className="font-display text-xl font-semibold">
                     {g.title}
@@ -86,7 +86,7 @@ export default function TechnologyPage() {
                     key={t.name}
                     className={
                       t.depth === "core"
-                        ? "rounded-md border border-violet-bright/40 bg-accent/10 px-3 py-1.5 text-sm text-fg"
+                        ? "rounded-md border border-accent-text/40 bg-accent/10 px-3 py-1.5 text-sm text-fg"
                         : "rounded-md border border-line px-3 py-1.5 text-sm text-fg-subtle"
                     }
                   >
@@ -100,7 +100,7 @@ export default function TechnologyPage() {
                 <ul className="mt-3 space-y-2">
                   {g.practices.map((p) => (
                     <li key={p} className="flex gap-2.5 text-sm text-fg-muted">
-                      <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-cyan" />
+                      <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-highlight" />
                       {p}
                     </li>
                   ))}
@@ -111,7 +111,7 @@ export default function TechnologyPage() {
         </div>
       </Container>
 
-      <section aria-labelledby="choose-title" className="border-y border-line bg-ink-2/60 py-20 sm:py-24">
+      <section aria-labelledby="choose-title" className="border-y border-line bg-canvas-2/60 py-20 sm:py-24">
         <Container>
           <SectionHeading
             id="choose-title"
@@ -122,7 +122,7 @@ export default function TechnologyPage() {
           <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {selectionPrinciples.map((p, i) => (
               <li key={p.title} className="panel p-6">
-                <span className="font-mono text-xs text-cyan">0{i + 1}</span>
+                <span className="font-mono text-xs text-highlight">0{i + 1}</span>
                 <h3 className="mt-3 font-display text-lg font-semibold">{p.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-fg-muted">{p.description}</p>
               </li>

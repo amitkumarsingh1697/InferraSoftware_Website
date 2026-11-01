@@ -10,7 +10,7 @@ export default function NotFound() {
       <Container>
         <div className="grid items-center gap-10 md:grid-cols-[1.2fr_1fr]">
           <div>
-            <p className="font-mono text-sm tracking-[0.2em] text-cyan">ERROR 404 · SIGNAL LOST</p>
+            <p className="font-mono text-sm tracking-[0.2em] text-highlight">ERROR 404 · SIGNAL LOST</p>
             <h1 className="mt-5 text-4xl font-semibold leading-tight sm:text-6xl">This page isn&apos;t part of the system.</h1>
             <p className="mt-5 max-w-lg text-lg leading-relaxed text-fg-muted">
               The address may be mistyped, or the page may have moved. Here are some reliable routes back.
@@ -31,7 +31,7 @@ export default function NotFound() {
                 ["Contact", "/contact"],
               ].map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href} className="text-violet-bright hover:text-fg">
+                  <Link href={href} className="text-accent-text hover:text-fg">
                     {label}
                   </Link>
                 </li>

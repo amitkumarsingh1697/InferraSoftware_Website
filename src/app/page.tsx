@@ -31,7 +31,7 @@ export default function HomePage() {
     <>
       <Hero />
       <Credibility />
-      <section aria-labelledby="explorer-title" className="relative py-20 sm:py-28">
+      <section aria-labelledby="explorer-title" data-scene="capabilities" className="relative py-section">
         <Container>
           <SectionHeading
             id="explorer-title"

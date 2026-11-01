@@ -1,0 +1,114 @@
+/*
+ * Inferra design system: the one place to tune the look and feel.
+ *
+ * Colours, typography, spacing, radii and motion timing all live here.
+ * Tailwind utilities (bg-canvas, text-fg, ease-editorial ...) are generated
+ * from these values, and the 3D scene reads the --scene-* colours at runtime,
+ * so a change here restyles the whole site, including the WebGL layer.
+ *
+ * Contrast: every text colour below passes WCAG 2.2 AA (4.5:1) on canvas,
+ * canvas-2 and surface. accent is decorative only (large type, rules, art).
+ */
+@theme {
+  /* Warm neutrals: the core palette */
+  --color-canvas: #f5eee3; /* page background, cream */
+  --color-canvas-2: #ede3d3; /* alternate band, beige */
+  --color-surface: #fbf7f1; /* cards and panels */
+  --color-surface-2: #f2e8da; /* hover / raised */
+  --color-surface-3: #e6d7c2; /* pressed / deepest light tone */
+
+  /* Coffee: dark editorial bands (final call to action, footer, media slots) */
+  --color-espresso: #241812;
+  --color-espresso-2: #2f2018;
+  --color-on-espresso: #f5eee3; /* 15:1 on espresso */
+  --color-on-espresso-muted: #cdbba5; /* 9.2:1 on espresso */
+  --color-gold: #d9b98c; /* accent on espresso, 9.2:1 */
+
+  /* Restrained accents */
+  --color-accent: #a87b4f; /* caramel: decorative, large type, rules */
+  --color-accent-strong: #5c3b26; /* coffee: button fill, 10:1 with white */
+  --color-accent-deep: #432a1a; /* button hover */
+  --color-accent-text: #7e5129; /* bronze text, 5.9:1 */
+  --color-highlight: #8f4427; /* terracotta: eyebrows, links, icons, 6.1:1 */
+  --color-highlight-deep: #6e331d;
+
+  /* Text */
+  --color-fg: #2a1c13; /* espresso ink, 14:1 */
+  --color-fg-muted: #5a4636; /* 7.7:1 */
+  --color-fg-subtle: #6e5949; /* 5.8:1 */
+
+  --color-line: rgb(92 59 38 / 0.14);
+  --color-line-strong: rgb(92 59 38 / 0.28);
+
+  --color-success: #3f7d4e;
+  --color-warning: #94600f;
+  --color-danger: #b03e2c;
+
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Shape and spacing */
+  --radius-panel: 1.5rem;
+  --spacing-section: clamp(5rem, 11vw, 9rem); /* vertical rhythm between sections: py-section */
+
+  /* Motion timing: CSS transitions and the JS motion layer share these */
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.45, 0, 0.2, 1);
+  --duration-reveal: 900ms;
+  --duration-hover: 260ms;
+  --reveal-distance: 36px;
+  --reveal-stagger: 90ms;
+
+  --animate-drift: drift 18s ease-in-out infinite;
+  --animate-twinkle: twinkle 5s ease-in-out infinite;
+  --animate-core-pulse: core-pulse 6s ease-in-out infinite;
+  --animate-stream: stream 9s linear infinite;
+
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -10px, 0);
+    }
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.25;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+  @keyframes core-pulse {
+    0%,
+    100% {
+      opacity: 0.75;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+  }
+  @keyframes stream {
+    to {
+      stroke-dashoffset: -400;
+    }
+  }
+}
+
+/* 3D scene palette and tuning, read by src/components/scene at runtime. */
+:root {
+  --scene-ceramic: #efe4d4; /* main sculpture */
+  --scene-bronze: #9a6b40; /* metal rings */
+  --scene-coffee: #4a2f1f; /* dark forms */
+  --scene-gold: #c9a06a; /* dust particles */
+  --scene-light-key: #fff1dc;
+  --scene-light-fill: #e8c9a4;
+  --scene-fog: #f5eee3; /* match --color-canvas so depth fades into the page */
+}

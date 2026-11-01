@@ -35,15 +35,15 @@ export default function ContactPage() {
           <aside className="space-y-5" aria-label="Contact details">
             <a
               href={`tel:${contact.phoneE164}`}
-              className="group panel brackets block p-6 transition-colors hover:border-cyan/50"
+              className="group panel brackets block p-6 transition-colors hover:border-highlight/50"
               data-track="call_click"
               data-track-label="contact_page"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-cyan/50 bg-cyan/10">
-                <Phone aria-hidden className="h-5 w-5 text-cyan" />
+              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-highlight/50 bg-highlight/10">
+                <Phone aria-hidden className="h-5 w-5 text-highlight" />
               </span>
               <span className="mt-4 block font-mono text-xs uppercase tracking-[0.18em] text-fg-subtle">Call us</span>
-              <span className="mt-1 block font-display text-2xl font-semibold text-fg group-hover:text-cyan">{contact.phoneDisplay}</span>
+              <span className="mt-1 block font-display text-2xl font-semibold text-fg group-hover:text-highlight">{contact.phoneDisplay}</span>
               <span className="mt-2 block text-sm text-fg-muted">Talk to the team directly about your project.</span>
               {contact.availability && (
                 <span className="mt-3 flex items-center gap-2 text-xs text-fg-subtle">
@@ -54,7 +54,7 @@ export default function ContactPage() {
 
             {contact.email ? (
               <a href={`mailto:${contact.email}`} className="panel flex items-center gap-4 p-5 hover:border-line-strong">
-                <Mail aria-hidden className="h-5 w-5 text-violet-bright" />
+                <Mail aria-hidden className="h-5 w-5 text-accent-text" />
                 <span>
                   <span className="block text-xs text-fg-subtle">Email</span>
                   <span className="text-fg">{contact.email}</span>
@@ -66,7 +66,7 @@ export default function ContactPage() {
 
             {contact.address && (
               <div className="panel flex items-start gap-4 p-5">
-                <MapPin aria-hidden className="mt-0.5 h-5 w-5 text-violet-bright" />
+                <MapPin aria-hidden className="mt-0.5 h-5 w-5 text-accent-text" />
                 <span>
                   <span className="block text-xs text-fg-subtle">Address</span>
                   <address className="not-italic text-fg">{contact.address}</address>
@@ -83,7 +83,7 @@ export default function ContactPage() {
                 data-track="booking_click"
                 data-track-label="contact_page"
               >
-                <CalendarDays aria-hidden className="h-5 w-5 text-violet-bright" />
+                <CalendarDays aria-hidden className="h-5 w-5 text-accent-text" />
                 <span>
                   <span className="block text-fg">{messaging.ctas.book}</span>
                   <span className="block text-xs text-fg-subtle">Choose a time that suits you (opens a new tab)</span>
@@ -97,19 +97,19 @@ export default function ContactPage() {
               <h2 className="font-display text-base font-semibold">What happens next</h2>
               <ol className="mt-3 space-y-2.5 text-sm text-fg-muted">
                 <li className="flex gap-3">
-                  <span className="font-mono text-xs text-cyan">01</span> We read your message and reply personally.
+                  <span className="font-mono text-xs text-highlight">01</span> We read your message and reply personally.
                 </li>
                 <li className="flex gap-3">
-                  <span className="font-mono text-xs text-cyan">02</span> A short call to understand goals, constraints and fit.
+                  <span className="font-mono text-xs text-highlight">02</span> A short call to understand goals, constraints and fit.
                 </li>
                 <li className="flex gap-3">
-                  <span className="font-mono text-xs text-cyan">03</span> If we can help, a proposed approach and next steps.
+                  <span className="font-mono text-xs text-highlight">03</span> If we can help, a proposed approach and next steps.
                 </li>
               </ol>
             </div>
 
             <p className="flex gap-3 text-xs leading-relaxed text-fg-subtle">
-              <ShieldCheck aria-hidden className="h-4 w-4 shrink-0 text-violet-bright" />
+              <ShieldCheck aria-hidden className="h-4 w-4 shrink-0 text-accent-text" />
               We use your details only to respond to your enquiry. Happy to sign an NDA before detailed discussions.
             </p>
           </aside>

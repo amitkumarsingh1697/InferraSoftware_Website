@@ -34,7 +34,7 @@ export function HeaderShell({ children }: { children: React.ReactNode }) {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300",
-        scrolled ? "border-b border-line bg-ink/80 backdrop-blur-xl" : "border-b border-transparent bg-transparent",
+        scrolled ? "border-b border-line bg-canvas/80 backdrop-blur-xl" : "border-b border-transparent bg-transparent",
       )}
     >
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:h-[4.5rem] lg:px-8">{children}</div>
@@ -116,11 +116,11 @@ export function DesktopNav({ items, servicesMenu, ctaLabel }: { items: Item[]; s
                   hidden={!open}
                   className="absolute inset-x-0 top-full px-4 pt-1 sm:px-6 lg:px-8"
                 >
-                  <div className="panel overflow-hidden bg-ink-2/95 shadow-[0_30px_80px_-20px_rgb(0_0_0/0.8)] backdrop-blur-xl">
+                  <div className="panel overflow-hidden bg-canvas-2/95 shadow-[0_30px_80px_-30px_rgb(74_47_31/0.45)] backdrop-blur-xl">
                     <div className="grid grid-cols-5 gap-px bg-line">
                       {servicesMenu.map((group) => (
-                        <div key={group.pillar} className="bg-ink-2 p-5">
-                          <p className="font-mono text-[0.65rem] tracking-[0.2em] text-cyan">{group.code}</p>
+                        <div key={group.pillar} className="bg-canvas-2 p-5">
+                          <p className="font-mono text-[0.65rem] tracking-[0.2em] text-highlight">{group.code}</p>
                           <p className="mt-1 font-display text-sm font-semibold text-fg">{group.label}</p>
                           <p className="mt-1 text-xs leading-snug text-fg-subtle">{group.tagline}</p>
                           <ul className="mt-4 space-y-1">
@@ -129,7 +129,7 @@ export function DesktopNav({ items, servicesMenu, ctaLabel }: { items: Item[]; s
                                 <Link
                                   href={s.href}
                                   className={cn(
-                                    "block rounded-md px-2 py-1.5 -mx-2 text-sm leading-snug transition-colors hover:bg-white/5 hover:text-fg",
+                                    "block rounded-md px-2 py-1.5 -mx-2 text-sm leading-snug transition-colors hover:bg-surface-2 hover:text-fg",
                                     pathname === s.href ? "text-fg" : "text-fg-muted",
                                   )}
                                 >
@@ -143,7 +143,7 @@ export function DesktopNav({ items, servicesMenu, ctaLabel }: { items: Item[]; s
                     </div>
                     <div className="flex items-center justify-between border-t border-line px-5 py-3.5">
                       <p className="text-xs text-fg-subtle">Not sure where your challenge fits? We can help you scope it.</p>
-                      <Link href="/services" className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-bright hover:text-fg">
+                      <Link href="/services" className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-text hover:text-fg">
                         All services <ArrowRight aria-hidden className="h-3.5 w-3.5" />
                       </Link>
                     </div>
@@ -160,7 +160,7 @@ export function DesktopNav({ items, servicesMenu, ctaLabel }: { items: Item[]; s
                 className={cn("relative rounded-full px-3 py-2 text-sm transition-colors", active ? "text-fg" : "text-fg-muted hover:text-fg")}
               >
                 {item.label}
-                {active && <span aria-hidden className="absolute inset-x-3 -bottom-0.5 h-px bg-gradient-to-r from-violet-bright to-cyan" />}
+                {active && <span aria-hidden className="absolute inset-x-3 -bottom-0.5 h-px bg-gradient-to-r from-accent-text to-highlight" />}
               </Link>
             </li>
           );
@@ -207,7 +207,7 @@ export function MobileNav({
       <dialog
         ref={dialogRef}
         aria-label="Site menu"
-        className="m-0 h-dvh max-h-none w-full max-w-none bg-ink p-0 text-fg backdrop:bg-ink/80 open:flex open:flex-col"
+        className="m-0 h-dvh max-h-none w-full max-w-none bg-canvas p-0 text-fg backdrop:bg-canvas/80 open:flex open:flex-col"
         onClick={(e) => {
           if (e.target === dialogRef.current) close();
         }}
@@ -241,12 +241,12 @@ export function MobileNav({
                       <ChevronDown aria-hidden className={cn("h-5 w-5 text-fg-muted transition-transform", servicesOpen && "rotate-180")} />
                     </button>
                     <div id="mobile-services" hidden={!servicesOpen} className="pb-3 pl-3">
-                      <Link href="/services" className="block rounded-lg px-3 py-2 text-sm font-medium text-violet-bright">
+                      <Link href="/services" className="block rounded-lg px-3 py-2 text-sm font-medium text-accent-text">
                         All services
                       </Link>
                       {servicesMenu.map((group) => (
                         <div key={group.pillar} className="mt-3">
-                          <p className="px-3 font-mono text-[0.65rem] tracking-[0.2em] text-cyan">
+                          <p className="px-3 font-mono text-[0.65rem] tracking-[0.2em] text-highlight">
                             {group.code} · {group.label.toUpperCase()}
                           </p>
                           <ul className="mt-1">

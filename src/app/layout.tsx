@@ -6,6 +6,9 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Analytics } from "@/components/analytics/analytics";
 import { JsonLd } from "@/components/seo/json-ld";
+import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { ScrollProgress } from "@/components/motion/scroll-progress";
+import { SceneLayer } from "@/components/scene/scene-layer";
 import { siteConfig } from "@/config/site";
 import { getSiteUrl, isIndexingEnabled } from "@/lib/seo";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
@@ -21,15 +24,16 @@ const inter = localFont({
   fallback: ["ui-sans-serif", "system-ui", "Segoe UI", "Roboto", "Arial"],
 });
 
-const sora = localFont({
+const fraunces = localFont({
   src: [
-    { path: "./fonts/sora-latin-500-normal.woff2", weight: "500", style: "normal" },
-    { path: "./fonts/sora-latin-600-normal.woff2", weight: "600", style: "normal" },
-    { path: "./fonts/sora-latin-700-normal.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/fraunces-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/fraunces-latin-400-italic.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/fraunces-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/fraunces-latin-600-normal.woff2", weight: "600", style: "normal" },
   ],
-  variable: "--font-sora",
+  variable: "--font-fraunces",
   display: "swap",
-  fallback: ["ui-sans-serif", "system-ui", "Arial"],
+  fallback: ["Iowan Old Style", "Georgia", "Times New Roman", "serif"],
 });
 
 const jetbrains = localFont({
@@ -64,20 +68,26 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0A0718",
-  colorScheme: "dark",
+  themeColor: "#F5EEE3",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${sora.variable} ${jetbrains.variable} antialiased`}>
-      <body className="flex min-h-dvh flex-col">
+    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable} antialiased`}>
+      <body className="relative isolate flex min-h-dvh flex-col">
+        <noscript>
+          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important;filter:none!important}`}</style>
+        </noscript>
         <a
           href="#main"
           className="fixed left-4 top-3 z-[100] -translate-y-24 rounded-full bg-accent-strong px-4 py-2 text-sm font-semibold text-white transition-transform focus:translate-y-0"
         >
           Skip to content
         </a>
+        <SmoothScroll />
+        <ScrollProgress />
+        <SceneLayer />
         <SiteHeader />
         <ViewTransition>
           <main id="main" tabIndex={-1} className="flex-1 outline-none">

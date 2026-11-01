@@ -34,7 +34,7 @@ export function TableOfContents({ entries }: { entries: TocEntry[] }) {
               className={cn(
                 "-ml-px block border-l py-1.5 text-sm leading-snug transition-colors",
                 e.depth === 3 ? "pl-7" : "pl-4",
-                active === e.id ? "border-cyan text-fg" : "border-transparent text-fg-muted hover:text-fg",
+                active === e.id ? "border-highlight text-fg" : "border-transparent text-fg-muted hover:text-fg",
               )}
             >
               {e.text}
@@ -67,7 +67,7 @@ export function ReadingProgress() {
   }, []);
   return (
     <div aria-hidden className="fixed inset-x-0 top-0 z-[60] h-0.5">
-      <div className="h-full origin-left bg-gradient-to-r from-accent to-cyan" style={{ transform: `scaleX(${progress})` }} />
+      <div className="h-full origin-left bg-gradient-to-r from-accent to-highlight" style={{ transform: `scaleX(${progress})` }} />
     </div>
   );
 }

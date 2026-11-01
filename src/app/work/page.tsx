@@ -25,11 +25,11 @@ export default function WorkPage() {
       <Link href={`/work/${c.slug}`} className="group panel flex h-full flex-col overflow-hidden transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-line-strong">
         <div className="relative aspect-[16/9] overflow-hidden border-b border-line">
           <CoverArt seed={c.slug} hue={c.hue} className="transition-transform duration-700 group-hover:scale-105" />
-          <DisclosureBadge className="absolute left-3 top-3 bg-ink/80 backdrop-blur">{workStatusLabel[c.status]}</DisclosureBadge>
+          <DisclosureBadge className="absolute left-3 top-3 bg-canvas/80 backdrop-blur">{workStatusLabel[c.status]}</DisclosureBadge>
         </div>
         <div className="flex flex-1 flex-col p-6">
           <p className="font-mono text-xs text-fg-subtle">{c.projectType}</p>
-          <h2 className="mt-2 text-lg font-semibold leading-snug group-hover:text-cyan">{c.title}</h2>
+          <h2 className="mt-2 text-lg font-semibold leading-snug group-hover:text-highlight">{c.title}</h2>
           <p className="mt-3 flex-1 text-sm leading-relaxed text-fg-muted">{c.summary}</p>
           <div className="mt-5 flex flex-wrap gap-2">
             {c.stack.slice(0, 4).map((t) => (

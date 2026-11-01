@@ -88,7 +88,7 @@ export default function AboutPage() {
             <ol className="mt-6 space-y-4">
               {complexity.map((c, i) => (
                 <li key={c} className="flex gap-4 leading-relaxed text-fg-muted">
-                  <span className="font-mono text-sm text-cyan">0{i + 1}</span>
+                  <span className="font-mono text-sm text-highlight">0{i + 1}</span>
                   {c}
                 </li>
               ))}
@@ -97,7 +97,7 @@ export default function AboutPage() {
         </div>
       </Container>
 
-      <section aria-labelledby="philo-title" className="border-y border-line bg-ink-2/60 py-20 sm:py-24">
+      <section aria-labelledby="philo-title" className="border-y border-line bg-canvas-2/60 py-20 sm:py-24">
         <Container>
           <SectionHeading id="philo-title" eyebrow="Engineering philosophy" title="What we believe about building software" />
           <ul className="mt-12 grid gap-5 sm:grid-cols-2">
@@ -129,7 +129,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section aria-labelledby="delivery-title" className="border-y border-line bg-ink-2/60 py-20 sm:py-24">
+      <section aria-labelledby="delivery-title" className="border-y border-line bg-canvas-2/60 py-20 sm:py-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
@@ -152,8 +152,8 @@ export default function AboutPage() {
               <SectionHeading eyebrow="Commitment to quality" title="Production quality, every time" />
               <ol className="mt-8 grid gap-3">
                 {approachStages.map((s, i) => (
-                  <li key={s.id} className="flex items-baseline gap-4 rounded-xl border border-line bg-ink/40 px-5 py-4">
-                    <span className="font-mono text-xs text-cyan">{String(i + 1).padStart(2, "0")}</span>
+                  <li key={s.id} className="flex items-baseline gap-4 rounded-xl border border-line bg-canvas/40 px-5 py-4">
+                    <span className="font-mono text-xs text-highlight">{String(i + 1).padStart(2, "0")}</span>
                     <span>
                       <span className="font-semibold text-fg">{s.title}</span>
                       <span className="text-fg-muted"> · {s.summary}</span>

@@ -11,7 +11,7 @@ export function SiteFooter() {
   const booking = getBookingUrl();
   const socials = getSocialLinks();
   return (
-    <footer className="relative border-t border-line bg-ink-2">
+    <footer className="relative border-t border-line bg-canvas-2">
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-60" />
       <Container className="py-16">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
@@ -23,29 +23,29 @@ export function SiteFooter() {
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-fg-muted">{messaging.positioning}</p>
             <ul className="mt-6 space-y-2.5 text-sm">
               <li>
-                <a href={`tel:${siteConfig.contact.phoneE164}`} className="inline-flex items-center gap-2 text-fg hover:text-cyan" data-track="call_click" data-track-label="footer">
-                  <Phone aria-hidden className="h-4 w-4 text-violet-bright" />
+                <a href={`tel:${siteConfig.contact.phoneE164}`} className="inline-flex items-center gap-2 text-fg hover:text-highlight" data-track="call_click" data-track-label="footer">
+                  <Phone aria-hidden className="h-4 w-4 text-accent-text" />
                   {siteConfig.contact.phoneDisplay}
                 </a>
               </li>
               {siteConfig.contact.email && (
                 <li>
-                  <a href={`mailto:${siteConfig.contact.email}`} className="inline-flex items-center gap-2 text-fg hover:text-cyan">
-                    <Mail aria-hidden className="h-4 w-4 text-violet-bright" />
+                  <a href={`mailto:${siteConfig.contact.email}`} className="inline-flex items-center gap-2 text-fg hover:text-highlight">
+                    <Mail aria-hidden className="h-4 w-4 text-accent-text" />
                     {siteConfig.contact.email}
                   </a>
                 </li>
               )}
               {siteConfig.contact.address && (
                 <li className="flex items-start gap-2 text-fg-muted">
-                  <MapPin aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-violet-bright" />
+                  <MapPin aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-accent-text" />
                   <address className="not-italic">{siteConfig.contact.address}</address>
                 </li>
               )}
               {booking && (
                 <li>
-                  <a href={booking} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-fg hover:text-cyan" data-track="booking_click" data-track-label="footer">
-                    <CalendarDays aria-hidden className="h-4 w-4 text-violet-bright" />
+                  <a href={booking} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-fg hover:text-highlight" data-track="booking_click" data-track-label="footer">
+                    <CalendarDays aria-hidden className="h-4 w-4 text-accent-text" />
                     {messaging.ctas.book}
                   </a>
                 </li>

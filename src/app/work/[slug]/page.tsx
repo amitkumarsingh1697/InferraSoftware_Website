@@ -39,7 +39,7 @@ function List({ items }: { items: string[] }) {
     <ul className="space-y-3">
       {items.map((i) => (
         <li key={i} className="flex gap-3 leading-relaxed text-fg-muted">
-          <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-cyan" />
+          <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-highlight" />
           {i}
         </li>
       ))}
@@ -61,7 +61,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         <div aria-hidden className="absolute inset-0 -z-10 opacity-60">
           <CoverArt seed={c.slug} hue={c.hue} />
         </div>
-        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/70 via-ink/85 to-ink" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-canvas/70 via-canvas/85 to-canvas" />
         <Container className="pb-16">
           <Breadcrumbs
             items={[
@@ -76,7 +76,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-5xl">{c.title}</h1>
           <p className="mt-6 max-w-3xl text-lg leading-relaxed text-fg-muted sm:text-xl">{c.summary}</p>
           {disclosure && (
-            <div role="note" className="mt-8 flex max-w-3xl gap-3 rounded-xl border border-warning/40 bg-ink/80 p-4 text-sm leading-relaxed text-fg-muted backdrop-blur">
+            <div role="note" className="mt-8 flex max-w-3xl gap-3 rounded-xl border border-warning/40 bg-canvas/80 p-4 text-sm leading-relaxed text-fg-muted backdrop-blur">
               <AlertTriangle aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-warning" />
               <p>{disclosure}</p>
             </div>
@@ -104,7 +104,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
               <ol className="space-y-4">
                 {c.approach.map((a, i) => (
                   <li key={i} className="flex gap-4 leading-relaxed text-fg-muted">
-                    <span className="font-mono text-sm text-cyan">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="font-mono text-sm text-highlight">{String(i + 1).padStart(2, "0")}</span>
                     {a}
                   </li>
                 ))}
@@ -115,7 +115,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
               <ol className="mt-6 space-y-3">
                 {c.architecture.components.map((comp, i) => (
                   <li key={comp.title} className="panel flex gap-4 p-5">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-line-strong font-mono text-xs text-cyan">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-line-strong font-mono text-xs text-highlight">
                       {i + 1}
                     </span>
                     <div>
@@ -177,9 +177,9 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
                 {services.map((s) => (
                   <li key={s.slug}>
                     <Link href={`/services/${s.slug}`} className="group flex items-center gap-3 text-sm text-fg-muted hover:text-fg">
-                      <Icon name={s.icon} className="h-4 w-4 text-violet-bright" />
+                      <Icon name={s.icon} className="h-4 w-4 text-accent-text" />
                       <span className="flex-1">{s.shortTitle}</span>
-                      <ArrowUpRight aria-hidden className="h-3.5 w-3.5 text-fg-subtle group-hover:text-cyan" />
+                      <ArrowUpRight aria-hidden className="h-3.5 w-3.5 text-fg-subtle group-hover:text-highlight" />
                     </Link>
                   </li>
                 ))}

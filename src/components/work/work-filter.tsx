@@ -36,7 +36,7 @@ export function FilterableGrid({
             onClick={() => setActive(f)}
             className={cn(
               "min-h-10 rounded-full border px-4 py-2 text-sm transition-colors",
-              active === f ? "border-cyan/60 bg-surface-2 text-fg" : "border-line text-fg-muted hover:border-line-strong hover:text-fg",
+              active === f ? "border-highlight/60 bg-surface-2 text-fg" : "border-line text-fg-muted hover:border-line-strong hover:text-fg",
             )}
           >
             {f ?? allLabel}

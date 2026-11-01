@@ -42,8 +42,8 @@ export default async function IndustryPage({ params }: PageProps<"/industries/[s
             <div className="relative flex h-40 w-40 items-center justify-center">
               <div aria-hidden className="absolute inset-0 rounded-full bg-accent/25 blur-2xl" />
               <div aria-hidden className="absolute inset-0 rotate-45 rounded-3xl border border-line-strong" />
-              <div aria-hidden className="absolute inset-6 rotate-45 rounded-2xl border border-cyan/40" />
-              <Icon name={ind.icon} className="relative h-12 w-12 text-cyan" strokeWidth={1.4} />
+              <div aria-hidden className="absolute inset-6 rotate-45 rounded-2xl border border-highlight/40" />
+              <Icon name={ind.icon} className="relative h-12 w-12 text-highlight" strokeWidth={1.4} />
             </div>
           </div>
         }
@@ -80,7 +80,7 @@ export default async function IndustryPage({ params }: PageProps<"/industries/[s
         </div>
       </Container>
 
-      <section aria-labelledby="uc-title" className="border-y border-line bg-ink-2/60 py-20 sm:py-24">
+      <section aria-labelledby="uc-title" className="border-y border-line bg-canvas-2/60 py-20 sm:py-24">
         <Container>
           <div className="flex flex-wrap items-center gap-4">
             <SectionHeading id="uc-title" eyebrow="Use cases" title="Illustrative scenarios" />
@@ -100,28 +100,28 @@ export default async function IndustryPage({ params }: PageProps<"/industries/[s
       <Container className="py-20 sm:py-24">
         <div className="grid gap-6 md:grid-cols-2">
           <section aria-labelledby="data-title" className="panel p-7 sm:p-9">
-            <Database aria-hidden className="h-6 w-6 text-cyan" />
+            <Database aria-hidden className="h-6 w-6 text-highlight" />
             <h2 id="data-title" className="mt-4 font-display text-xl font-semibold">
               Integration & data considerations
             </h2>
             <ul className="mt-5 space-y-3">
               {ind.dataConsiderations.map((d) => (
                 <li key={d} className="flex gap-3 leading-relaxed text-fg-muted">
-                  <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-violet-bright" />
+                  <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-accent-text" />
                   {d}
                 </li>
               ))}
             </ul>
           </section>
           <section aria-labelledby="sec-title" className="panel p-7 sm:p-9">
-            <ShieldCheck aria-hidden className="h-6 w-6 text-cyan" />
+            <ShieldCheck aria-hidden className="h-6 w-6 text-highlight" />
             <h2 id="sec-title" className="mt-4 font-display text-xl font-semibold">
               Security & reliability considerations
             </h2>
             <ul className="mt-5 space-y-3">
               {ind.securityConsiderations.map((d) => (
                 <li key={d} className="flex gap-3 leading-relaxed text-fg-muted">
-                  <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-violet-bright" />
+                  <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-accent-text" />
                   {d}
                 </li>
               ))}
@@ -137,9 +137,9 @@ export default async function IndustryPage({ params }: PageProps<"/industries/[s
             {related.map((r) => (
               <li key={r.slug}>
                 <Link href={`/services/${r.slug}`} className="group panel flex h-full items-start gap-4 p-5 transition-colors hover:border-line-strong">
-                  <Icon name={r.icon} className="mt-0.5 h-5 w-5 shrink-0 text-violet-bright" />
+                  <Icon name={r.icon} className="mt-0.5 h-5 w-5 shrink-0 text-accent-text" />
                   <span className="flex-1">
-                    <span className="block font-semibold group-hover:text-cyan">{r.shortTitle}</span>
+                    <span className="block font-semibold group-hover:text-highlight">{r.shortTitle}</span>
                     <span className="mt-1 block text-sm leading-relaxed text-fg-muted">{r.summary}</span>
                   </span>
                   <ArrowUpRight aria-hidden className="h-4 w-4 shrink-0 text-fg-subtle" />
