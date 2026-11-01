@@ -17,7 +17,7 @@ export function Hero() {
       data-scene="hero"
       className="relative isolate flex min-h-[680px] items-center overflow-hidden pb-24 pt-32 sm:min-h-[100svh] sm:max-h-[1100px] lg:pt-36"
     >
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(245_238_227/0.55),rgb(245_238_227/0.2)_40%,rgb(245_238_227/0.85))] lg:bg-[linear-gradient(90deg,rgb(245_238_227/0.85)_0%,rgb(245_238_227/0.45)_38%,transparent_62%)]" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-canvas)_55%,transparent),color-mix(in_srgb,var(--color-canvas)_20%,transparent)_40%,color-mix(in_srgb,var(--color-canvas)_85%,transparent))] lg:bg-[linear-gradient(90deg,color-mix(in_srgb,var(--color-canvas)_85%,transparent)_0%,color-mix(in_srgb,var(--color-canvas)_45%,transparent)_38%,transparent_62%)]" />
 
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">

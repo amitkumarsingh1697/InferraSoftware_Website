@@ -81,7 +81,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </noscript>
         <a
           href="#main"
-          className="fixed left-4 top-3 z-[100] -translate-y-24 rounded-full bg-accent-strong px-4 py-2 text-sm font-semibold text-white transition-transform focus:translate-y-0"
+          className="fixed left-4 top-3 z-[100] -translate-y-24 rounded-full bg-accent-strong px-4 py-2 text-sm font-semibold text-on-accent transition-transform focus:translate-y-0"
         >
           Skip to content
         </a>

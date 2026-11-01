@@ -28,6 +28,7 @@
   --color-accent: #a87b4f; /* caramel: decorative, large type, rules */
   --color-accent-strong: #5c3b26; /* coffee: button fill, 10:1 with white */
   --color-accent-deep: #432a1a; /* button hover */
+  --color-on-accent: #ffffff; /* text on accent-strong buttons */
   --color-accent-text: #7e5129; /* bronze text, 5.9:1 */
   --color-highlight: #8f4427; /* terracotta: eyebrows, links, icons, 6.1:1 */
   --color-highlight-deep: #6e331d;

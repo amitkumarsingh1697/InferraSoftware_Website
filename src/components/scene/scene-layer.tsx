@@ -45,7 +45,7 @@ export function SceneLayer() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
       {/* Backdrop: warm light falling across the paper */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_75%_20%,rgb(255_250_242/0.9),transparent_70%),radial-gradient(ellipse_60%_50%_at_10%_90%,rgb(216_190_156/0.35),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_75%_20%,color-mix(in_srgb,var(--color-surface)_90%,transparent),transparent_70%),radial-gradient(ellipse_60%_50%_at_10%_90%,color-mix(in_srgb,var(--color-surface-3)_45%,transparent),transparent_70%)]" />
       {enabled && (
         <div className={cn("absolute inset-0 transition-opacity duration-[1600ms] ease-editorial", ready ? "opacity-100" : "opacity-0")}>
           <Experience
