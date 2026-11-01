@@ -10,40 +10,40 @@
  * canvas-2 and surface. accent is decorative only (large type, rules, art).
  */
 @theme {
-  /* Warm neutrals: the core palette */
-  --color-canvas: #f5eee3; /* page background, cream */
-  --color-canvas-2: #ede3d3; /* alternate band, beige */
-  --color-surface: #fbf7f1; /* cards and panels */
-  --color-surface-2: #f2e8da; /* hover / raised */
-  --color-surface-3: #e6d7c2; /* pressed / deepest light tone */
+  /* Midnight & Champagne. Other tested palettes are listed in docs/DESIGN-SYSTEM.md. */
+  --color-canvas: #15120f; /* page background, warm black */
+  --color-canvas-2: #1c1814; /* alternate band */
+  --color-surface: #221d18; /* cards and panels */
+  --color-surface-2: #2a241e; /* hover / raised */
+  --color-surface-3: #342c25; /* pressed / deepest tone */
 
-  /* Coffee: dark editorial bands (final call to action, footer, media slots) */
-  --color-espresso: #241812;
-  --color-espresso-2: #2f2018;
-  --color-on-espresso: #f5eee3; /* 15:1 on espresso */
-  --color-on-espresso-muted: #cdbba5; /* 9.2:1 on espresso */
-  --color-gold: #d9b98c; /* accent on espresso, 9.2:1 */
+  /* Deepest tone: media slots, cover art, code blocks */
+  --color-espresso: #0e0c0a;
+  --color-espresso-2: #1a1612;
+  --color-on-espresso: #f2eadf; /* 17:1 on espresso */
+  --color-on-espresso-muted: #c8bba8; /* 10:1 on espresso */
+  --color-gold: #d9bb86;
 
   /* Restrained accents */
-  --color-accent: #a87b4f; /* caramel: decorative, large type, rules */
-  --color-accent-strong: #5c3b26; /* coffee: button fill, 10:1 with white */
-  --color-accent-deep: #432a1a; /* button hover */
-  --color-on-accent: #ffffff; /* text on accent-strong buttons */
-  --color-accent-text: #7e5129; /* bronze text, 5.9:1 */
-  --color-highlight: #8f4427; /* terracotta: eyebrows, links, icons, 6.1:1 */
-  --color-highlight-deep: #6e331d;
+  --color-accent: #b8975f; /* antique gold: decorative, rules, large type */
+  --color-accent-strong: #e3c893; /* champagne: button fill */
+  --color-accent-deep: #eed7aa; /* button hover */
+  --color-on-accent: #15120f; /* text on champagne buttons, 11:1 */
+  --color-accent-text: #d9bb86; /* gold text, 9:1 */
+  --color-highlight: #e0b98a; /* eyebrows, links, icons, 9:1 */
+  --color-highlight-deep: #ebcba3;
 
   /* Text */
-  --color-fg: #2a1c13; /* espresso ink, 14:1 */
-  --color-fg-muted: #5a4636; /* 7.7:1 */
-  --color-fg-subtle: #6e5949; /* 5.8:1 */
+  --color-fg: #f2eadf; /* warm ivory, 14:1 */
+  --color-fg-muted: #c9bcab; /* 9:1 */
+  --color-fg-subtle: #a89a88; /* 6.1:1 */
 
-  --color-line: rgb(92 59 38 / 0.14);
-  --color-line-strong: rgb(92 59 38 / 0.28);
+  --color-line: rgb(217 187 134 / 0.14);
+  --color-line-strong: rgb(217 187 134 / 0.28);
 
-  --color-success: #3f7d4e;
-  --color-warning: #94600f;
-  --color-danger: #b03e2c;
+  --color-success: #79d197;
+  --color-warning: #e3b35a;
+  --color-danger: #f08a7a;
 
   /* Typography */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
@@ -105,11 +105,20 @@
 
 /* 3D scene palette and tuning, read by src/components/scene at runtime. */
 :root {
-  --scene-ceramic: #efe4d4; /* main sculpture */
-  --scene-bronze: #9a6b40; /* metal rings */
-  --scene-coffee: #4a2f1f; /* dark forms */
-  --scene-gold: #c9a06a; /* dust particles */
-  --scene-light-key: #fff1dc;
-  --scene-light-fill: #e8c9a4;
-  --scene-fog: #f5eee3; /* match --color-canvas so depth fades into the page */
+  --intro-count: 1100ms; /* homepage intro counter */
+  --intro-hold: 1300ms; /* when the intro curtain starts to fade */
+  color-scheme: dark;
+  --scene-ceramic: #e9dfd0; /* main sculpture */
+  --scene-bronze: #c9a56a; /* metal rings */
+  --scene-coffee: #3a2a1e; /* dark forms */
+  --scene-gold: #e3c48e; /* thread and dust */
+  --scene-light-key: #fff0d8;
+  --scene-light-fill: #b98c5a;
+  --scene-fog: #15120f; /* match --color-canvas so depth fades into the page */
+
+  /* Glass panels floating over the 3D scene */
+  --panel-from: rgb(42 36 30 / 0.72);
+  --panel-to: rgb(21 18 15 / 0.78);
+  --panel-highlight: rgb(255 240 216 / 0.06);
+  --panel-shadow: rgb(0 0 0 / 0.55);
 }

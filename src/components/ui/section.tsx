@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/reveal";
+import { SplitTitle } from "@/components/motion/split-title";
 import { cn } from "@/lib/utils";
 
 export function Container({ className, children }: { className?: string; children: React.ReactNode }) {
@@ -35,7 +36,7 @@ export function SectionHeading({
     <Reveal className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
       {eyebrow && <Eyebrow className={align === "center" ? "justify-center" : undefined}>{eyebrow}</Eyebrow>}
       <Tag id={id} className="mt-5 text-[2.1rem] font-medium leading-[1.08] text-fg sm:text-5xl lg:text-[3.4rem]">
-        {title}
+        <SplitTitle>{title}</SplitTitle>
       </Tag>
       {intro && <div className="mt-5 text-lg leading-relaxed text-fg-muted">{intro}</div>}
     </Reveal>

@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: messaging.positioning,
     start_url: "/",
     display: "standalone",
-    background_color: "#F5EEE3",
-    theme_color: "#F5EEE3",
+    background_color: "#15120F",
+    theme_color: "#15120F",
     icons: [
       { src: "/brand/inferra-app-icon-192.png", sizes: "192x192", type: "image/png" },
       { src: "/brand/inferra-app-icon-512.png", sizes: "512x512", type: "image/png" },

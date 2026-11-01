@@ -3,9 +3,6 @@
 @import "../design/tokens.css";
 
 @layer base {
-  :root {
-    color-scheme: light;
-  }
 
   html {
     background: var(--color-canvas);
@@ -88,11 +85,13 @@
   .panel {
     position: relative;
     border-radius: var(--radius-panel);
-    background: linear-gradient(180deg, var(--color-surface), var(--color-canvas));
+    background: linear-gradient(180deg, var(--panel-from), var(--panel-to));
     border: 1px solid var(--color-line);
     box-shadow:
-      0 1px 0 0 rgb(255 255 255 / 0.06) inset,
-      0 24px 60px -36px rgb(74 47 31 / 0.35);
+      0 1px 0 0 var(--panel-highlight) inset,
+      0 30px 70px -40px var(--panel-shadow);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    backdrop-filter: blur(14px) saturate(1.1);
   }
 
   /* Corner brackets referencing the logo's chevrons */
@@ -334,4 +333,39 @@
   accent-color: var(--color-accent);
   margin-right: 0.6em;
   transform: translateY(1px);
+}
+
+/* Homepage intro curtain (src/components/home/intro-loader.tsx). */
+.intro-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: var(--color-canvas);
+  pointer-events: none;
+  animation: intro-out 700ms var(--ease-editorial) var(--intro-hold) forwards;
+}
+.intro-bar {
+  transform-origin: left;
+  animation: intro-bar var(--intro-count) var(--ease-soft) forwards;
+}
+@keyframes intro-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes intro-bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-curtain {
+    display: none;
+  }
 }

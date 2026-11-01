@@ -8,6 +8,8 @@ import { TeamIntro } from "@/components/home/team-intro";
 import { TechPreview } from "@/components/home/tech-preview";
 import { InsightsTeaser } from "@/components/home/insights-teaser";
 import { FinalCta } from "@/components/home/final-cta";
+import { ChapterRail } from "@/components/home/chapter-rail";
+import { IntroLoader } from "@/components/home/intro-loader";
 import { Container, SectionHeading } from "@/components/ui/section";
 import { pillarOrder, pillars, getServicesByPillar } from "@/content/services";
 import { hasConfiguredSiteUrl } from "@/lib/seo";
@@ -55,6 +57,8 @@ export default function HomePage() {
       <TechPreview />
       <InsightsTeaser />
       <FinalCta />
+      <ChapterRail />
+      <IntroLoader />
     </>
   );
 }

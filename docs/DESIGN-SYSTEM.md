@@ -1,8 +1,10 @@
 # Design system and 3D experience
 
-The site uses a warm editorial look: cream and beige paper, coffee-brown ink,
-caramel and terracotta accents, a Fraunces serif for headings and Inter for
-body text. A 3D sculpture sits behind the content and moves as you scroll.
+The site uses a dark, cinematic look ("Midnight & Champagne"): warm near-black
+backgrounds, ivory text, champagne-gold accents, glass panels, a Fraunces serif
+for headings and Inter for body text. On the homepage, scrolling flies a camera
+along a glowing gold thread through ten chapters, one per section. Interior
+pages keep a single 3D sculpture that moves as you scroll.
 
 ## Where to tune things
 
@@ -10,16 +12,42 @@ body text. A 3D sculpture sits behind the content and moves as you scroll.
 | --- | --- |
 | Colours, fonts, spacing, radii, motion timing | `src/design/tokens.css` (the single source of truth) |
 | 3D scene colours | `--scene-*` variables at the bottom of `src/design/tokens.css` |
-| Where the sculpture sits for each section | `src/components/scene/poses.ts` |
+| Homepage chapters: label, 3D set and colour tone | `src/components/scene/journey/chapters.ts` |
+| Homepage flight path: spacing, camera offsets, thread route | `src/components/scene/journey/path.ts` |
+| The 3D objects in each chapter | `src/components/scene/journey/sets.tsx` |
+| Where the sculpture sits on interior pages | `src/components/scene/poses.ts` |
+| Intro curtain timing | `--intro-count` and `--intro-hold` in `src/design/tokens.css` |
 | Motion helpers that read the tokens | `src/design/motion.ts` |
 | Copy | `src/config/messaging.ts`, `src/content/*`, and the home section components |
 
 Tailwind utilities are generated from the tokens, so `bg-canvas`, `text-fg`,
 `text-highlight`, `bg-espresso`, `py-section` and `ease-editorial` all follow
-any change you make there. Every text colour passes WCAG 2.2 AA on the light
+any change you make there. Every text colour passes WCAG 2.2 AA on the dark
 backgrounds; `accent` is decorative only.
 
-## How the 3D scroll works
+To try another palette, replace the colour values in the `@theme` block and the
+`--scene-*` and `--panel-*` values in `:root`. Four tested alternatives (Forest
+& Brass, Porcelain & Navy, Burgundy & Cream, Midnight & Champagne) were
+mocked up during the redesign; the light Sand palette is in git history at
+commit ed8123d.
+
+## How the homepage journey works
+
+- `journey/path.ts` places one anchor per chapter, 16 units apart, and builds
+  three smooth splines from them: the camera route, where the camera looks, and
+  the gold thread. The camera holds at each chapter while you read, then
+  travels during the last half of the gap to the next section
+  (`journey/progress.ts`), damped so it glides rather than jumps.
+- Each chapter has its own set (monoliths, constellation, neural lattice,
+  gates, frames, pillars, stack, pages) and tints the fog and key light.
+  Only sets near the camera are drawn.
+- `components/home/chapter-rail.tsx` shows the "03 / 10" counter and a
+  right-hand chapter list on wide screens; each entry jumps to its section.
+- `components/home/intro-loader.tsx` is a short opening curtain, once per
+  browser session, skipped with reduced motion.
+- `components/motion/split-title.tsx` reveals section titles word by word.
+
+## How the 3D scroll works on interior pages
 
 - `src/components/scene/scene-layer.tsx` mounts one fixed, full-screen canvas
   behind every page. It loads after the page is idle, ignores pointer events and

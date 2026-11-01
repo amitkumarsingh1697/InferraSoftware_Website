@@ -10,9 +10,10 @@ import { Dust } from "./dust";
 import { readScenePalette } from "./palette";
 import { poses, type Pose } from "./poses";
 import { Sculpture } from "./sculpture";
+import { Journey } from "./journey/journey";
 
 /** Soft studio reflections, generated in memory (no files to download). */
-function StudioLighting({ palette }: { palette: ReturnType<typeof readScenePalette> }) {
+function StudioLighting({ palette, lights = true }: { palette: ReturnType<typeof readScenePalette>; lights?: boolean }) {
   const { gl, scene } = useThree();
   useEffect(() => {
     const pmrem = new PMREMGenerator(gl);
@@ -21,14 +22,15 @@ function StudioLighting({ palette }: { palette: ReturnType<typeof readScenePalet
     /* eslint-disable react-hooks/immutability */
     scene.environment = env;
     scene.environmentIntensity = 0.55;
-    scene.fog = new Fog(palette.fog, 7, 19);
+    if (lights) scene.fog = new Fog(palette.fog, 7, 19);
     return () => {
       env.dispose();
       pmrem.dispose();
       scene.environment = null;
     };
     /* eslint-enable react-hooks/immutability */
-  }, [gl, scene, palette]);
+  }, [gl, scene, palette, lights]);
+  if (!lights) return null;
   return (
     <>
       <hemisphereLight args={[palette.lightKey, palette.coffee, 0.7]} />
@@ -80,6 +82,7 @@ function Driver({
 
 export default function Experience({ reduced, onVeil, onReady }: { reduced: boolean; onVeil: (v: number) => void; onReady: () => void }) {
   const pathname = usePathname();
+  const journey = pathname === "/";
   const palette = useMemo(() => readScenePalette(), []);
   const choreography = useMemo(() => new Choreography(), []);
   const target = useRef<Pose>(poses.hero);
@@ -106,6 +109,10 @@ export default function Experience({ reduced, onVeil, onReady }: { reduced: bool
   }, [choreography, pathname]);
 
   useEffect(() => {
+    if (journey) onVeil(narrow ? 0.4 : 0.08);
+  }, [journey, narrow, onVeil]);
+
+  useEffect(() => {
     if (!animate || narrow) return;
     const onMove = (e: PointerEvent) => {
       pointer.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -125,10 +132,16 @@ export default function Experience({ reduced, onVeil, onReady }: { reduced: bool
       aria-hidden
     >
       <AdaptiveResolution onLow={() => setDpr([1, 1])} enabled={animate} />
-      <StudioLighting palette={palette} />
-      <Driver choreography={choreography} targetRef={target} scrollRef={scroll} animate={animate} onVeil={onVeil} />
-      <Sculpture palette={palette} targetRef={target} pointerRef={pointer} animate={animate} detail={narrow ? "low" : "high"} />
-      <Dust palette={palette} count={narrow ? 260 : 900} scrollRef={scroll} animate={animate} />
+      <StudioLighting palette={palette} lights={!journey} />
+      {journey ? (
+        <Journey palette={palette} animate={animate} detail={narrow ? "low" : "high"} />
+      ) : (
+        <>
+          <Driver choreography={choreography} targetRef={target} scrollRef={scroll} animate={animate} onVeil={onVeil} />
+          <Sculpture palette={palette} targetRef={target} pointerRef={pointer} animate={animate} detail={narrow ? "low" : "high"} />
+          <Dust palette={palette} count={narrow ? 260 : 900} scrollRef={scroll} animate={animate} />
+        </>
+      )}
     </Canvas>
   );
 }
