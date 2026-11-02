@@ -12,6 +12,8 @@ export function readScenePalette() {
     lightKey: c("light-key", "#fff1dc"),
     lightFill: c("light-fill", "#e8c9a4"),
     fog: c("fog", "#f5eee3"),
+    /** Chapter colour grades for the homepage journey (chapters.ts picks 1-4). */
+    tones: [c("tone-1", "#d9bb86"), c("tone-2", "#c98a4b"), c("tone-3", "#7fb0a4"), c("tone-4", "#c2876a")],
   };
 }
 

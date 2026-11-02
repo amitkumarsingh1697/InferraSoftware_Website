@@ -11,7 +11,7 @@ export const SPACING = 16;
  * the page text keeps the left. Between stops the camera swings out and skims
  * past drifting shards, which hides the change of scene.
  */
-export function buildJourney() {
+export function buildJourney(palette: { tones: Color[] }) {
   const anchors = chapters.map((_, i) => {
     const sway = Math.sin(i * 1.3) * 4.5;
     const lift = Math.cos(i * 0.9) * 1.6;
@@ -43,7 +43,7 @@ export function buildJourney() {
   const camCurve = new CatmullRomCurve3(cam, false, "centripetal");
   const lookCurve = new CatmullRomCurve3(look, false, "centripetal");
   const threadCurve = new CatmullRomCurve3(thread, false, "centripetal");
-  const tones = chapters.map((c) => new Color(c.tone));
+  const tones = chapters.map((c) => palette.tones[c.tone - 1]);
   return { anchors, camCurve, lookCurve, threadCurve, tones };
 }
 

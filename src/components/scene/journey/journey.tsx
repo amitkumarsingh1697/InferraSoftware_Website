@@ -22,7 +22,7 @@ const STILL: Pose = { x: 0, y: 0, z: 0, scale: 1, spin: 0, tilt: 0, veil: 0 };
  */
 export function Journey({ palette, animate, detail, onChapter }: { palette: ScenePalette; animate: boolean; detail: "high" | "low"; onChapter?: (c: number) => void }) {
   const pathname = usePathname();
-  const journey = useMemo(() => buildJourney(), []);
+  const journey = useMemo(() => buildJourney(palette), [palette]);
   const progress = useMemo(() => new ChapterProgress(), []);
   const camera = useThree((s) => s.camera);
   const scene = useThree((s) => s.scene);

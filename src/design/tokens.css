@@ -115,6 +115,10 @@
   --scene-light-key: #fff0d8;
   --scene-light-fill: #b98c5a;
   --scene-fog: #15120f; /* match --color-canvas so depth fades into the page */
+  --scene-tone-1: #d9bb86; /* homepage chapter colour grades, see journey/chapters.ts */
+  --scene-tone-2: #c98a4b;
+  --scene-tone-3: #7fb0a4;
+  --scene-tone-4: #c2876a;
 
   /* Glass panels floating over the 3D scene */
   --panel-from: rgb(42 36 30 / 0.72);
