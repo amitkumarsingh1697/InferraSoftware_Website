@@ -10,36 +10,36 @@
  * canvas-2 and surface. accent is decorative only (large type, rules, art).
  */
 @theme {
-  /* Midnight & Champagne. Other tested palettes are listed in docs/DESIGN-SYSTEM.md. */
-  --color-canvas: #15120f; /* page background, warm black */
-  --color-canvas-2: #1c1814; /* alternate band */
-  --color-surface: #221d18; /* cards and panels */
-  --color-surface-2: #2a241e; /* hover / raised */
-  --color-surface-3: #342c25; /* pressed / deepest tone */
+  /* Deep Ocean & Signal Teal ("trusted engineering partner"). Other tested palettes are listed in docs/DESIGN-SYSTEM.md. */
+  --color-canvas: #0a111c; /* page background, warm black */
+  --color-canvas-2: #0f1826; /* alternate band */
+  --color-surface: #131e2e; /* cards and panels */
+  --color-surface-2: #1a2638; /* hover / raised */
+  --color-surface-3: #223047; /* pressed / deepest tone */
 
   /* Deepest tone: media slots, cover art, code blocks */
-  --color-espresso: #0e0c0a;
-  --color-espresso-2: #1a1612;
-  --color-on-espresso: #f2eadf; /* 17:1 on espresso */
-  --color-on-espresso-muted: #c8bba8; /* 10:1 on espresso */
-  --color-gold: #d9bb86;
+  --color-espresso: #060b13;
+  --color-espresso-2: #0c1420;
+  --color-on-espresso: #eef3f8; /* 17:1 on espresso */
+  --color-on-espresso-muted: #b4c0cf; /* 10:1 on espresso */
+  --color-gold: #5fd4e3;
 
   /* Restrained accents */
-  --color-accent: #b8975f; /* antique gold: decorative, rules, large type */
-  --color-accent-strong: #e3c893; /* champagne: button fill */
-  --color-accent-deep: #eed7aa; /* button hover */
-  --color-on-accent: #15120f; /* text on champagne buttons, 11:1 */
-  --color-accent-text: #d9bb86; /* gold text, 9:1 */
-  --color-highlight: #e0b98a; /* eyebrows, links, icons, 9:1 */
-  --color-highlight-deep: #ebcba3;
+  --color-accent: #3fb6c8; /* antique gold: decorative, rules, large type */
+  --color-accent-strong: #5fd4e3; /* teal: button fill */
+  --color-accent-deep: #a5ecf4; /* button hover */
+  --color-on-accent: #06121a; /* text on teal buttons */
+  --color-accent-text: #6fd8e6; /* gold text, 9:1 */
+  --color-highlight: #7aa7ff; /* eyebrows, links, icons, 9:1 */
+  --color-highlight-deep: #a9c4ff;
 
   /* Text */
-  --color-fg: #f2eadf; /* warm ivory, 14:1 */
-  --color-fg-muted: #c9bcab; /* 9:1 */
-  --color-fg-subtle: #a89a88; /* 6.1:1 */
+  --color-fg: #eef3f8; /* warm ivory, 14:1 */
+  --color-fg-muted: #b4c0cf; /* 9:1 */
+  --color-fg-subtle: #8d9bae; /* 6.1:1 */
 
-  --color-line: rgb(217 187 134 / 0.14);
-  --color-line-strong: rgb(217 187 134 / 0.28);
+  --color-line: rgb(111 180 220 / 0.14);
+  --color-line-strong: rgb(111 180 220 / 0.28);
 
   --color-success: #79d197;
   --color-warning: #e3b35a;
@@ -108,21 +108,21 @@
   --intro-count: 1100ms; /* homepage intro counter */
   --intro-hold: 1300ms; /* when the intro curtain starts to fade */
   color-scheme: dark;
-  --scene-ceramic: #e9dfd0; /* main sculpture */
-  --scene-bronze: #c9a56a; /* metal rings */
-  --scene-coffee: #3a2a1e; /* dark forms */
-  --scene-gold: #e3c48e; /* thread and dust */
-  --scene-light-key: #fff0d8;
-  --scene-light-fill: #b98c5a;
-  --scene-fog: #15120f; /* match --color-canvas so depth fades into the page */
-  --scene-tone-1: #d9bb86; /* homepage chapter colour grades, see journey/chapters.ts */
-  --scene-tone-2: #c98a4b;
-  --scene-tone-3: #7fb0a4;
-  --scene-tone-4: #c2876a;
+  --scene-ceramic: #dfe8f2; /* main sculpture */
+  --scene-bronze: #5fb8c9; /* metal rings */
+  --scene-coffee: #1a2a40; /* dark forms */
+  --scene-gold: #6fe0ee; /* thread and dust */
+  --scene-light-key: #e6f4ff;
+  --scene-light-fill: #3a6fa8;
+  --scene-fog: #0a111c; /* match --color-canvas so depth fades into the page */
+  --scene-tone-1: #6fe0ee; /* homepage chapter colour grades, see journey/chapters.ts */
+  --scene-tone-2: #7aa7ff;
+  --scene-tone-3: #4fd1a5;
+  --scene-tone-4: #a5b8ff;
 
   /* Glass panels floating over the 3D scene */
-  --panel-from: rgb(42 36 30 / 0.72);
-  --panel-to: rgb(21 18 15 / 0.78);
-  --panel-highlight: rgb(255 240 216 / 0.06);
+  --panel-from: rgb(22 34 52 / 0.72);
+  --panel-to: rgb(10 17 28 / 0.8);
+  --panel-highlight: rgb(200 230 255 / 0.06);
   --panel-shadow: rgb(0 0 0 / 0.55);
 }

@@ -1,7 +1,8 @@
 # Design system and 3D experience
 
-The site uses a dark, cinematic look ("Midnight & Champagne"): warm near-black
-backgrounds, ivory text, champagne-gold accents, glass panels, a Fraunces serif
+The site uses a dark, cinematic look ("Deep Ocean & Signal Teal", meant to read
+as a calm, precise, trusted engineering partner): deep navy backgrounds, cool
+white text, teal and blue accents, glass panels, a Fraunces serif
 for headings and Inter for body text. On the homepage, scrolling flies a camera
 along a glowing gold thread through ten chapters, one per section. Interior
 pages keep a single 3D sculpture that moves as you scroll.
@@ -27,8 +28,10 @@ backgrounds; `accent` is decorative only.
 
 To try another palette, replace the colour values in the `@theme` block and the
 `--scene-*` and `--panel-*` values in `:root`. Four tested alternatives (Forest
-& Brass, Porcelain & Navy, Burgundy & Cream, Midnight & Champagne) were
-mocked up during the redesign; the light Sand palette is in git history at
+& Brass, Porcelain & Navy, Burgundy & Cream, Midnight & Champagne) and four
+brand directions (navy and teal, violet and mint, graphite and orange, ivory and
+forest) were mocked up during the redesign. The brand-direction values are in
+`preview/palettes/directions/palettes.json` in the project files; the light Sand palette is in git history at
 commit ed8123d.
 
 ## How the homepage journey works
