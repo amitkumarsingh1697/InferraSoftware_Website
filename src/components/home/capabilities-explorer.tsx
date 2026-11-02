@@ -61,7 +61,7 @@ export function CapabilitiesExplorer({ pillars }: { pillars: ExplorerPillar[] })
       className={cn(
         "group rounded-xl border px-3.5 py-2.5 text-left transition-[border-color,background-color,box-shadow] duration-200",
         active === i
-          ? "border-highlight/60 bg-surface-2 shadow-[0_0_0_1px_rgb(143_68_39/0.18),0_18px_40px_-20px_rgb(92_59_38/0.45)]"
+          ? "border-highlight/60 bg-surface-2 shadow-[0_0_0_1px_var(--art-ring),0_18px_40px_-20px_var(--art-shadow)]"
           : "border-line bg-canvas-2/90 hover:border-line-strong",
         extra,
       )}
@@ -84,18 +84,18 @@ export function CapabilitiesExplorer({ pillars }: { pillars: ExplorerPillar[] })
             <defs>
               <radialGradient id="cx-core" cx="0.5" cy="0.5" r="0.5">
                 <stop offset="0" stopColor="#fff" />
-                <stop offset="0.35" stopColor="#E6C79C" stopOpacity="0.8" />
-                <stop offset="1" stopColor="#A9774A" stopOpacity="0" />
+                <stop offset="0.35" stopColor="var(--art-glow)" stopOpacity="0.8" />
+                <stop offset="1" stopColor="var(--art-fade)" stopOpacity="0" />
               </radialGradient>
             </defs>
-            <circle cx="200" cy="200" r="150" fill="none" stroke="#C9A27A" strokeOpacity="0.12" />
-            <circle cx="200" cy="200" r="104" fill="none" stroke="#C9A27A" strokeOpacity="0.1" strokeDasharray="2 8" />
-            <polygon points={POSITIONS.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke="#C9A27A" strokeOpacity="0.14" />
+            <circle cx="200" cy="200" r="150" fill="none" stroke="var(--art-line)" strokeOpacity="0.12" />
+            <circle cx="200" cy="200" r="104" fill="none" stroke="var(--art-line)" strokeOpacity="0.1" strokeDasharray="2 8" />
+            <polygon points={POSITIONS.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke="var(--art-line)" strokeOpacity="0.14" />
             {POSITIONS.map((p, i) => (
               <path
                 key={i}
                 d={`M200 200 L${p.x} ${p.y}`}
-                stroke={i === active ? "#E6C79C" : "#C9A27A"}
+                stroke={i === active ? "var(--art-glow)" : "var(--art-line)"}
                 strokeOpacity={i === active ? 0.9 : 0.18}
                 strokeWidth={i === active ? 2 : 1}
                 strokeDasharray={i === active ? "5 7" : undefined}
@@ -105,7 +105,7 @@ export function CapabilitiesExplorer({ pillars }: { pillars: ExplorerPillar[] })
             ))}
             <circle cx="200" cy="200" r="56" fill="url(#cx-core)" opacity="0.55" />
             <circle cx="200" cy="200" r="8" fill="#fff" />
-            <ellipse cx="200" cy="200" rx="40" ry="12" fill="none" stroke="#E9D8BE" strokeOpacity="0.6" transform="rotate(-18 200 200)" />
+            <ellipse cx="200" cy="200" rx="40" ry="12" fill="none" stroke="var(--art-pale)" strokeOpacity="0.6" transform="rotate(-18 200 200)" />
           </svg>
           <div role="tablist" aria-label="Capability areas" aria-orientation="horizontal">
             {pillars.map((p, i) => (

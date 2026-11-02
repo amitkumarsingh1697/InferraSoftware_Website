@@ -17,8 +17,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const out = path.join(root, "public", "brand");
 
 const palette = {
-  dark: { bg: "#0A0718", a: "#A78BFA", b: "#7C3AED", stem: "#F5F3FF", node: "#67E8F9", word: "#F5F3FF", sub: "#B7B0CC" },
-  light: { bg: "#FFFFFF", a: "#7C3AED", b: "#5B21B6", stem: "#1A1233", node: "#0E7490", word: "#1A1233", sub: "#4B4466" },
+  dark: { bg: "#0A111C", a: "#A5ECF4", b: "#3FB6C8", stem: "#EEF3F8", node: "#7AA7FF", word: "#EEF3F8", sub: "#B4C0CF" },
+  light: { bg: "#FFFFFF", a: "#1F8A9E", b: "#135566", stem: "#0A111C", node: "#2F5FBF", word: "#0A111C", sub: "#4A5868" },
 };
 
 // 48 x 48 grid. Two faceted chevrons form a diamond; the stem and node
@@ -75,7 +75,7 @@ async function main() {
   files["inferra-app-icon.svg"] = svg(
     512,
     512,
-    `<rect width="512" height="512" rx="112" fill="#0A0718"/><rect x="8" y="8" width="496" height="496" rx="104" fill="none" stroke="#8B5CF6" stroke-opacity=".35" stroke-width="4"/><g transform="translate(96 96) scale(6.667)">${markGroup(palette.dark, "g")}</g>`,
+    `<rect width="512" height="512" rx="112" fill="#0A111C"/><rect x="8" y="8" width="496" height="496" rx="104" fill="none" stroke="#3FB6C8" stroke-opacity=".35" stroke-width="4"/><g transform="translate(96 96) scale(6.667)">${markGroup(palette.dark, "g")}</g>`,
     "Inferra Software",
   );
 
@@ -92,8 +92,8 @@ async function main() {
 
   // Wordmark only
   const wm = textPath(sora, "INFERRA", 40, 4.4, 0, 40);
-  files["inferra-wordmark.svg"] = svg(Math.ceil(wm.width + 2), 48, `<path fill="#F5F3FF" d="${wm.d}"/>`, "Inferra");
-  files["inferra-wordmark-light.svg"] = svg(Math.ceil(wm.width + 2), 48, `<path fill="#1A1233" d="${wm.d}"/>`, "Inferra");
+  files["inferra-wordmark.svg"] = svg(Math.ceil(wm.width + 2), 48, `<path fill="#EEF3F8" d="${wm.d}"/>`, "Inferra");
+  files["inferra-wordmark-light.svg"] = svg(Math.ceil(wm.width + 2), 48, `<path fill="#0A111C" d="${wm.d}"/>`, "Inferra");
 
   // Stacked lockup for social avatars and square placements
   const sw = textPath(sora, "INFERRA", 44, 4.8, 0, 0);

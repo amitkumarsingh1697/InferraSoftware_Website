@@ -11,15 +11,15 @@ export function PillarArt({ pillar, className }: { pillar: CapabilityPillar; cla
     <svg viewBox="0 0 400 300" className={cn("h-auto w-full", className)} aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id={`pa-v-${pillar}`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#C9A27A" />
-          <stop offset="1" stopColor="#6E4426" />
+          <stop offset="0" stopColor="var(--art-line)" />
+          <stop offset="1" stopColor="var(--art-line-deep)" />
         </linearGradient>
         <radialGradient id={`pa-g-${pillar}`} cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="#E6C79C" stopOpacity="0.9" />
-          <stop offset="1" stopColor="#E6C79C" stopOpacity="0" />
+          <stop offset="0" stopColor="var(--art-glow)" stopOpacity="0.9" />
+          <stop offset="1" stopColor="var(--art-glow)" stopOpacity="0" />
         </radialGradient>
       </defs>
-      <g stroke="#C9A27A" strokeOpacity="0.08">
+      <g stroke="var(--art-line)" strokeOpacity="0.08">
         {Array.from({ length: 9 }, (_, i) => (
           <path key={`v${i}`} d={`M${i * 50} 0V300`} />
         ))}
@@ -40,9 +40,9 @@ export function PillarArt({ pillar, className }: { pillar: CapabilityPillar; cla
 function Build({ id }: { id: string }) {
   const layer = (y: number, o: number, label: string) => (
     <g transform={`translate(200 ${y})`} opacity={o}>
-      <path d="M0 -38 L96 0 L0 38 L-96 0Z" fill="#2A1C13" stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />
-      <path d="M-96 0 V14 L0 52 L96 14 V0" fill="#24180F" stroke="#C9A27A" strokeOpacity="0.4" />
-      <text x="0" y="5" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="10" fill="#CDBBA5" letterSpacing="2">
+      <path d="M0 -38 L96 0 L0 38 L-96 0Z" fill="var(--art-ink)" stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />
+      <path d="M-96 0 V14 L0 52 L96 14 V0" fill="var(--art-ink-deep)" stroke="var(--art-line)" strokeOpacity="0.4" />
+      <text x="0" y="5" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="10" fill="var(--art-label)" letterSpacing="2">
         {label}
       </text>
     </g>
@@ -52,8 +52,8 @@ function Build({ id }: { id: string }) {
       {layer(220, 1, "DATA")}
       {layer(160, 1, "SERVICES")}
       {layer(100, 1, "INTERFACE")}
-      <path d="M200 62 V30" stroke="#E6C79C" strokeWidth="2" strokeDasharray="3 5" className="animate-stream" />
-      <circle cx="200" cy="26" r="5" fill="#E6C79C" />
+      <path d="M200 62 V30" stroke="var(--art-glow)" strokeWidth="2" strokeDasharray="3 5" className="animate-stream" />
+      <circle cx="200" cy="26" r="5" fill="var(--art-glow)" />
       <circle cx="200" cy="26" r="18" fill={`url(#pa-g-${id})`} opacity="0.5" />
     </g>
   );
@@ -70,16 +70,16 @@ function Modernize({ id }: { id: string }) {
   return (
     <g>
       {old.map(([x, y, w, h], i) => (
-        <rect key={i} x={x} y={y} width={w} height={h} fill="#33231A" stroke="#A8927C" strokeOpacity="0.5" strokeDasharray="4 3" />
+        <rect key={i} x={x} y={y} width={w} height={h} fill="var(--art-ink-raised)" stroke="var(--art-muted)" strokeOpacity="0.5" strokeDasharray="4 3" />
       ))}
-      <path d="M160 150 H222" stroke="#E6C79C" strokeWidth="2" strokeDasharray="4 6" className="animate-stream" />
-      <path d="M214 142 L226 150 L214 158" fill="none" stroke="#E6C79C" strokeWidth="2" />
+      <path d="M160 150 H222" stroke="var(--art-glow)" strokeWidth="2" strokeDasharray="4 6" className="animate-stream" />
+      <path d="M214 142 L226 150 L214 158" fill="none" stroke="var(--art-glow)" strokeWidth="2" />
       {Array.from({ length: 9 }, (_, i) => {
         const x = 248 + (i % 3) * 42;
         const y = 88 + Math.floor(i / 3) * 42;
-        return <rect key={i} x={x} y={y} width="34" height="34" rx="6" fill="#2A1C13" stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />;
+        return <rect key={i} x={x} y={y} width="34" height="34" rx="6" fill="var(--art-ink)" stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />;
       })}
-      <circle cx="311" cy="151" r="5" fill="#E6C79C" />
+      <circle cx="311" cy="151" r="5" fill="var(--art-glow)" />
     </g>
   );
 }
@@ -94,11 +94,11 @@ function Intelligence({ id }: { id: string }) {
   return (
     <g>
       {edges.map(([a, b], i) => (
-        <path key={i} d={`M${a.x} ${a.y} L${b.x} ${b.y}`} stroke="#C9A27A" strokeOpacity={i % 3 ? 0.18 : 0.45} />
+        <path key={i} d={`M${a.x} ${a.y} L${b.x} ${b.y}`} stroke="var(--art-line)" strokeOpacity={i % 3 ? 0.18 : 0.45} />
       ))}
-      <path d="M70 150 L150 120 L250 150 L330 150" fill="none" stroke="#E6C79C" strokeWidth="2" strokeDasharray="5 7" className="animate-stream" />
+      <path d="M70 150 L150 120 L250 150 L330 150" fill="none" stroke="var(--art-glow)" strokeWidth="2" strokeDasharray="5 7" className="animate-stream" />
       {nodes.map((n, i) => (
-        <circle key={i} cx={n.x} cy={n.y} r={n.c === 3 ? 9 : 5} fill={n.c === 3 ? "#E6C79C" : "#2A1C13"} stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />
+        <circle key={i} cx={n.x} cy={n.y} r={n.c === 3 ? 9 : 5} fill={n.c === 3 ? "var(--art-glow)" : "var(--art-ink)"} stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />
       ))}
       <circle cx="330" cy="150" r="34" fill={`url(#pa-g-${id})`} opacity="0.5" />
     </g>
@@ -117,19 +117,19 @@ function Connect({ id }: { id: string }) {
   return (
     <g>
       {sats.map(([x, y], i) => (
-        <path key={i} d={`M${x} ${y} Q 200 150 200 150`} stroke="#E6C79C" strokeOpacity="0.5" strokeWidth="1.5" strokeDasharray="4 6" className="animate-stream" style={{ animationDuration: `${7 + i}s` }} />
+        <path key={i} d={`M${x} ${y} Q 200 150 200 150`} stroke="var(--art-glow)" strokeOpacity="0.5" strokeWidth="1.5" strokeDasharray="4 6" className="animate-stream" style={{ animationDuration: `${7 + i}s` }} />
       ))}
       {sats.map(([x, y, label], i) => (
         <g key={`n${i}`} transform={`translate(${x} ${y})`}>
-          <rect x="-26" y="-16" width="52" height="32" rx="8" fill="#2A1C13" stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />
-          <text y="4" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="10" fill="#CDBBA5" letterSpacing="1">
+          <rect x="-26" y="-16" width="52" height="32" rx="8" fill="var(--art-ink)" stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />
+          <text y="4" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="10" fill="var(--art-label)" letterSpacing="1">
             {label}
           </text>
         </g>
       ))}
       <circle cx="200" cy="150" r="40" fill={`url(#pa-g-${id})`} opacity="0.35" />
-      <path d="M200 120 L226 150 L200 180 L174 150Z" fill="#2A1C13" stroke="#E6C79C" strokeWidth="2" />
-      <circle cx="200" cy="150" r="5" fill="#E6C79C" />
+      <path d="M200 120 L226 150 L200 180 L174 150Z" fill="var(--art-ink)" stroke="var(--art-glow)" strokeWidth="2" />
+      <circle cx="200" cy="150" r="5" fill="var(--art-glow)" />
     </g>
   );
 }
@@ -138,14 +138,14 @@ function Connect({ id }: { id: string }) {
 function Strengthen({ id }: { id: string }) {
   return (
     <g>
-      <rect x="80" y="60" width="240" height="180" rx="4" fill="#24180F" stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />
-      <path d="M80 110 H320 M180 60 V240 M180 170 H320" stroke="#C9A27A" strokeOpacity="0.35" />
-      <path d="M60 60 V240 M54 60 H66 M54 240 H66" stroke="#A8927C" strokeOpacity="0.6" />
-      <path d="M80 262 H320 M80 256 V268 M320 256 V268" stroke="#A8927C" strokeOpacity="0.6" />
-      <circle cx="250" cy="140" r="34" fill="none" stroke="#E6C79C" strokeWidth="2" />
-      <path d="M274 164 L300 190" stroke="#E6C79C" strokeWidth="3" strokeLinecap="round" />
-      <path d="M236 140 L247 151 L266 130" fill="none" stroke="#E6C79C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      <text x="96" y="92" fontFamily="var(--font-mono)" fontSize="10" fill="#CDBBA5" letterSpacing="1.5">
+      <rect x="80" y="60" width="240" height="180" rx="4" fill="var(--art-ink-deep)" stroke={`url(#pa-v-${id})`} strokeWidth="1.5" />
+      <path d="M80 110 H320 M180 60 V240 M180 170 H320" stroke="var(--art-line)" strokeOpacity="0.35" />
+      <path d="M60 60 V240 M54 60 H66 M54 240 H66" stroke="var(--art-muted)" strokeOpacity="0.6" />
+      <path d="M80 262 H320 M80 256 V268 M320 256 V268" stroke="var(--art-muted)" strokeOpacity="0.6" />
+      <circle cx="250" cy="140" r="34" fill="none" stroke="var(--art-glow)" strokeWidth="2" />
+      <path d="M274 164 L300 190" stroke="var(--art-glow)" strokeWidth="3" strokeLinecap="round" />
+      <path d="M236 140 L247 151 L266 130" fill="none" stroke="var(--art-glow)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="96" y="92" fontFamily="var(--font-mono)" fontSize="10" fill="var(--art-label)" letterSpacing="1.5">
         REVIEW · v2
       </text>
     </g>

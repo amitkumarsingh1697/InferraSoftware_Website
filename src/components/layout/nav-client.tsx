@@ -116,7 +116,7 @@ export function DesktopNav({ items, servicesMenu, ctaLabel }: { items: Item[]; s
                   hidden={!open}
                   className="absolute inset-x-0 top-full px-4 pt-1 sm:px-6 lg:px-8"
                 >
-                  <div className="panel overflow-hidden bg-canvas-2/95 shadow-[0_30px_80px_-30px_rgb(74_47_31/0.45)] backdrop-blur-xl">
+                  <div className="panel overflow-hidden bg-canvas-2/95 shadow-[0_30px_80px_-30px_var(--art-shadow)] backdrop-blur-xl">
                     <div className="grid grid-cols-5 gap-px bg-line">
                       {servicesMenu.map((group) => (
                         <div key={group.pillar} className="bg-canvas-2 p-5">

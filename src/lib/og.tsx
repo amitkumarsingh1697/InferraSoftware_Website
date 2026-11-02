@@ -32,35 +32,35 @@ export async function renderOgImage({ eyebrow, title, subtitle }: { eyebrow: str
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "64px 72px",
-          background: "radial-gradient(circle at 82% 38%, #5C3B26 0%, #2C1D14 32%, #1F140D 62%)",
-          color: "#FBF6EE",
+          background: "radial-gradient(circle at 82% 38%, #1A3550 0%, #0F1D2E 32%, #0A111C 62%)",
+          color: "#EEF3F8",
           fontFamily: "Inter",
           position: "relative",
         }}
       >
         <svg width="520" height="520" viewBox="-200 -200 400 400" style={{ position: "absolute", right: -40, top: 40, opacity: 0.9 }}>
-          <circle r="60" fill="#E6C79C" fillOpacity="0.35" />
+          <circle r="60" fill="#8FE3EE" fillOpacity="0.35" />
           <circle r="16" fill="#ffffff" />
-          <ellipse rx="150" ry="44" transform="rotate(-18)" fill="none" stroke="#E9D8BE" strokeOpacity="0.8" strokeWidth="2" />
-          <ellipse rx="128" ry="36" transform="rotate(32)" fill="none" stroke="#E6C79C" strokeOpacity="0.6" strokeWidth="2" />
-          <ellipse rx="176" ry="58" transform="rotate(76)" fill="none" stroke="#E9D8BE" strokeOpacity="0.35" strokeWidth="2" />
+          <ellipse rx="150" ry="44" transform="rotate(-18)" fill="none" stroke="#CFE6F2" strokeOpacity="0.8" strokeWidth="2" />
+          <ellipse rx="128" ry="36" transform="rotate(32)" fill="none" stroke="#8FE3EE" strokeOpacity="0.6" strokeWidth="2" />
+          <ellipse rx="176" ry="58" transform="rotate(76)" fill="none" stroke="#CFE6F2" strokeOpacity="0.35" strokeWidth="2" />
         </svg>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <svg width="56" height="56" viewBox="0 0 48 48">
-            <path fill="#C9A27A" d="M17 5h5L10 24l12 19h-5L5 24z" />
-            <path fill="#C9A27A" d="M31 5h-5l12 19-12 19h5l12-19z" />
-            <path fill="#FBF6EE" d="M21.5 20.5h5V38l-2.5 3-2.5-3z" />
-            <circle fill="#E6C79C" cx="24" cy="12.5" r="3.6" />
+            <path fill="#5FD4E3" d="M17 5h5L10 24l12 19h-5L5 24z" />
+            <path fill="#5FD4E3" d="M31 5h-5l12 19-12 19h5l12-19z" />
+            <path fill="#EEF3F8" d="M21.5 20.5h5V38l-2.5 3-2.5-3z" />
+            <circle fill="#8FE3EE" cx="24" cy="12.5" r="3.6" />
           </svg>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span style={{ fontFamily: "Sora", fontSize: 28, letterSpacing: 5 }}>INFERRA</span>
-            <span style={{ fontFamily: "Mono", fontSize: 12, letterSpacing: 7, color: "#CDBBA5" }}>SOFTWARE</span>
+            <span style={{ fontFamily: "Mono", fontSize: 12, letterSpacing: 7, color: "#B4C0CF" }}>SOFTWARE</span>
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", maxWidth: 820 }}>
-          <span style={{ fontFamily: "Mono", fontSize: 20, letterSpacing: 4, color: "#E6C79C", textTransform: "uppercase" }}>{eyebrow}</span>
+          <span style={{ fontFamily: "Mono", fontSize: 20, letterSpacing: 4, color: "#8FE3EE", textTransform: "uppercase" }}>{eyebrow}</span>
           <span style={{ fontFamily: "Sora", fontSize: title.length > 60 ? 54 : 64, lineHeight: 1.08, marginTop: 20, letterSpacing: -1.5 }}>{title}</span>
-          {subtitle && <span style={{ fontSize: 26, color: "#CDBBA5", marginTop: 22, lineHeight: 1.4 }}>{subtitle}</span>}
+          {subtitle && <span style={{ fontSize: 26, color: "#B4C0CF", marginTop: 22, lineHeight: 1.4 }}>{subtitle}</span>}
         </div>
       </div>
     ),

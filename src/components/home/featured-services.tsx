@@ -60,7 +60,7 @@ export function FeaturedServices() {
               </ul>
             </div>
             <div className="relative flex items-center justify-center border-t border-line p-6 lg:border-l lg:border-t-0">
-              <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_60%_50%,rgb(168_123_79/0.18),transparent_65%)]" />
+              <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_60%_50%,var(--art-ring),transparent_65%)]" />
               <PillarArt pillar="intelligence" className="relative max-w-md" />
             </div>
           </article>

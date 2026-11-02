@@ -17,6 +17,7 @@ pages keep a single 3D sculpture that moves as you scroll.
 | Homepage flight path: spacing, camera offsets, thread route | `src/components/scene/journey/path.ts` |
 | The 3D objects in each chapter | `src/components/scene/journey/sets.tsx` |
 | Where the sculpture sits on interior pages | `src/components/scene/poses.ts` |
+| Illustration and cover-art colours | `--art-*` variables in `src/design/tokens.css` |
 | Intro curtain timing | `--intro-count` and `--intro-hold` in `src/design/tokens.css` |
 | Motion helpers that read the tokens | `src/design/motion.ts` |
 | Copy | `src/config/messaging.ts`, `src/content/*`, and the home section components |
@@ -100,10 +101,11 @@ commit ed8123d.
 
 - **Team photos**: abstract avatars are shown until `photo` is set in
   `src/content/team.ts`.
-- **Case study and article covers**: generated warm-toned art (`CoverArt`). Pass
-  real imagery through `MediaSlot` when available.
-- **Apple touch icon** (`src/app/apple-icon.png`) and the files produced by
-  `npm run brand` still use the previous violet palette. `src/app/icon.svg` and
-  the manifest colours have been updated.
-- **Social preview images** (`src/lib/og.tsx`) use the new palette with a dark
-  espresso background; review them once the brand direction is final.
+- **Case study and article covers**: generated navy-and-teal art (`CoverArt`).
+  Pass real imagery through `MediaSlot` when available.
+- **Brand files**: the logo, favicon, app icons and lockups in `public/brand`
+  are generated in navy and teal by `npm run brand` and `npm run brand:png`.
+  Their colours are set at the top of `scripts/generate-brand-assets.mjs`,
+  separately from tokens.css because they are standalone files.
+- **Social preview images** (`src/lib/og.tsx`) and the enquiry email use fixed
+  navy and teal values, because they render outside the site's CSS.
