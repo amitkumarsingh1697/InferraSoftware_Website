@@ -10,40 +10,40 @@
  * canvas-2 and surface. accent is decorative only (large type, rules, art).
  */
 @theme {
-  /* Deep Ocean & Signal Teal ("trusted engineering partner"). Other tested palettes are listed in docs/DESIGN-SYSTEM.md. */
-  --color-canvas: #0a111c; /* page background, warm black */
-  --color-canvas-2: #0f1826; /* alternate band */
-  --color-surface: #131e2e; /* cards and panels */
-  --color-surface-2: #1a2638; /* hover / raised */
-  --color-surface-3: #223047; /* pressed / deepest tone */
+  /* Ivory, Forest & Copper ("senior craft, human touch"). Other tested palettes are listed in docs/DESIGN-SYSTEM.md. */
+  --color-canvas: #f5f2ea; /* page background, warm black */
+  --color-canvas-2: #ebe6da; /* alternate band */
+  --color-surface: #fbf9f4; /* cards and panels */
+  --color-surface-2: #efebe1; /* hover / raised */
+  --color-surface-3: #e0dace; /* pressed / deepest tone */
 
   /* Deepest tone: media slots, cover art, code blocks */
-  --color-espresso: #060b13;
-  --color-espresso-2: #0c1420;
-  --color-on-espresso: #eef3f8; /* 17:1 on espresso */
-  --color-on-espresso-muted: #b4c0cf; /* 10:1 on espresso */
-  --color-gold: #5fd4e3;
+  --color-espresso: #12261e;
+  --color-espresso-2: #1a3329;
+  --color-on-espresso: #f5f2ea; /* 17:1 on espresso */
+  --color-on-espresso-muted: #c5d0c9; /* 10:1 on espresso */
+  --color-gold: #d79a6b;
 
   /* Restrained accents */
-  --color-accent: #3fb6c8; /* antique gold: decorative, rules, large type */
-  --color-accent-strong: #5fd4e3; /* teal: button fill */
-  --color-accent-deep: #a5ecf4; /* button hover */
-  --color-on-accent: #06121a; /* text on teal buttons */
-  --color-accent-text: #6fd8e6; /* gold text, 9:1 */
-  --color-highlight: #7aa7ff; /* eyebrows, links, icons, 9:1 */
-  --color-highlight-deep: #a9c4ff;
+  --color-accent: #2f6b55; /* antique gold: decorative, rules, large type */
+  --color-accent-strong: #1f4d3d; /* forest: button fill */
+  --color-accent-deep: #143528; /* button hover */
+  --color-on-accent: #ffffff; /* text on forest buttons */
+  --color-accent-text: #9c4a22; /* gold text, 9:1 */
+  --color-highlight: #9c4a22; /* eyebrows, links, icons, 9:1 */
+  --color-highlight-deep: #7a3a1a;
 
   /* Text */
-  --color-fg: #eef3f8; /* warm ivory, 14:1 */
-  --color-fg-muted: #b4c0cf; /* 9:1 */
-  --color-fg-subtle: #8d9bae; /* 6.1:1 */
+  --color-fg: #14261f; /* warm ivory, 14:1 */
+  --color-fg-muted: #3f5249; /* 9:1 */
+  --color-fg-subtle: #4f6058; /* 6.1:1 */
 
-  --color-line: rgb(111 180 220 / 0.14);
-  --color-line-strong: rgb(111 180 220 / 0.28);
+  --color-line: rgb(20 38 31 / 0.13);
+  --color-line-strong: rgb(20 38 31 / 0.26);
 
-  --color-success: #79d197;
-  --color-warning: #e3b35a;
-  --color-danger: #f08a7a;
+  --color-success: #1f7a4d;
+  --color-warning: #8a5a00;
+  --color-danger: #b3261e;
 
   /* Typography */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
@@ -107,39 +107,40 @@
 :root {
   --intro-count: 1100ms; /* homepage intro counter */
   --intro-hold: 1300ms; /* when the intro curtain starts to fade */
-  color-scheme: dark;
-  --scene-ceramic: #dfe8f2; /* main sculpture */
-  --scene-bronze: #5fb8c9; /* metal rings */
-  --scene-coffee: #1a2a40; /* dark forms */
-  --scene-gold: #6fe0ee; /* thread and dust */
-  --scene-light-key: #e6f4ff;
-  --scene-light-fill: #3a6fa8;
-  --scene-fog: #0a111c; /* match --color-canvas so depth fades into the page */
-  --scene-tone-1: #6fe0ee; /* homepage chapter colour grades, see journey/chapters.ts */
-  --scene-tone-2: #7aa7ff;
-  --scene-tone-3: #4fd1a5;
-  --scene-tone-4: #a5b8ff;
+  color-scheme: light;
+  --scene-ceramic: #f3efe6; /* main sculpture */
+  --scene-bronze: #c26a3d; /* metal rings */
+  --scene-coffee: #b7c6b9; /* dark forms */
+  --scene-gold: #c26a3d; /* thread and dust */
+  --scene-light-key: #fffaf0;
+  --scene-light-fill: #cfd8cf;
+  --scene-fog: #f5f2ea; /* match --color-canvas so depth fades into the page */
+  --scene-veil: 0.24; /* how much page colour washes over the homepage 3D (0 to 1) */
+  --scene-tone-1: #c26a3d; /* homepage chapter colour grades, see journey/chapters.ts */
+  --scene-tone-2: #2f6b55;
+  --scene-tone-3: #d79a6b;
+  --scene-tone-4: #6f8f7a;
 
   /* Illustrations and generated cover art (src/components/art, capabilities explorer) */
-  --art-hue: 188deg; /* covers vary from this hue to +26 degrees */
-  --art-glow: #8fe3ee;
-  --art-line: #4fb3c4;
-  --art-line-deep: #1f5f7a;
-  --art-fade: #2f6f9c;
-  --art-pale: #cfe6f2;
-  --art-core: #dff3f8;
-  --art-text: #eef3f8;
-  --art-label: #a9bccd;
-  --art-muted: #6f86a0;
-  --art-ink: #0f1a2a;
-  --art-ink-deep: #0a121e;
-  --art-ink-raised: #16243a;
-  --art-ring: rgb(95 212 227 / 0.2);
-  --art-shadow: rgb(0 0 0 / 0.5);
+  --art-hue: 14deg; /* covers vary from this hue to +26 degrees */
+  --art-glow: #e8b48a;
+  --art-line: #c98a5e;
+  --art-line-deep: #7a3f1f;
+  --art-fade: #9c4a22;
+  --art-pale: #f1dcc6;
+  --art-core: #fbeee0;
+  --art-text: #f5f2ea;
+  --art-label: #cdbfa8;
+  --art-muted: #8a9a8f;
+  --art-ink: #163028;
+  --art-ink-deep: #10241d;
+  --art-ink-raised: #1d3a30;
+  --art-ring: rgb(31 77 61 / 0.18);
+  --art-shadow: rgb(20 38 31 / 0.28);
 
   /* Glass panels floating over the 3D scene */
-  --panel-from: rgb(22 34 52 / 0.72);
-  --panel-to: rgb(10 17 28 / 0.8);
-  --panel-highlight: rgb(200 230 255 / 0.06);
-  --panel-shadow: rgb(0 0 0 / 0.55);
+  --panel-from: rgb(251 249 244 / 0.8);
+  --panel-to: rgb(239 235 225 / 0.84);
+  --panel-highlight: rgb(255 255 255 / 0.6);
+  --panel-shadow: rgb(20 38 31 / 0.22);
 }

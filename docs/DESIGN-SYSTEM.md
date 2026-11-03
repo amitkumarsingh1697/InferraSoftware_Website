@@ -1,8 +1,8 @@
 # Design system and 3D experience
 
-The site uses a dark, cinematic look ("Deep Ocean & Signal Teal", meant to read
-as a calm, precise, trusted engineering partner): deep navy backgrounds, cool
-white text, teal and blue accents, glass panels, a Fraunces serif
+The site uses a light, warm look ("Ivory, Forest & Copper", meant to read as
+senior craft with a human touch): ivory backgrounds, deep forest-green text and
+buttons, copper accents, frosted panels, a Fraunces serif
 for headings and Inter for body text. On the homepage, scrolling flies a camera
 along a glowing gold thread through ten chapters, one per section. Interior
 pages keep a single 3D sculpture that moves as you scroll.
@@ -18,6 +18,7 @@ pages keep a single 3D sculpture that moves as you scroll.
 | The 3D objects in each chapter | `src/components/scene/journey/sets.tsx` |
 | Where the sculpture sits on interior pages | `src/components/scene/poses.ts` |
 | Illustration and cover-art colours | `--art-*` variables in `src/design/tokens.css` |
+| How much the page washes over the homepage 3D | `--scene-veil` in `src/design/tokens.css` |
 | Intro curtain timing | `--intro-count` and `--intro-hold` in `src/design/tokens.css` |
 | Motion helpers that read the tokens | `src/design/motion.ts` |
 | Copy | `src/config/messaging.ts`, `src/content/*`, and the home section components |
@@ -25,7 +26,8 @@ pages keep a single 3D sculpture that moves as you scroll.
 Tailwind utilities are generated from the tokens, so `bg-canvas`, `text-fg`,
 `text-highlight`, `bg-espresso`, `py-section` and `ease-editorial` all follow
 any change you make there. Every text colour passes WCAG 2.2 AA on the dark
-backgrounds; `accent` is decorative only.
+backgrounds; `accent` is decorative only. The previous navy and teal version is
+on `main` at commit f863342.
 
 To try another palette, replace the colour values in the `@theme` block and the
 `--scene-*` and `--panel-*` values in `:root`. Four tested alternatives (Forest
@@ -101,11 +103,11 @@ commit ed8123d.
 
 - **Team photos**: abstract avatars are shown until `photo` is set in
   `src/content/team.ts`.
-- **Case study and article covers**: generated navy-and-teal art (`CoverArt`).
+- **Case study and article covers**: generated forest-and-copper art (`CoverArt`).
   Pass real imagery through `MediaSlot` when available.
 - **Brand files**: the logo, favicon, app icons and lockups in `public/brand`
-  are generated in navy and teal by `npm run brand` and `npm run brand:png`.
+  are generated in forest and copper by `npm run brand` and `npm run brand:png`.
   Their colours are set at the top of `scripts/generate-brand-assets.mjs`,
   separately from tokens.css because they are standalone files.
 - **Social preview images** (`src/lib/og.tsx`) and the enquiry email use fixed
-  navy and teal values, because they render outside the site's CSS.
+  forest and copper values, because they render outside the site's CSS.

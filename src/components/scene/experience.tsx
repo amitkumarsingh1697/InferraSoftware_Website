@@ -1,5 +1,6 @@
 "use client";
 
+import { readToken } from "@/design/motion";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -109,7 +110,7 @@ export default function Experience({ reduced, onVeil, onReady }: { reduced: bool
   }, [choreography, pathname]);
 
   useEffect(() => {
-    if (journey) onVeil(narrow ? 0.4 : 0.08);
+    if (journey) onVeil(narrow ? 0.4 : parseFloat(readToken("--scene-veil")) || 0.08);
   }, [journey, narrow, onVeil]);
 
   useEffect(() => {
