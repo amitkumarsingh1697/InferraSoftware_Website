@@ -73,42 +73,44 @@ than the defined glow, rotate the mark or set the wordmark in another font.
 
 ## Colour
 
-Midnight violet is the primary experience. Tokens are defined once in
-`src/app/globals.css` (`@theme`) and used as Tailwind classes such as
-`bg-ink`, `text-fg-muted` or `border-line`.
+Deep navy and teal is the primary experience, chosen so the brand reads as a
+calm, precise, trusted engineering partner. Tokens are defined once in
+`src/design/tokens.css` (`@theme`) and used as Tailwind classes such as
+`bg-canvas`, `text-fg-muted` or `border-line`. See `DESIGN-SYSTEM.md` for the
+3D scene and artwork colours.
 
 | Token | Hex | Role |
 | --- | --- | --- |
-| `ink` | `#0A0718` | Page background |
-| `ink-2` | `#100B24` | Alternate section background |
-| `surface` | `#17102F` | Cards and panels |
-| `surface-2` | `#1F1640` | Raised and hover surfaces |
-| `accent` | `#8B5CF6` | Decorative violet, large display type |
-| `accent-strong` | `#7C3AED` | Primary button fill |
-| `violet-bright` | `#A78BFA` | Violet text and links on dark |
-| `cyan` | `#67E8F9` | Electric highlight, focus ring, eyebrows |
-| `fg` | `#F5F3FF` | Primary text |
-| `fg-muted` | `#B7B0CC` | Body text |
-| `fg-subtle` | `#918AAB` | Captions and metadata |
+| `canvas` | `#0A111C` | Page background |
+| `canvas-2` | `#0F1826` | Alternate section background |
+| `surface` | `#131E2E` | Cards and panels |
+| `surface-2` | `#1A2638` | Raised and hover surfaces |
+| `accent` | `#3FB6C8` | Decorative teal, rules, large display type |
+| `accent-strong` | `#5FD4E3` | Primary button fill |
+| `on-accent` | `#06121A` | Text on primary buttons |
+| `accent-text` | `#6FD8E6` | Teal text and the italic headline line |
+| `highlight` | `#7AA7FF` | Eyebrows, links, icons |
+| `fg` | `#EEF3F8` | Primary text |
+| `fg-muted` | `#B4C0CF` | Body text |
+| `fg-subtle` | `#8D9BAE` | Captions and metadata |
 
 ### Contrast (WCAG 2.2)
 
 Measured against the three main backgrounds. AA requires 4.5:1 for body text
 and 3:1 for large text and UI components.
 
-| Text colour | on `ink` | on `surface` | on `surface-2` |
+| Text colour | on `canvas` | on `surface` | on `surface-2` |
 | --- | --- | --- | --- |
-| `fg` | 18.1 | 16.6 | 15.4 |
-| `fg-muted` | 9.6 | 8.8 | 8.1 |
-| `fg-subtle` | 6.1 | 5.6 | 5.2 |
-| `violet-bright` | 7.3 | 6.7 | 6.2 |
-| `cyan` | 13.7 | 12.6 | 11.6 |
-| `accent` | 4.7 | 4.3 | 4.0 |
-| `danger` `#F87171` | 7.2 | 6.6 | 6.1 |
+| `fg` | 16.9 | 15.0 | 13.6 |
+| `fg-muted` | 10.3 | 9.1 | 8.3 |
+| `fg-subtle` | 6.7 | 5.9 | 5.4 |
+| `accent-text` | 11.4 | 10.1 | 9.2 |
+| `highlight` | 7.9 | 7.0 | 6.4 |
+| `accent` | 7.9 | 7.0 | 6.3 |
+| `danger` `#F08A7A` | 7.8 | 6.9 | 6.3 |
 
-White on the `accent-strong` button: 5.7:1. `accent` is used only for large
-display type and decoration, where 3:1 applies. Automated axe checks in the
-test suite cover rendered pages (see `TESTING-REPORT.md`).
+`on-accent` text on the `accent-strong` button: 10.8:1. Automated axe checks in
+the test suite cover rendered pages (see `TESTING-REPORT.md`).
 
 ## Typography
 

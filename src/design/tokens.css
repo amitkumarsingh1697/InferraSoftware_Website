@@ -11,7 +11,7 @@
  */
 @theme {
   /* Deep Ocean & Signal Teal ("trusted engineering partner"). Other tested palettes are listed in docs/DESIGN-SYSTEM.md. */
-  --color-canvas: #0a111c; /* page background, warm black */
+  --color-canvas: #0a111c; /* page background, deep navy */
   --color-canvas-2: #0f1826; /* alternate band */
   --color-surface: #131e2e; /* cards and panels */
   --color-surface-2: #1a2638; /* hover / raised */
@@ -25,18 +25,18 @@
   --color-gold: #5fd4e3;
 
   /* Restrained accents */
-  --color-accent: #3fb6c8; /* antique gold: decorative, rules, large type */
+  --color-accent: #3fb6c8; /* teal: decorative, rules, large type */
   --color-accent-strong: #5fd4e3; /* teal: button fill */
   --color-accent-deep: #a5ecf4; /* button hover */
   --color-on-accent: #06121a; /* text on teal buttons */
-  --color-accent-text: #6fd8e6; /* gold text, 9:1 */
-  --color-highlight: #7aa7ff; /* eyebrows, links, icons, 9:1 */
+  --color-accent-text: #6fd8e6; /* teal text, 11:1 */
+  --color-highlight: #7aa7ff; /* eyebrows, links, icons, 7.9:1 */
   --color-highlight-deep: #a9c4ff;
 
   /* Text */
-  --color-fg: #eef3f8; /* warm ivory, 14:1 */
-  --color-fg-muted: #b4c0cf; /* 9:1 */
-  --color-fg-subtle: #8d9bae; /* 6.1:1 */
+  --color-fg: #eef3f8; /* cool white, 17:1 */
+  --color-fg-muted: #b4c0cf; /* 10:1 */
+  --color-fg-subtle: #8d9bae; /* 6.7:1 */
 
   --color-line: rgb(111 180 220 / 0.14);
   --color-line-strong: rgb(111 180 220 / 0.28);

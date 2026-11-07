@@ -1,16 +1,19 @@
 # Inferra Software website
 
-The corporate website for **Inferra Software**: a cinematic, midnight-violet,
-multi-page marketing site with an enquiry form, insights articles and
+The corporate website for **Inferra Software**: a cinematic, deep navy and teal,
+multi-page marketing site. Scrolling the homepage flies a 3D camera through ten
+chapters, one per section. It also has an enquiry form, insights articles and
 engineering demonstrators.
 
 > *Complex ideas. Engineered into reality.*
 
-![Inferra Software home page on desktop](docs/screenshots/home-desktop.png)
+![Inferra Software home page on desktop](docs/screenshots/home-desktop.jpg)
+
+![Four homepage chapters along the 3D scroll journey](docs/screenshots/scroll-journey.jpg)
 
 <p>
-  <img src="docs/screenshots/home-mobile.png" alt="Home page on a phone" width="240">
-  <img src="docs/screenshots/services-menu.jpg" alt="Services mega menu" width="380">
+  <img src="docs/screenshots/home-mobile.jpg" alt="Home page on a phone" width="240">
+  <img src="docs/screenshots/services-menu.jpg" alt="Services mega menu" width="520">
   <img src="docs/screenshots/enquiry-form.jpg" alt="Two-step enquiry form" width="380">
 </p>
 
