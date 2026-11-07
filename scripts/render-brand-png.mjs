@@ -18,7 +18,7 @@ const jobs = [
   { src: "inferra-app-icon.svg", out: "src/app/apple-icon.png", w: 180, h: 180 },
   { src: "inferra-app-icon.svg", out: "public/brand/inferra-app-icon.png", w: 512, h: 512 },
   { src: "inferra-stacked-dark.svg", out: "public/brand/inferra-stacked-dark.png", w: 640, h: 640 },
-  { src: "inferra-lockup-dark.svg", out: "public/brand/inferra-lockup-dark.png", w: 0, h: 128, bg: "#12261E" },
+  { src: "inferra-lockup-dark.svg", out: "public/brand/inferra-lockup-dark.png", w: 0, h: 128, bg: "#0A111C" },
 ];
 
 const browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH } : {});

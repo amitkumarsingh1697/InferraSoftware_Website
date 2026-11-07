@@ -64,9 +64,9 @@ export function enquiryHtml(e: Enquiry, id: string): string {
     .join("");
   const message = escapeHtml(e.message).replace(/\n/g, "<br>");
   return `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5">
-<h2 style="margin:0 0 12px">New enquiry <span style="color:#1F4D3D">${escapeHtml(id)}</span></h2>
+<h2 style="margin:0 0 12px">New enquiry <span style="color:#1F8A9E">${escapeHtml(id)}</span></h2>
 <table style="border-collapse:collapse">${rows}</table>
 <h3 style="margin:20px 0 8px">Message</h3>
-<div style="white-space:normal;border-left:3px solid #1F4D3D;padding-left:12px">${message}</div>
+<div style="white-space:normal;border-left:3px solid #1F8A9E;padding-left:12px">${message}</div>
 </body></html>`;
 }
