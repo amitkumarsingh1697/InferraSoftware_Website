@@ -59,7 +59,7 @@ export default function WorkPage() {
         </p>
       </PageHero>
       <Container className="py-16 sm:py-20">
-        <FilterableGrid label="Filter by service" filters={filters} items={items} emptyMessage="No projects match this filter yet." />
+        <FilterableGrid param="service" label="Filter by service" filters={filters} items={items} emptyMessage="No projects match this filter yet." />
       </Container>
       <FinalCta headline="Facing a similar challenge?" body="If one of these problems sounds familiar, let's talk about how the approach would apply to your systems and constraints." />
     </>
