@@ -33,6 +33,7 @@ export default function InsightsPage() {
         <h2 className="mt-16 font-display text-2xl font-semibold sm:mt-20">All articles</h2>
         <div className="mt-6">
           <FilterableGrid
+            param="topic"
             label="Filter by topic"
             allLabel="All topics"
             filters={topics}

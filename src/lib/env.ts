@@ -18,11 +18,20 @@ const schema = z.object({
   ENQUIRY_FROM_EMAIL: z.string().min(3).optional(),
   ENQUIRY_WEBHOOK_URL: z.url().refine((u) => u.startsWith("https://"), "Webhook must use https").optional(),
   ENQUIRY_WEBHOOK_SECRET: z.string().min(8).optional(),
+  // Shared store for rate limiting and duplicate protection across instances.
+  // Vercel's Upstash integration sets the KV_ names; a direct Upstash database
+  // gives the UPSTASH_ names. Either pair works.
+  UPSTASH_REDIS_REST_URL: z.url().refine((u) => u.startsWith("https://"), "Redis REST URL must use https").optional(),
+  UPSTASH_REDIS_REST_TOKEN: z.string().min(8).optional(),
+  KV_REST_API_URL: z.url().refine((u) => u.startsWith("https://"), "Redis REST URL must use https").optional(),
+  KV_REST_API_TOKEN: z.string().min(8).optional(),
 });
 
 export interface ServerEnv {
   resend: { apiKey: string; to: string[]; from: string } | null;
   webhook: { url: string; secret?: string } | null;
+  /** Shared Redis (Upstash REST) for rate limits; null means per-instance memory. */
+  redis: { url: string; token: string } | null;
   issues: string[];
 }
 
@@ -53,8 +62,12 @@ export function getServerEnv(): ServerEnv {
     issues.push("Email delivery needs RESEND_API_KEY and ENQUIRY_TO_EMAIL together.");
   }
   const webhook = d.ENQUIRY_WEBHOOK_URL ? { url: d.ENQUIRY_WEBHOOK_URL, secret: d.ENQUIRY_WEBHOOK_SECRET } : null;
-  if (issues.length) console.warn(`[env] Enquiry delivery configuration issues: ${issues.join("; ")}`);
-  cached = { resend, webhook, issues };
+  const redisUrl = d.UPSTASH_REDIS_REST_URL ?? d.KV_REST_API_URL;
+  const redisToken = d.UPSTASH_REDIS_REST_TOKEN ?? d.KV_REST_API_TOKEN;
+  const redis = redisUrl && redisToken ? { url: redisUrl.replace(/\/+$/, ""), token: redisToken } : null;
+  if (!redis && (redisUrl || redisToken)) issues.push("Shared rate limiting needs both a Redis REST URL and token.");
+  if (issues.length) console.warn(`[env] Enquiry configuration issues: ${issues.join("; ")}`);
+  cached = { resend, webhook, redis, issues };
   return cached;
 }
 

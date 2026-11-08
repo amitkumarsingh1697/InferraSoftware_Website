@@ -34,10 +34,15 @@ configuration. Any Node.js host that runs `next build && next start` also works.
    | `SITE_INDEXING` | `enabled` (only when ready to be found) | leave empty |
    | `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` | set | optional (separate key recommended) |
    | `ENQUIRY_WEBHOOK_URL`, `ENQUIRY_WEBHOOK_SECRET` | optional | optional |
+   | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` (or `KV_REST_API_URL`, `KV_REST_API_TOKEN`) | recommended | optional |
    | `NEXT_PUBLIC_BOOKING_URL` | optional | optional |
    | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | optional | leave empty |
 
-   Mark `RESEND_API_KEY` and `ENQUIRY_WEBHOOK_SECRET` as **Sensitive**.
+   Mark `RESEND_API_KEY`, `ENQUIRY_WEBHOOK_SECRET` and the Redis token as **Sensitive**.
+
+   For the shared rate limit, the simplest route is **Storage → Upstash for
+   Redis** in the Vercel Marketplace (free tier is plenty): connect it to the
+   project and it adds `KV_REST_API_URL` and `KV_REST_API_TOKEN` itself.
 
 4. Deploy. Preview deployments are automatically `noindex`, even if
    `SITE_INDEXING` is set, because the site checks `VERCEL_ENV`.
@@ -153,8 +158,10 @@ reverted the same way.
 
 ## Notes on scaling and hardening
 
-- The enquiry rate limiter is in memory per instance. If spam becomes a
-  problem, move it to a shared store (Upstash Redis or Vercel KV) or add a
-  CAPTCHA such as Cloudflare Turnstile.
+- The enquiry rate limit (5 per 10 minutes per visitor) and duplicate check
+  use the shared Redis store when it is configured. Without it they fall back
+  to memory per instance, and they also fall back if Redis is unreachable, so
+  the form never breaks. If spam still gets through, add a CAPTCHA such as
+  Cloudflare Turnstile.
 - If you later add third-party embeds (video, scheduling widgets, chat), add
   their origins to the CSP in `src/lib/security-headers.ts`.

@@ -1,14 +1,13 @@
 import { createHash, randomUUID } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { enquirySchema, fieldErrors } from "@/lib/enquiry/schema";
-import { createRateLimiter } from "@/lib/enquiry/rate-limit";
+import { getEnquiryStore } from "@/lib/enquiry/store";
 import { deliverEnquiry } from "@/lib/enquiry/deliver";
 
 const MAX_BODY_BYTES = 20_000;
 const MIN_FILL_MS = 3_000;
-const limiter = createRateLimiter({ limit: 5, windowMs: 10 * 60_000 });
-const recent = new Map<string, { id: string; at: number }>();
-const DEDUPE_MS = 10 * 60_000;
+// Shared across instances when a Redis store is configured, else per instance.
+const store = () => getEnquiryStore({ limit: 5, windowMs: 10 * 60_000, dedupeMs: 10 * 60_000 });
 
 function clientKey(req: NextRequest): string {
   const forwarded = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
@@ -34,7 +33,7 @@ export async function POST(req: NextRequest) {
     if (!sameOrigin) return json(403, { ok: false, error: "forbidden" });
   }
 
-  const rate = limiter(clientKey(req));
+  const rate = await store().hit(clientKey(req));
   if (!rate.allowed) {
     return json(429, { ok: false, error: "rate_limited", retryAfter: rate.retryAfterSeconds }, { "Retry-After": String(rate.retryAfterSeconds) });
   }
@@ -67,16 +66,14 @@ export async function POST(req: NextRequest) {
 
   // Duplicate protection (double clicks, retries): same sender + message within 10 minutes.
   const fingerprint = createHash("sha256").update(`${enquiry.email}|${enquiry.message}`).digest("hex");
-  const now = Date.now();
-  for (const [k, v] of recent) if (now - v.at > DEDUPE_MS) recent.delete(k);
-  const previous = recent.get(fingerprint);
-  if (previous) return json(200, { ok: true, id: previous.id, duplicate: true });
+  const previous = await store().recall(fingerprint);
+  if (previous) return json(200, { ok: true, id: previous, duplicate: true });
 
   const id = `INF-${randomUUID().slice(0, 8).toUpperCase()}`;
   const result = await deliverEnquiry(enquiry, id);
 
   if (result.ok) {
-    recent.set(fingerprint, { id, at: now });
+    await store().remember(fingerprint, id);
     console.info(`[enquiry ${id}] delivered via ${result.channels.join(", ")}`);
     return json(200, { ok: true, id });
   }

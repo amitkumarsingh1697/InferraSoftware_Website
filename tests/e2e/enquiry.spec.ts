@@ -237,3 +237,32 @@ test("fields are checked as the visitor leaves them, with clear messages", async
   await email.focus();
   await expect(page.locator("#f-message-error")).toContainText("using words");
 });
+
+test("an unsent enquiry survives a reload and can be cleared", async ({ page }) => {
+  await page.goto("/contact");
+  await page.locator("#f-fullName").fill("Draft Person");
+  await page.locator("#f-message").fill("Half-written message about a data platform.");
+  // Saving is debounced; wait until the draft is stored.
+  await expect.poll(() => page.evaluate(() => sessionStorage.getItem("inferra:enquiry-draft"))).toContain("Draft Person");
+  // The reload prompt (beforeunload) is accepted, as a visitor confirming would.
+  page.once("dialog", (d) => d.accept());
+  await page.reload();
+  await expect(page.locator("#f-fullName")).toHaveValue("Draft Person");
+  await expect(page.locator("#f-message")).toHaveValue(/data platform/);
+  await expect(page.getByText("We kept the enquiry you started earlier")).toBeVisible();
+  await page.getByRole("button", { name: "Start over" }).click();
+  await expect(page.locator("#f-fullName")).toHaveValue("");
+  await expect.poll(() => page.evaluate(() => sessionStorage.getItem("inferra:enquiry-draft"))).toBeNull();
+});
+
+test("a sent enquiry clears its draft", async ({ page }) => {
+  await page.route("/api/enquiry", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, id: "INF-TEST5678" }) }),
+  );
+  await page.goto("/contact");
+  await fillStepOne(page);
+  await fillStepTwo(page);
+  await page.getByRole("button", { name: "Send enquiry" }).click();
+  await expect(page.getByRole("heading", { name: /Thank you/ })).toBeVisible();
+  expect(await page.evaluate(() => sessionStorage.getItem("inferra:enquiry-draft"))).toBeNull();
+});

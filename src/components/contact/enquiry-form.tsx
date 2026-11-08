@@ -9,6 +9,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { track } from "@/lib/analytics";
 import { readAttribution } from "@/lib/attribution";
 import { enquirySchema, fieldErrors, stepOneFields } from "@/lib/enquiry/schema";
+import { clearDraft, hasTypedContent, loadDraft, saveDraft } from "@/lib/enquiry/draft";
 import {
   budgetRanges,
   engagementModels,
@@ -114,6 +115,8 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
   const [idCopied, setIdCopied] = useState(false);
   // The error summary appears only after Continue or Send; on-blur checks show inline.
   const [summaryShown, setSummaryShown] = useState(false);
+  // True when the form was refilled from an unsent draft saved earlier in this tab.
+  const [restored, setRestored] = useState(false);
   const startedAt = useRef<number>(0);
   const summaryRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
@@ -124,8 +127,45 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
     startedAt.current = Date.now();
   }, []);
 
+  // Bring back an unsent draft from earlier in this tab (after a refresh, or
+  // after browsing other pages). Links such as ?type=partnership still win.
+  // Read after mount: sessionStorage doesn't exist during server rendering.
+  useEffect(() => {
+    const draft = loadDraft(initial);
+    if (!draft) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-off restore from browser storage after mount
+    setForm(prefill(draft, params.get("type"), params.get("service")));
+    setRestored(true);
+    // Only on first mount; later param changes must not overwrite typing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Save as the visitor types, at most a few times a second.
+  const succeededOrSending = status.kind === "success" || status.kind === "submitting";
+  useEffect(() => {
+    if (succeededOrSending) return;
+    const t = window.setTimeout(() => saveDraft(form), 400);
+    return () => window.clearTimeout(t);
+  }, [form, succeededOrSending]);
+
+  // Closing or reloading the tab with an unsent message asks first. Moving
+  // between pages of the site doesn't need this: the draft comes back.
+  const unsent = !succeededOrSending && hasTypedContent(form);
+  useEffect(() => {
+    if (!unsent) return;
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      // Older browsers need returnValue set to show the prompt.
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [unsent]);
+
   // Clear everything for a fresh enquiry (used after a successful submission).
   const resetForm = () => {
+    clearDraft();
+    setRestored(false);
     setForm(prefill(initial, params.get("type"), params.get("service")));
     setStep(1);
     setErrors({});
@@ -247,6 +287,7 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; id?: string; error?: string; fields?: Record<string, string> };
       if (res.ok && data.ok) {
+        clearDraft();
         setStatus({ kind: "success", id: data.id ?? "" });
         track(form.enquiryType === "partnership" ? "partnership_enquiry" : form.enquiryType === "careers" ? "career_enquiry" : "enquiry_submitted", {
           service: payload.service,
@@ -363,6 +404,18 @@ export function EnquiryForm({ phone, email, bookingUrl }: EnquiryFormProps) {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {restored && (
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-highlight/40 bg-surface-2 px-4 py-3 text-sm" role="status">
+          <p className="text-fg-muted">
+            <RotateCcw aria-hidden className="mr-2 inline h-4 w-4 align-[-3px] text-highlight" />
+            We kept the enquiry you started earlier, so you can pick up where you left off.
+          </p>
+          <button type="button" onClick={resetForm} className="font-medium text-accent-text underline underline-offset-2 hover:text-fg">
+            Start over
+          </button>
         </div>
       )}
 
