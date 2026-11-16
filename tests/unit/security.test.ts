@@ -39,6 +39,11 @@ describe("content security policy", () => {
     expect(csp).not.toContain("plausible.io");
   });
 
+  it("does not upgrade requests to https, so the site still loads over plain http on a LAN address", () => {
+    vi.stubEnv("NODE_ENV", "production");
+    expect(buildContentSecurityPolicy()).not.toContain("upgrade-insecure-requests");
+  });
+
   it("adds the analytics origin only when analytics is configured", () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("NEXT_PUBLIC_PLAUSIBLE_DOMAIN", "example.com");

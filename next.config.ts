@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   poweredByHeader: false,
+  // Let phones and tablets on the same Wi-Fi load `npm run dev` from the
+  // laptop's LAN address. Without this the dev server blocks its own scripts
+  // for any origin other than localhost, so the page never becomes interactive.
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*", "*.local"],
   env: {
     // Evaluated once per build so prerendered pages never call Date at render time.
     NEXT_PUBLIC_COPYRIGHT_YEAR: String(new Date().getFullYear()),

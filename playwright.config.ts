@@ -24,6 +24,15 @@ export default defineConfig({
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },
     { name: "mobile", use: { ...devices["Pixel 7"] }, grep: /@mobile/ },
+    { name: "tablet", use: { ...devices["Galaxy Tab S4"] }, grep: /@mobile/ },
+    // Safari on iPhone and iPad. Opt in with PLAYWRIGHT_WEBKIT=1 after
+    // `npx playwright install webkit`, since CI images often ship Chromium only.
+    ...(process.env.PLAYWRIGHT_WEBKIT
+      ? [
+          { name: "iphone", use: { ...devices["iPhone 14"], launchOptions: {} }, grep: /@mobile/ },
+          { name: "ipad", use: { ...devices["iPad Pro 11"], launchOptions: {} }, grep: /@mobile/ },
+        ]
+      : []),
   ],
   webServer: process.env.PLAYWRIGHT_BASE_URL
     ? undefined
