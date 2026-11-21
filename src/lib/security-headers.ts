@@ -7,6 +7,12 @@
  *   'unsafe-inline' for script-src. All other sources are locked to 'self'.
  * - When analytics is enabled (NEXT_PUBLIC_PLAUSIBLE_DOMAIN), its script and
  *   API origin are added automatically.
+ * - There is deliberately no `upgrade-insecure-requests`. Every asset is
+ *   same-origin, so over HTTPS it changes nothing, but over plain HTTP (a
+ *   production build opened from a phone or tablet on the local network, e.g.
+ *   http://192.168.1.20:3000) it rewrites every script, stylesheet and font
+ *   to https:// and the page renders as unstyled HTML. HSTS already keeps
+ *   real visitors on HTTPS.
  */
 export function analyticsOrigin(): string | null {
   if (!process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN) return null;
@@ -43,7 +49,6 @@ export function buildContentSecurityPolicy(): string {
     "form-action 'self'",
     "frame-ancestors 'none'",
     "manifest-src 'self'",
-    isDev ? null : "upgrade-insecure-requests",
   ]
     .filter(Boolean)
     .join("; ");
